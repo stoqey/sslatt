@@ -1,0 +1,10 @@
+import { Container } from "@/components/container";
+import React from "react";
+
+export default async function OrderLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <Container size={9}>{children}</Container>;
+}
