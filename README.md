@@ -37,7 +37,7 @@ Super Slime 🐍 Love All The Time
 | Walletless pay          | 🔄          |
 
 <p align="center">
-  <a href="#"><img height="300" src="public/assets/images/infra.png" alt="SSLATT Infra"></a>
+  <img height="300" src="public/assets/images/infra-ops.png" alt="SSLATT Infra">
 </p>
 
 ### Features frontend
