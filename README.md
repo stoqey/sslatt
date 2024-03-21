@@ -7,7 +7,7 @@ Super Slime 🐍 Love All The Time
 </h3>
 
 <p align="center">
-  <a href="#"><img height="300" src="public/assets/images/infra.png" alt="SSLATT Tech"></a>
+  <a href="#"><img height="300" src="public/assets/images/tech.png" alt="SSLATT Tech"></a>
 </p>
 
 ## Sponsors
@@ -37,7 +37,7 @@ Super Slime 🐍 Love All The Time
 | Walletless pay          | 🔄          |
 
 <p align="center">
-  <a href="#"><img height="300" src="public/assets/images/infra.png" alt="SSLATT Tech"></a>
+  <a href="#"><img height="300" src="public/assets/images/infra.png" alt="SSLATT Infra"></a>
 </p>
 
 ### Features frontend
