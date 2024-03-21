@@ -37,7 +37,7 @@ Super Slime 🐍 Love All The Time
 | Walletless pay          | 🔄          |
 
 <p align="center">
-  <img height="300" src="public/assets/images/infra-ops.png" alt="SSLATT Infra">
+  <img height="500" src="public/assets/images/infra-ops.png" alt="SSLATT Infra">
 </p>
 
 ### Features frontend
@@ -70,7 +70,7 @@ Super Slime 🐍 Love All The Time
 Run the following command on your local environment:
 
 ```shell
-git clone --depth=1
+git clone git@github.com:stoqey/sslatt-backend.git
 yarn
 ```
 
@@ -87,6 +87,10 @@ Open http://localhost:3000 with your favorite browser to see your project.
 #### Set up authentication
 
 ```shell
+PORT=3037
+APP_NAME=sslatty
+DEBUG=sslatty*
+
 # 32 chars each
 ACCESS_TOKEN_SECRET=random ass string
 REFRESH_TOKEN_SECRET=random ass string
@@ -106,6 +110,17 @@ REDIS_URL="rediss://:xxxxxxxx@xxxxxxxx:30296"
 ```
 
 Default storage is set to local uploads, but you can set fastdfs, pictr e.t.c
+
+
+#### Database migration
+To set up db indexes, and initial data pass the `STARTUP` env with any value, this will populate the database with the defined config from `src/config` i.e categories, site settings, admin user e.t.c
+
+```shell
+STARTUP=anyvalue
+```
+
+Once app is update and running you can remove the `STARTUP` env 
+
 
 #### Set up Payments XMR/BTC
 
@@ -171,7 +186,7 @@ Use the `src/config` to set site settings, categories, admin user, welcome messa
 Run the following command on your local environment:
 
 ```shell
-git clone --depth=1
+git clone git@github.com:stoqey/sslatt.git
 yarn
 ```
 
