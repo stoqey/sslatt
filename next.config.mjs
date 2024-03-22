@@ -5,6 +5,18 @@ import withBundleAnalyzer from '@next/bundle-analyzer';
 import withNextIntl from 'next-intl/plugin';
 import { withSentryConfig } from '@sentry/nextjs';
 
+// For building on vercel: https://github.com/Automattic/node-canvas/issues/1779
+if (
+  process.env.LD_LIBRARY_PATH == null ||
+  !process.env.LD_LIBRARY_PATH.includes(
+    `${process.env.PWD}/node_modules/canvas/build/Release:`,
+  )
+) {
+  process.env.LD_LIBRARY_PATH = `${
+    process.env.PWD
+  }/node_modules/canvas/build/Release:${process.env.LD_LIBRARY_PATH || ''}`;
+}
+
 const withNextIntlConfig = withNextIntl('./src/lib/i18n.ts');
 
 const bundleAnalyzer = withBundleAnalyzer({
