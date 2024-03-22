@@ -14,12 +14,12 @@
       }
     ] // Avoid conflict rule between Prettier and Airbnb Eslint
   },
+  "ignorePatterns": [
+    "**/types.generated.ts"
+  ],
   "overrides": [
     // Configuration for TypeScript files
     {
-      "excludedFiles": [
-        "src/components/types.generated.ts"
-      ],
       "files": [
         "**/*.ts",
         "**/*.tsx"
