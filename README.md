@@ -283,7 +283,9 @@ See [LICENSE](LICENSE) for more information.
 
 ---
 
-[![Sponsor Next JS Boilerplate](https://cdn.buymeacoffee.com/buttons/default-red.png)](https://github.com/sponsors/stoqey)
+<p align="center">
+  <a alt="Sponsor SSLATT" href="https://github.com/sponsors/stoqey"><img src="https://cdn.buymeacoffee.com/buttons/default-red.png" alt="SSLATT Tech"></a>
+</p>
 
 <h3 align="center">
 Algo Inc
