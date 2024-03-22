@@ -83,6 +83,7 @@ export function ActionList<T>({
    */
   const extraDialogs = reduce(
     extraActions.map((a) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const dialog = useDialogState();
       return { [a.name]: dialog };
     }),

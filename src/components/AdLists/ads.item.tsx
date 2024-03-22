@@ -148,8 +148,8 @@ export default function AdsSearchItem(props: Props) {
         />
       );
 
-    default:
     case 'grid':
+    default:
       return (
         <MediaCard
           image={
@@ -162,7 +162,7 @@ export default function AdsSearchItem(props: Props) {
                 !isEmpty(adImage) && <CoreImage src={adImage} alt={title} />
               }
               topLeft={
-                <MediaCardStat children={category} icon={SVGAsset.Browse} />
+                <MediaCardStat icon={SVGAsset.Browse}>{category}</MediaCardStat>
               }
               topRight={
                 !isEmpty(shipsFrom) &&

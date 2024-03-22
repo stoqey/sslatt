@@ -75,9 +75,9 @@ export const VendorSettings = () => {
   }>(GET_ALL_COUNTRIES_QUERY);
 
   const countryOptions =
-    countriesData?.data?.map((country) => ({
-      label: country.name,
-      value: country.isoCode,
+    countriesData?.data?.map((coun) => ({
+      label: coun.name,
+      value: coun.isoCode,
     })) || [];
 
   const onSubmit = () => {

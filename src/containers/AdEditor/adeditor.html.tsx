@@ -105,9 +105,9 @@ export const AdsEditorHtml = (props: AdsEditorProps) => {
   const photos = ad.photos || [];
 
   const countryOptions =
-    countries.map((country) => ({
-      label: country.name,
-      value: country.isoCode,
+    countries.map((cou) => ({
+      label: cou.name,
+      value: cou.isoCode,
     })) || [];
 
   countryOptions.unshift({

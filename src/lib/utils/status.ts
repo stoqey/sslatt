@@ -24,7 +24,7 @@ export const StatusIcon = {
  * @param status
  * @returns
  */
-export const getStatus = (status: string) => {
+export const getStatus = (status?: string) => {
   //   TODO add more status from other payment processors
   switch (true) {
     case includes(status, 'cancel'):
@@ -57,7 +57,7 @@ export const isStatusPending = (status: string) => {
  * @param status
  * @returns
  */
-export const getTransactionColor = (status: string) => {
+export const getTransactionColor = (status?: string) => {
   const currentStatus = getStatus(status);
   return StatusColors[currentStatus];
 };

@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
   const in3SecsStr = in3Secs.toUTCString();
 
   try {
-    const [_errorPgp, pgpKey] = await awaitTo(
+    const [, pgpKey] = await awaitTo(
       getClient().query<{ data: PgpPublicKey }>({
         query: GET_PGP_KEY,
       }),
@@ -81,14 +81,14 @@ export async function POST(req: NextRequest) {
 
       if (verified) {
         const oldPublicKey = _get(dataRes, 'data.oldPublicKey.key', '');
-        const newPublicKey = _get(dataRes, 'data.newPublicKey.key', '');
+        const newPublicKeyX = _get(dataRes, 'data.newPublicKey.key', '');
         const oldEncryptedCode = _get(dataRes, 'data.oldEncryptedCode', '');
         const oldCodeId = _get(dataRes, 'data.oldCodeId', '');
         const newEncryptedCode = _get(dataRes, 'data.newEncryptedCode', '');
         const newCodeId = _get(dataRes, 'data.newCodeId', '');
 
         cookieStore.set('oldPublicKey', oldPublicKey, { expires: in3Min });
-        cookieStore.set('newPublicKey', newPublicKey, { expires: in3Min });
+        cookieStore.set('newPublicKey', newPublicKeyX, { expires: in3Min });
 
         cookieStore.set('encryptedCode', oldEncryptedCode, { expires: in3Min });
         cookieStore.set('codeId', oldCodeId, { expires: in3Min });

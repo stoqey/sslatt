@@ -47,8 +47,8 @@ export const OrderFeedbackHtml = () => {
 };
 
 export interface OrderDetailsContainerHtmlProps extends ChatMessagesHtmlProps {
-  user: UserType;
-  order: OrderTypeOutput;
+  user?: UserType;
+  order?: OrderTypeOutput;
 }
 
 export const OrderDetailsContainerHtml = (

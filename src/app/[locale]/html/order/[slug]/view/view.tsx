@@ -9,7 +9,7 @@ interface Props extends ActionPageProps {
   order: OrderTypeOutput;
 }
 
-const OrderViewActionPage = (props: Props) => {
+const OrderViewActionPage = (props: Partial<Props>) => {
   const backLink = '/html/order';
   return <OrderDetailsContainerHtml {...props} backLink={backLink} />;
 };

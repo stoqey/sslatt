@@ -135,7 +135,7 @@ export interface ChatMessagesHtmlProps {
   vendor?: VendorType;
   user?: UserType;
   convo?: ConvoItemProps;
-  messages: ChatMessage[];
+  messages?: ChatMessage[];
   message?: string;
   success?: boolean;
 }

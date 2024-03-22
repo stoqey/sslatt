@@ -25,10 +25,11 @@ import React from 'react';
 import { Container } from '@/components/container';
 import type {
   AdsListingOutput,
+  FeePrices,
   PairRate,
+  UserType,
   WalletOutput,
 } from '@/components/types.generated';
-import type { FeePrices } from '@/lib/gql';
 import { niceDec } from '@/lib/utils/number';
 
 import { parseAdItem } from '../../components/AdLists/ads.item';
@@ -44,6 +45,7 @@ export interface OrderCheckoutHtmlProps {
 
   feePrices?: FeePrices;
 
+  user?: UserType;
   rates?: PairRate[];
   wallets?: WalletOutput[];
 
@@ -116,7 +118,7 @@ const OrderCheckoutHtml = (props: OrderCheckoutHtmlProps) => {
   const totalAmount = sumBy(orderSummary, 'value');
 
   const getRate = (currency: string) => {
-    const rate = rates.find((rate) => endsWith(rate.pair as string, currency));
+    const rate = rates.find((rat) => endsWith(rat.pair as string, currency));
     return rate?.rate ? rate.rate : 0;
   };
 

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import {
   AlignItems,
   CoreText,
@@ -30,7 +31,7 @@ export const RatingIcon = (props: RatingIconProps) => {
         const fill = i + 1 <= rating;
         return (
           <Icon
-            key={i}
+            key={`${i}-${_}`}
             style={{
               width: size,
               color: 'var(--color-brand-muted-mustard)',

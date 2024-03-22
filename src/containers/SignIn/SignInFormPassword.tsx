@@ -1,5 +1,4 @@
-import { useApolloClient } from '@apollo/client';
-import type { LoginResponseType } from '@stoqey/client-graphql';
+import { APPEVENTS, AppEvents } from '@/lib/AppEvent';
 import {
   AlertBanner,
   AlertBannerType,
@@ -23,28 +22,28 @@ import {
   TextArea,
   Title,
 } from '@uuixjs/uuixweb';
-import { isEmpty } from 'lodash';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
-
-import type {
-  LoginResponse,
-  SignUpResponse,
-  UserType,
-} from '@/components/types.generated';
-import { APPEVENTS, AppEvents } from '@/lib/AppEvent';
 import {
   LOGIN_2AUTH_MUTATION,
   LOGIN_MUTATION,
   SIGNUP_MUTATION,
 } from '@/lib/gql/auth';
+import type {
+  LoginResponse,
+  SignUpResponse,
+  UserType,
+} from '@/components/types.generated';
+import React, { useState } from 'react';
 import {
   accessTokenManager,
   userCacheManager,
 } from '@/lib/storage/deviceStorage';
 
+import Link from 'next/link';
+import type { LoginResponseType } from '@stoqey/client-graphql';
 import type { SignInFormProps } from './signin.interface';
+import { isEmpty } from 'lodash';
+import { useApolloClient } from '@apollo/client';
+import { useRouter } from 'next/navigation';
 
 const appEvents = AppEvents.Instance;
 
@@ -82,6 +81,7 @@ const passwordStrength = (pwd: string) => {
   array[3] = pwd.match(/[!_.-]/);
 
   let sum = 0;
+  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < array.length; i++) {
     sum += array[i] ? 1 : 0;
   }
@@ -130,6 +130,8 @@ export function SignInFormPassword(props: SignInFormProps) {
   const client = useApolloClient();
   const { push, refresh: reload } = useRouter();
 
+  const [message, showMessage] = React.useState<FormMessage | undefined>();
+
   const [state, setState] = useState<State>({
     title: 'Login',
     username: '',
@@ -137,6 +139,8 @@ export function SignInFormPassword(props: SignInFormProps) {
     createNew: props.signup || false,
     mnemonic: '',
   });
+
+  const { createNew, username, password, rememberMe, repeatPassword } = state;
 
   const [errors, setErrors] = useState<SignUpForm>({
     username: '',
@@ -161,10 +165,6 @@ export function SignInFormPassword(props: SignInFormProps) {
       title: newCreateNew ? 'Sign up' : 'Login',
     });
   };
-
-  const [message, showMessage] = React.useState<FormMessage | undefined>();
-
-  const { createNew, username, password, rememberMe, repeatPassword } = state;
 
   const handleChange = (name: any) => {
     return (e: any) => {

@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unstable-nested-components */
+
 'use client';
 
 import {
@@ -117,10 +119,10 @@ function WithdrawRequestListItem({
           </Layout>
         );
 
-      default:
       case IStatus.accepted:
       case IStatus.cancelled:
       case IStatus.completed:
+      default:
         return (
           <Link key={id} href={linkView as any}>
             <Layout

@@ -119,7 +119,7 @@ To set up db indexes, and initial data pass the `STARTUP` env with any value, th
 STARTUP=anyvalue
 ```
 
-Once app is update and running you can remove the `STARTUP` env 
+Once app is up and running you can remove the `STARTUP` env 
 
 
 #### Set up Payments XMR/BTC

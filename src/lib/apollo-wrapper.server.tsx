@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import {
   ApolloClient,
   ApolloLink,
@@ -77,6 +78,7 @@ function createApolloClient() {
       try {
         if (graphQLErrors && (graphQLErrors.forEach as any)) {
           // Not Authorised!
+          // eslint-disable-next-line array-callback-return
           graphQLErrors.map(({ message, locations, path, originalError }) => {
             console.error('originalError', {
               message,

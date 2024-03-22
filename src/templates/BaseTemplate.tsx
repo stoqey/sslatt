@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useTranslations } from 'next-intl';
 
 import { AppConfig } from '@/utils/AppConfig';

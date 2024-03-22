@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
     const username = formData.get('username');
     const password = formData.get('password');
 
+    // eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
     const _csrf = formData.get('_csrf') as string;
     if (isEmpty(_csrf)) throw new Error('Invalid, please try again');
 

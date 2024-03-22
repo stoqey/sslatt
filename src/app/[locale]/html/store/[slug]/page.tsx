@@ -13,7 +13,7 @@ import UVAview from '../../u/[slug]/uva';
 const UVAPageSlug = async ({ params }: { params: { slug: string } }) => {
   const username = params.slug;
   const user = await getMe();
-  const { data, loading } = await getClient().query<{
+  const { data } = await getClient().query<{
     data: UserVendorAdsListingPage;
   }>({
     query: GET_USER_VENDOR_ADS_LISTING,

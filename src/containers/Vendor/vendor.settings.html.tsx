@@ -61,9 +61,9 @@ export const VendorSettings = (props: VendorSettingsProps) => {
   } = vendor;
 
   const countryOptions =
-    countries?.map((country) => ({
-      label: country.name,
-      value: country.isoCode,
+    countries?.map((coun) => ({
+      label: coun.name,
+      value: coun.isoCode,
     })) || [];
 
   const viewStoreLink = `/html/store/${username}`;

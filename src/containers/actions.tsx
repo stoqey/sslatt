@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import {
   AlignItems,
@@ -55,7 +56,7 @@ export const CancelAction = (props: Props) => {
   useEffect(() => {
     if (typeof cancelled === 'boolean') {
       const closeTimeout = setTimeout(() => {
-        close();
+        if (close) close();
         cancelled
           ? toast.success(`${label} cancelled successfully`)
           : toast.error(message);
@@ -125,7 +126,7 @@ export const ConfirmAction = (props: ConfirmActionProps) => {
   useEffect(() => {
     if (typeof confirmedOrder === 'boolean') {
       const closeTimeout = setTimeout(() => {
-        close();
+        if (close) close();
         confirmedOrder
           ? toast.success(
               `${label} successfully ${confirm ? 'Accepted' : 'Rejected'}`,
@@ -222,7 +223,8 @@ export function CreateAction<T>(props: CreateActionProps<T>) {
 
   const submitUpsert = () => {
     const parsedState = mapValues(state as any, (value) => {
-      const isNumber = typeof value === 'number' || !isNaN(Number(value));
+      const isNumber =
+        typeof value === 'number' || !Number.isNaN(Number(value));
       switch (true) {
         case isNumber:
           return Number(value);
@@ -341,12 +343,13 @@ export interface ViewActionProps<T> {
 }
 
 export function ViewAction<T>(props: ViewActionProps<T>) {
-  const { id, close, query, label, fields, item, showAmounts = true } = props;
+  const { close, query, label, fields, item, showAmounts = true } = props;
 
   // optional with item
   const { loading, data } = item
     ? { data: item, loading: false }
-    : useQuery(query);
+    : // eslint-disable-next-line react-hooks/rules-of-hooks
+      useQuery(query);
 
   const dataItem: T & any = _get(data, 'data', item);
 
@@ -408,15 +411,15 @@ export function ViewAction<T>(props: ViewActionProps<T>) {
             justifyContent={JustifyContent.Between}
             padding={2}
           >
-            {amts.map((item) => (
+            {amts.map((ite) => (
               <Layout
-                key={item.label}
+                key={ite.label}
                 flexDirection={FlexDirection.Column}
                 display={Display.Flex}
                 alignItems={AlignItems.Center}
               >
-                <CoreText>{item.label}</CoreText>
-                {item.view()}
+                <CoreText>{ite.label}</CoreText>
+                {ite.view()}
               </Layout>
             ))}
           </Layout>
@@ -425,15 +428,15 @@ export function ViewAction<T>(props: ViewActionProps<T>) {
         {/* Order view some table */}
         <Table alternateRows>
           <TableBody>
-            {fields.map((item) => (
-              <TableRow key={item.label}>
-                <TableCell>{item.label}</TableCell>
+            {fields.map((ite) => (
+              <TableRow key={ite.label}>
+                <TableCell>{ite.label}</TableCell>
                 <TableCell>
                   <Layout
                     display={Display.Flex}
                     justifyContent={JustifyContent.End}
                   >
-                    {item.view(dataItem)}
+                    {ite.view(dataItem)}
                   </Layout>
                 </TableCell>
               </TableRow>

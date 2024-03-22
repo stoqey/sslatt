@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import {
   AlignItems,
   Button,
@@ -94,10 +95,10 @@ function WithdrawRequestListItem({
           </Layout>
         );
 
-      default:
       case IStatus.accepted:
       case IStatus.cancelled:
       case IStatus.completed:
+      default:
         return (
           <Layout display={Display.Flex} justifyContent={JustifyContent.Center}>
             <Button variant={ButtonType.Secondary}>View</Button>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Container } from '@/components/container';
 
-import { type SignInFormProps } from './SignInForm';
+import { type SignInFormProps } from './signin.interface';
 import SignInFormPassword from './SignInFormPassword';
 // import firebase from "firebase";
 // import firebaseConfig from "@/lib/firebase/config";

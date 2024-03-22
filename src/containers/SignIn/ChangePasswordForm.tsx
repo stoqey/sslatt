@@ -21,7 +21,6 @@ import {
   Title,
 } from '@uuixjs/uuixweb';
 import { isEmpty } from 'lodash';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 import type {
@@ -59,7 +58,8 @@ type State = LoginForm &
 
 export function ChangePasswordForm() {
   const client = useApolloClient();
-  const { push, refresh: reload } = useRouter();
+
+  const [message, showMessage] = React.useState<FormMessage | undefined>();
 
   const [state, setState] = useState<State>({
     mnemonic: '',
@@ -75,8 +75,6 @@ export function ChangePasswordForm() {
       newPasswordRepeat: '',
     });
   };
-
-  const [message, showMessage] = React.useState<FormMessage | undefined>();
 
   const {
     oldPassword,

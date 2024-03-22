@@ -18,11 +18,7 @@ import React from 'react';
 
 import { PageNotFound } from '@/components/404s/NotFound';
 import type { Transaction } from '@/components/types.generated';
-import {
-  getTransactionColor,
-  getTransactionIcon,
-  isStatusPending,
-} from '@/lib/utils/status';
+import { getTransactionColor, getTransactionIcon } from '@/lib/utils/status';
 
 import { getStatusColor } from '../actions';
 
@@ -45,6 +41,7 @@ export const transactionsFields = [
     label: 'Transaction ID',
     view: (item: Transaction) => {
       const currency = (item?.currency || '').toLocaleUpperCase() as any;
+      // eslint-disable-next-line react/jsx-no-useless-fragment
       return (
         <>
           {!isEmpty(item?.transactionHash) && item?.transactionHash && (
@@ -98,21 +95,23 @@ export const TransactionsHtml = (props: TransactionsHtmlProps) => {
       {transactions.map((item, index) => {
         // const transactionName = (item.source).toLocaleUpperCase();
         const statusText = item.status;
-        const statusColor = getTransactionColor(item.status);
-        const statusIcon = getTransactionIcon(item.status);
-        const isPending = isStatusPending(item.status);
+        const statusColor = getTransactionColor(item?.status);
+        const statusIcon = getTransactionIcon(item?.status);
+
+        // const isPending = isStatusPending(item?.status);
         const time = moment(new Date(item.createdAt)).fromNow();
 
         const transactionViewLink = `/html/wallet/transactions/${item.id}`;
 
         // TODO icons by status
         return (
-          <Link href={transactionViewLink}>
+          <Link key={item.id} href={transactionViewLink}>
             <Layout
               padding={1}
               fullWidth
               display={Display.Flex}
-              border={BorderRadius.Rounded}
+              border
+              borderRadius={BorderRadius.Rounded}
             >
               <Layout
                 display={Display.Flex}

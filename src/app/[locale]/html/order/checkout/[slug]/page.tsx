@@ -14,21 +14,18 @@ import OrderCheckoutSlug from './checkoutslug';
  *
  */
 const OrderCheckoutPage = async ({
-  params,
   searchParams,
 }: {
-  params: { slug: string };
   searchParams: { type: string; typeId: string; qty: number };
 }) => {
   const cookieStore = cookies();
   const adId = searchParams.typeId;
-  let user;
   let feePrices;
   let rates;
   let wallets;
   let pairs;
   let adItem;
-  user = await getMe();
+  const user = await getMe();
   if (user) {
     feePrices = await getFeePrices();
 

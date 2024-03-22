@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import { useQuery } from '@apollo/client';
 import {
   Accordion,

@@ -155,7 +155,7 @@ export function CreateStorePage(props: Partial<StorePageProps>) {
     <Layout display={Display.Flex} key="fee">
       <Layout padding={{ right: 1 }}>
         <CoreText fontWeight={FontWeight.Bold} as="h5">
-          There's a nonrefundable vendor bond of
+          There&apos;s a nonrefundable vendor bond of
         </CoreText>
       </Layout>
       <Layout padding={{ right: 1 }}>
@@ -212,7 +212,7 @@ export function CreateStorePage(props: Partial<StorePageProps>) {
 
         <ol className="py-2">
           {rules.map((rule, index) => (
-            <li key={`${index}`}>
+            <li key={`${rule}`}>
               <Layout padding={{ top: 1, bottom: 1 }}>
                 <CoreText fontWeight={FontWeight.Bold} as="h5">
                   {rule}

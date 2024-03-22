@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-param-reassign */
+
 'use client';
 
 import type { ApolloClient } from '@apollo/client';
@@ -15,7 +18,6 @@ import {
 } from '@apollo/experimental-nextjs-app-support/ssr';
 import includes from 'lodash/includes';
 import { useRouter } from 'next/navigation';
-import omitDeep from 'omit-deep';
 import { useEffect, useMemo } from 'react';
 import { setVerbosity } from 'ts-invariant';
 
@@ -48,15 +50,6 @@ function createApolloClient() {
 
   console.log('api server', backendUrl);
 
-  const cleanTypeName = new ApolloLink((operation, forward) => {
-    if (operation.variables) {
-      operation.variables = omitDeep(operation.variables, '__typename');
-    }
-    return forward(operation).map((data) => {
-      return data;
-    });
-  });
-
   const authLink = setContext(async (_, ctx) => {
     const headers = (ctx && ctx.headers) || {};
     // console.log('<-----------> AuthContext <-----------> BEGIN ', getLastChar(token))
@@ -84,52 +77,51 @@ function createApolloClient() {
       : null;
 
   // Log any GraphQL errors or network error that occurred
-  const errorLink = onError(
-    ({ graphQLErrors, networkError, operation, response }) => {
-      try {
-        if (graphQLErrors && (graphQLErrors.forEach as any)) {
-          // Not Authorised!
-          graphQLErrors.map(({ message, locations, path, originalError }) => {
-            console.error('originalError', {
-              message,
-              originalError,
-              locations,
-              path,
-            });
-            // not authorized
-            // if (includes(message, 'Expired')) {
-            //   // Refresh to token from here
-            //   // authHelper
-            //   //   .refreshToken()
-            //   //   .then(accessToken => {
-            //   //     log.info('Got new refresh token', getLastChar(accessToken));
-            //   //     return AsyncStorageDB.Instance.updateUserAuth({
-            //   //       accessToken,
-            //   //     });
-            //   //   })
-            //   //   .then(updatedUser => {
-            //   //     log.error('updatedUser refresh token', updatedUser);
-            //   //   })
-            //   //   .catch(error => {
-            //   //     log.error('error updatedUser refresh token', error);
-            //   //   });
-
-            //   // log.error('Error when refreshing TOKEN', message);
-            // }
-            if (includes(message.toLocaleLowerCase(), 'not authenticated')) {
-              // Ask user to login again
-              events.emit(APPEVENTS.LOGOUT, APPEVENTS.LOGOUT); // emit logout
-            }
+  const errorLink = onError(({ graphQLErrors, response }) => {
+    try {
+      if (graphQLErrors && (graphQLErrors.forEach as any)) {
+        // Not Authorised!
+        // eslint-disable-next-line array-callback-return
+        graphQLErrors.map(({ message, locations, path, originalError }) => {
+          console.error('originalError', {
+            message,
+            originalError,
+            locations,
+            path,
           });
+          // not authorized
+          // if (includes(message, 'Expired')) {
+          //   // Refresh to token from here
+          //   // authHelper
+          //   //   .refreshToken()
+          //   //   .then(accessToken => {
+          //   //     log.info('Got new refresh token', getLastChar(accessToken));
+          //   //     return AsyncStorageDB.Instance.updateUserAuth({
+          //   //       accessToken,
+          //   //     });
+          //   //   })
+          //   //   .then(updatedUser => {
+          //   //     log.error('updatedUser refresh token', updatedUser);
+          //   //   })
+          //   //   .catch(error => {
+          //   //     log.error('error updatedUser refresh token', error);
+          //   //   });
 
-          // @ts-ignore
-          response.errors = null; // ignore errors
-        }
-      } catch (error) {
-        // console.error('error with graphql', error);
+          //   // log.error('Error when refreshing TOKEN', message);
+          // }
+          if (includes(message.toLocaleLowerCase(), 'not authenticated')) {
+            // Ask user to login again
+            events.emit(APPEVENTS.LOGOUT, APPEVENTS.LOGOUT); // emit logout
+          }
+        });
+
+        // @ts-ignore
+        response.errors = null; // ignore errors
       }
-    },
-  );
+    } catch (error) {
+      // console.error('error with graphql', error);
+    }
+  });
 
   const tcpLink =
     isBrowser && !isTor
@@ -208,7 +200,7 @@ export function useApollo(initialState?: ApolloClient<any>) {
  * Use logout session
  * @returns
  */
-export function useLogoutSession() {
+export function useLogoutSession(): [() => Promise<void>] {
   const { push } = useRouter();
 
   const logoutUser = async () => {

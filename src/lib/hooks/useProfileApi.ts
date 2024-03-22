@@ -42,27 +42,23 @@ export const updateUserProfile = async (
   client: ApolloClient<any>,
   user: Partial<UserType>,
 ): Promise<UserType> => {
-  try {
-    // remove null values
-    const userArg = pickBy(user, identity);
+  // remove null values
+  const userArg = pickBy(user, identity);
 
-    const [errorData, data] = await awaitTo(
-      client.mutate<{ data: ResType }>({
-        mutation: UPDATE_USER_PROFILE,
-        variables: { user: userArg },
-        fetchPolicy: 'network-only',
-      }),
-    );
+  const [errorData, data] = await awaitTo(
+    client.mutate<{ data: ResType }>({
+      mutation: UPDATE_USER_PROFILE,
+      variables: { user: userArg },
+      fetchPolicy: 'network-only',
+    }),
+  );
 
-    if (data && data.data) {
-      return data.data.data as unknown as UserType;
-    }
-
-    console.log('apollo errors', errorData);
-    throw errorData || new Error('Error running updateUserProfile');
-  } catch (error) {
-    throw error;
+  if (data && data.data) {
+    return data.data.data as unknown as UserType;
   }
+
+  console.log('apollo errors', errorData);
+  throw errorData || new Error('Error running updateUserProfile');
 };
 
 /**
@@ -70,22 +66,18 @@ export const updateUserProfile = async (
  * @returns
  */
 export const fetchMe = async (client: ApolloClient<any>): Promise<UserType> => {
-  try {
-    const [errorData, data] = await awaitTo(
-      client.query<{ me: UserType }>({
-        query: GET_ME,
-        variables: {},
-        fetchPolicy: 'network-only',
-      }),
-    );
+  const [errorData, data] = await awaitTo(
+    client.query<{ me: UserType }>({
+      query: GET_ME,
+      variables: {},
+      fetchPolicy: 'network-only',
+    }),
+  );
 
-    if (data && data.data) {
-      return data.data.me;
-    }
-    throw errorData || new Error('Error running fetchMe');
-  } catch (error) {
-    throw error;
+  if (data && data.data) {
+    return data.data.me;
   }
+  throw errorData || new Error('Error running fetchMe');
 };
 
 interface FetchUserQueryProps {
@@ -106,22 +98,18 @@ export const fetchUserPublic = async (
   const { client, args } = props;
   const { id } = args;
 
-  try {
-    const [errorData, data] = await awaitTo(
-      client.query<{ data: UserType }>({
-        query: GET_USER_PUBLIC,
-        variables: { id },
-        fetchPolicy: 'network-only',
-      }),
-    );
+  const [errorData, data] = await awaitTo(
+    client.query<{ data: UserType }>({
+      query: GET_USER_PUBLIC,
+      variables: { id },
+      fetchPolicy: 'network-only',
+    }),
+  );
 
-    if (data && data.data) {
-      return data.data.data;
-    }
-    throw errorData || new Error('Error running fetchUserPublic');
-  } catch (error) {
-    throw error;
+  if (data && data.data) {
+    return data.data.data;
   }
+  throw errorData || new Error('Error running fetchUserPublic');
 };
 
 /**

@@ -83,9 +83,9 @@ export const AccountSettings = () => {
   const updatedProfile = _get(data, 'data.data', null);
 
   const countryOptions =
-    countriesData?.data?.map((country) => ({
-      label: country.name,
-      value: country.isoCode,
+    countriesData?.data?.map((cou) => ({
+      label: cou.name,
+      value: cou.isoCode,
     })) || [];
 
   const onSubmit = () => {

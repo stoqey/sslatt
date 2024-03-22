@@ -2,7 +2,6 @@
 
 'use client';
 
-import AdsSearchItem, { parseAdItem } from '@/components/AdLists/ads.item';
 import {
   AlignItems,
   Button,
@@ -15,22 +14,24 @@ import {
   Pill,
   SVGAsset,
 } from '@uuixjs/uuixweb';
-import { IStatus, OrderTypeDeliver, OrderTypeStatus } from '@/lib/gql';
+// import { AdViewContainer } from "../AdSearch/ad.view.container";
+import { isEmpty } from 'lodash';
+import moment from 'moment';
+import Link from 'next/link';
+import React from 'react';
+
+import AdsSearchItem, { parseAdItem } from '@/components/AdLists/ads.item';
 import type {
   OrderType,
   OrderTypeOutput,
   UserType,
 } from '@/components/types.generated';
-
-import { ActionList } from '../actions.list.html';
-import Link from 'next/link';
-import type { ListItemHtmlProps } from '../actions.list.html';
-import React from 'react';
+import { IStatus, OrderTypeDeliver, OrderTypeStatus } from '@/lib/gql';
 import { getPillStatusColor } from '@/lib/utils/colors';
-// import { AdViewContainer } from "../AdSearch/ad.view.container";
-import { isEmpty } from 'lodash';
-import moment from 'moment';
 import { niceDec } from '@/lib/utils/number';
+
+import type { ListItemHtmlProps } from '../actions.list.html';
+import { ActionList } from '../actions.list.html';
 import { orderActions } from './order.list.html.names';
 
 export const orderFields = [

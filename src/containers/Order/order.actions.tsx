@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useLazyQuery, useMutation } from '@apollo/client';
 import {
   ButtonState,
@@ -52,7 +53,7 @@ export const VerifyOrder = (props: Props) => {
   useEffect(() => {
     if (typeof verifiedOrder === 'boolean') {
       const closeTimeout = setTimeout(() => {
-        close();
+        if (close) close();
         verifiedOrder
           ? toast.success(`Order successfully verified.`)
           : toast.error(message);
@@ -127,7 +128,7 @@ export const RateOrder = (props: Props) => {
   useEffect(() => {
     if (typeof ratedOrder === 'boolean') {
       const closeTimeout = setTimeout(() => {
-        close();
+        if (close) close();
         ratedOrder
           ? toast.success(`Order rating successfully saved.`)
           : toast.error(message);
@@ -216,7 +217,7 @@ export const TrackingOrder = (props: Props & OrderType) => {
   useEffect(() => {
     if (typeof trackedOrder === 'boolean') {
       const closeTimeout = setTimeout(() => {
-        close();
+        if (close) close();
         trackedOrder
           ? toast.success(`Order tracking successfully updated`)
           : toast.error(message);
@@ -245,7 +246,9 @@ export const TrackingOrder = (props: Props & OrderType) => {
               onChange={(e: any) => setTracking(e.target.value)}
             >
               {Object.keys(OrderTypeTracking).map((key) => (
-                <option value={key}>{OrderTypeTracking[key]}</option>
+                <option key={key} value={key}>
+                  {OrderTypeTracking[key]}
+                </option>
               ))}
             </Select>
           </FormGroup>
@@ -286,7 +289,7 @@ export const FinalizeOrder = (props: Props & OrderType) => {
   useEffect(() => {
     if (typeof completedOrder === 'boolean') {
       const closeTimeout = setTimeout(() => {
-        close();
+        if (close) close();
         completedOrder
           ? toast.success(`Order completed successfully, please rate it`)
           : toast.error(message);

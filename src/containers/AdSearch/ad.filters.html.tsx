@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import {
   Accordion,
   AccordionHeaderSize,
@@ -135,7 +136,7 @@ export default function AdFilters(props: AdFiltersProps) {
               children: (
                 <>
                   {category.subcategories?.map((item) => (
-                    <Link href={`html?category=${item.id}`}>
+                    <Link key={item.id} href={`html?category=${item.id}`}>
                       <Layout
                         cursor={Cursor.Pointer}
                         padding={{ top: 1 }}

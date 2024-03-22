@@ -168,25 +168,24 @@ export const AdsEditor = (props: Partial<Props>) => {
     useLazyQuery<{ data: CityType[] }>(GET_CITY_BY_STATE_QUERY);
 
   const countryOptions =
-    countriesData?.data?.map((country) => ({
-      label: country.name,
-      value: country.isoCode,
+    countriesData?.data?.map((cou) => ({
+      label: cou.name,
+      value: cou.isoCode,
     })) || [];
   const stateOptions =
-    stateData?.data?.map((state) => ({
-      label: state.name,
-      value: state.isoCode,
+    stateData?.data?.map((st) => ({
+      label: st.name,
+      value: st.isoCode,
     })) || [];
   const cityOptions =
-    cityData?.data?.map((city) => ({ label: city.name, value: city.name })) ||
-    [];
+    cityData?.data?.map((ci) => ({ label: ci.name, value: ci.name })) || [];
 
   const defaultPhotosFromProps = photos || [];
 
   const categories = (categoriesData && categoriesData.data) || [];
   const categoriesOptions = categories
-    .filter((cat) => isEmpty(cat.category))
-    .map((i) => ({
+    .filter((cat: any) => isEmpty(cat.category))
+    .map((i: any) => ({
       label: i.name,
       value: i.id,
     }));
@@ -428,7 +427,9 @@ export const AdsEditor = (props: Partial<Props>) => {
                 <FormGroup label="Order Type">
                   <Select value={orderType} onChange={handle('orderType')}>
                     {Object.keys(OrderTypeDeliver).map((key) => (
-                      <option value={key}>{OrderTypeDeliver[key]}</option>
+                      <option key={key} value={key}>
+                        {OrderTypeDeliver[key]}
+                      </option>
                     ))}
                   </Select>
                 </FormGroup>

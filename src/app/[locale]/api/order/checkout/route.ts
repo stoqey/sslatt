@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
       variables,
     });
 
-    if (isEmpty(api.data?.data)) throw api.errors;
+    if (isEmpty(api.data?.data)) throw api.errors as any;
 
     const success = _get(api, 'data.data.success', false);
     const message = _get(api, 'data.data.message', '');

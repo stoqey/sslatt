@@ -59,12 +59,12 @@ export const LoginWrapper = () => {
   return undefined;
 };
 
-interface WithLoginWrapper {
+interface WithLoginWrapperProps {
   TriggerComponent?: any;
   children: any;
 }
 
-export const WithLoginWrapper = (props: WithLoginWrapper) => {
+export const WithLoginWrapper = (props: WithLoginWrapperProps) => {
   const { TriggerComponent, children, ...otherProps } = props;
   const { anchorProps, dialogProps } = useDialogState();
   const onClose = dialogProps.onRequestClose;

@@ -1,11 +1,12 @@
-import AdsSearchItem, { parseAdItem } from '../../components/AdLists/ads.item';
+import { useLazyQuery } from '@apollo/client';
+import isEmpty from 'lodash/isEmpty';
 import React, { useEffect } from 'react';
 
 import type { AdsListingOutput } from '@/lib/gql';
-import type { AdsSearchItemProps } from '../../components/AdLists/ads.item';
 import { GET_AD_LISTING } from '@/lib/gql';
-import isEmpty from 'lodash/isEmpty';
-import { useLazyQuery } from '@apollo/client';
+
+import type { AdsSearchItemProps } from '../../components/AdLists/ads.item';
+import AdsSearchItem, { parseAdItem } from '../../components/AdLists/ads.item';
 
 interface Props extends AdsSearchItemProps {
   id: string;

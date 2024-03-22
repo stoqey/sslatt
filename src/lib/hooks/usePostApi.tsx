@@ -137,10 +137,10 @@ export function usePostData(args: FetchPosts): UsePostDataProps {
 
     if (data) {
       const newPosts = data.items;
-      const hasNext = data.hasNext || false;
+      const newNext = data.hasNext || false;
       const combinedPosts = uniqBy([...posts, ...newPosts], 'id');
 
-      setState({ ...state, posts: combinedPosts, hasNext });
+      setState({ ...state, posts: combinedPosts, hasNext: newNext });
     }
   };
 

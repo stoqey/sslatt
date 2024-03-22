@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import { useApolloClient, useLazyQuery } from '@apollo/client';
 import { awaitTo } from '@stoqey/client-graphql';
 import {
@@ -472,10 +473,10 @@ const UVAContainer = (props: Props) => {
                 gutterSize={TowerGutter.ExtraSmall}
                 placeholderItems={20}
               >
-                {adsItems?.map((item, index) => (
+                {adsItems?.map((item) => (
                   <AdsSearchItem
                     meta={false}
-                    key={index}
+                    key={item.id}
                     {...item}
                     linkTo={onLinkTo(item)}
                   />

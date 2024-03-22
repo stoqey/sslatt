@@ -281,6 +281,7 @@ interface OrderListProps {
 }
 
 export default function OrderList(props: OrderListProps) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const user = props.user ? props.user : useMeApi();
 
   let listDefault = null;

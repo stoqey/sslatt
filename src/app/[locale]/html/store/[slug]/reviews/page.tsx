@@ -17,7 +17,7 @@ const UVAPageSlug = async ({ params }: { params: { slug: string } }) => {
   const username = params.slug;
 
   const user = await getMe();
-  const { data, loading } = await getClient().query<{
+  const { data } = await getClient().query<{
     data: UserVendorAdsListingPage;
   }>({
     query: GET_USER_VENDOR_ADS_LISTING,
@@ -28,17 +28,16 @@ const UVAPageSlug = async ({ params }: { params: { slug: string } }) => {
 
   // console.log("store", { userStore, item: data.data.item });
 
-  const { loading: loadingReviews = true, data: reviewsData } =
-    await getClient().query<{
-      data: OrderRatingOutputPagination;
-    }>({
-      query: GET_ORDER_RATINGS,
-      variables: {
-        filters: querystring.stringify({ seller: userId }),
-        before: new Date(),
-        limit: 1000,
-      },
-    });
+  const { data: reviewsData } = await getClient().query<{
+    data: OrderRatingOutputPagination;
+  }>({
+    query: GET_ORDER_RATINGS,
+    variables: {
+      filters: querystring.stringify({ seller: userId }),
+      before: new Date(),
+      limit: 1000,
+    },
+  });
 
   return (
     <UVAview

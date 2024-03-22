@@ -1,5 +1,3 @@
-import { useApolloClient } from '@apollo/client';
-import type { MediaDataType } from '@stoqey/client-graphql';
 import {
   AlignContent,
   Button,
@@ -17,16 +15,17 @@ import {
   ModalSize,
   SVGAsset,
 } from '@uuixjs/uuixweb';
-import { isEmpty } from 'lodash';
-import type { ReactChild } from 'react';
 import React, { useEffect, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
 
+import type { IFileSpec } from './Upload.interfaces';
+import type { MediaDataType } from '@stoqey/client-graphql';
+import type { ReactChild } from 'react';
 import { cdnPath } from '@/lib/utils/api.utils';
-
+import { isEmpty } from 'lodash';
 import styles from './style';
 import { uploadFilesApiRest } from './Upload.api';
-import type { IFileSpec } from './Upload.interfaces';
+import { useApolloClient } from '@apollo/client';
+import { useDropzone } from 'react-dropzone';
 
 const {
   thumbButton,
@@ -201,6 +200,8 @@ export function DropAreaModal(props: Partial<Props>) {
   useEffect(
     () => () => {
       // Make sure to revoke the data uris to avoid memory leaks
+      // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       !isEmpty(files) &&
         files.forEach((file) => URL.revokeObjectURL(file.preview));
     },

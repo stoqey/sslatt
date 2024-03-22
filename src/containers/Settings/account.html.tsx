@@ -18,14 +18,15 @@ import {
   TextArea,
   Tower,
 } from '@uuixjs/uuixweb';
-import type { UserType, VendorType } from '@/components/types.generated';
-
-import Link from 'next/link';
-import { MessageSuccessHtml } from '../actions.html';
-import React from 'react';
-import { cdnPath } from '@/lib/utils/api.utils';
 import isEmpty from 'lodash/isEmpty';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import React from 'react';
+
+import type { UserType, VendorType } from '@/components/types.generated';
+import { cdnPath } from '@/lib/utils/api.utils';
+
+import { MessageSuccessHtml } from '../actions.html';
 
 export interface AccountSettingsProps {
   // eslint-disable-next-line react/no-unused-prop-types
@@ -38,6 +39,8 @@ export interface AccountSettingsProps {
 export const AccountSettings = (props: AccountSettingsProps) => {
   const { message = '', success = false } = props;
 
+  const pathname = usePathname();
+
   if (isEmpty(props.user)) {
     return undefined;
   }
@@ -45,7 +48,6 @@ export const AccountSettings = (props: AccountSettingsProps) => {
   const { firstname, lastname, coverImage, avatar, country, bio, username } =
     props.user;
 
-  const pathname = usePathname();
   const viewLink = `/html/u/${username}`;
   const logoutLink = `/api/logout`;
 

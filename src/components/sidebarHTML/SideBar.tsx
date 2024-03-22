@@ -95,7 +95,7 @@ export const VerticalSideBar = ({
           <Attached direction="right">
             <DropDownMenuWrapper>
               {menuItems.map((subitem, index) => (
-                <VerticalNavigationItem key={subitem.slug + index}>
+                <VerticalNavigationItem key={subitem.slug}>
                   {subitem.children}
                 </VerticalNavigationItem>
               ))}
@@ -151,9 +151,9 @@ export const VerticalSideBar = ({
                           iconAsset={item.iconAsset}
                           open={isOpened}
                         >
-                          {menuItems.map((subitem, index) => {
+                          {menuItems.map((subitem) => {
                             return (
-                              <Link href={subitem.slug} key={item.slug + index}>
+                              <Link href={subitem?.slug || ''} key={item.slug}>
                                 <StyledSubMenuItem id={subitem.slug}>
                                   <VerticalNavigationItem
                                     selected={subitem.slug === pathname}

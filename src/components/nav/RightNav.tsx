@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   AlignItems,
   Avatar,
@@ -133,7 +134,7 @@ export const RightNav = (props: NavProps) => {
   return (
     <WithLoginWrapper
       signup={signup}
-      TriggerComponent={(props) => {
+      TriggerComponent={(triggerProps: any) => {
         const { anchorProps, dialogProps } = useDialogState();
         const { theme, toggleColorMode } = useLayoutTheme();
         return (
@@ -145,7 +146,7 @@ export const RightNav = (props: NavProps) => {
                   size={ButtonSize.Default}
                   onClick={() => {
                     setSignup(false);
-                    props.onPress();
+                    triggerProps.onPress();
                   }}
                   variant={ButtonIconType.Secondary}
                 >
@@ -157,7 +158,7 @@ export const RightNav = (props: NavProps) => {
                   size={ButtonSize.Default}
                   onClick={() => {
                     setSignup(true);
-                    props.onPress();
+                    triggerProps.onPress();
                   }}
                   variant={ButtonIconType.Primary}
                 >

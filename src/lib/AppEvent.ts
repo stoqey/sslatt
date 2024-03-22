@@ -12,6 +12,7 @@ export class AppEvents extends EventEmitter.EventEmitter {
   private static _instance: AppEvents;
 
   public static get Instance() {
+    // eslint-disable-next-line no-return-assign
     return this._instance || (this._instance = new this());
   }
 

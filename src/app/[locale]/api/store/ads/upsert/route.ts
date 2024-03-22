@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     description = escapeText(description);
 
     price = +(formData.get('price') as string);
-    if (isNaN(price)) throw new Error('Invalid ad price');
+    if (Number.isNaN(price)) throw new Error('Invalid ad price');
 
     subcategory = formData.get('subcategory') as string;
     if (isEmpty(subcategory)) throw new Error('Invalid ad category');
@@ -106,7 +106,7 @@ export async function POST(req: NextRequest) {
 
     // get existing ad
     if (!isNew) {
-      const [_errorExisting, existingAdData] = await awaitTo(
+      const [, existingAdData] = await awaitTo(
         getClient().query<{ data: AdsListingOutput }>({
           query: GET_AD_LISTING,
           variables: {
@@ -193,7 +193,7 @@ export async function POST(req: NextRequest) {
 
     // console.log("api/store/ads/upsert api", JSON.stringify(api));
 
-    if (isEmpty(api.data?.data)) throw api.errors;
+    if (isEmpty(api.data?.data)) throw api.errors as any;
 
     const success = _get(api, 'data.data.success', false);
     const message = _get(api, 'data.data.message', '');

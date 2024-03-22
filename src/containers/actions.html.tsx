@@ -457,15 +457,15 @@ export function ViewActionHtml<T>(props: ViewActionProps<T>) {
         justifyContent={JustifyContent.Between}
         padding={2}
       >
-        {amts.map((item) => (
+        {amts.map((ite) => (
           <Layout
-            key={item.label}
+            key={ite.label}
             flexDirection={FlexDirection.Column}
             display={Display.Flex}
             alignItems={AlignItems.Center}
           >
-            <CoreText>{item.label}</CoreText>
-            {item.view()}
+            <CoreText>{ite.label}</CoreText>
+            {ite.view()}
           </Layout>
         ))}
       </Layout>

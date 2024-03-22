@@ -9,8 +9,8 @@ import { orderActions } from '@/containers/Order/order.list.html.names';
 import { transactionActions } from './Wallet/Transactions.html.names';
 import { withdrawActions } from './Withdraw/withdraw.actions.html.names';
 
-export interface ActionPageProps extends ActionHtmlProps {
-  actionName: string;
+export interface ActionPageProps extends Partial<ActionHtmlProps> {
+  actionName?: string;
   message?: string;
   success?: boolean;
   [x: string]: any;

@@ -121,9 +121,9 @@ export function useAdsData(props: UseAdsData): UseAdsDataProps {
   console.log('dataResponse', dataResponse);
 
   const getMyAds = (pp: Omit<UseAdsData, 'isPublic'>) => {
-    const args = { ...pp, filters: filtersstring };
+    const argsss = { ...pp, filters: filtersstring };
     refetch({
-      variables: isPublic ? args : { ...args, owner: user?.id },
+      variables: isPublic ? argsss : { ...argsss, owner: user?.id },
       fetchPolicy: 'no-cache',
     });
   };

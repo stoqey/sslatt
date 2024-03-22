@@ -87,9 +87,9 @@ export const VerticalSideBar = ({
             <DropDownMenuWrapper>
               {menuItems.map((subitem, index) => (
                 <VerticalNavigationItem
-                  key={subitem.slug + index}
+                  key={subitem.slug}
                   onClick={() => {
-                    push(subitem.slug);
+                    push(subitem?.slug || '/');
                   }}
                 >
                   {subitem.children}
@@ -147,7 +147,7 @@ export const VerticalSideBar = ({
                           {menuItems.map((subitem, index) => {
                             return (
                               <VerticalNavigationItem
-                                key={item.slug + index}
+                                key={item.slug}
                                 selected={subitem.slug === pathname}
                                 onClick={() => {
                                   push(subitem.slug);

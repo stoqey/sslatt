@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-useless-fragment */
+
 import { useLazyQuery } from '@apollo/client';
 // TODO  move this Transactions container
 import type { Transaction } from '@roadmanjs/wallet-client';
@@ -118,8 +120,8 @@ export default function Wallet() {
     ],
   };
 
-  const changeTab = (currency: string) => {
-    setState({ ...state, currency });
+  const changeTab = (cur: string) => {
+    setState({ ...state, currency: cur });
   };
 
   // TODO proper formatting and layout

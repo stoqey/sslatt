@@ -229,7 +229,9 @@ export const TrackingOrderHtml = (props: Props & OrderType) => {
               <FormGroup label="Order Tracking">
                 <Select name="tracking" defaultValue={orderTracking}>
                   {Object.keys(OrderTypeTracking).map((key) => (
-                    <option value={key}>{OrderTypeTracking[key]}</option>
+                    <option key={key} value={key}>
+                      {OrderTypeTracking[key]}
+                    </option>
                   ))}
                 </Select>
               </FormGroup>

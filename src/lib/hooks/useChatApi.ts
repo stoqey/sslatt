@@ -121,11 +121,11 @@ export const useChatMessageQuery = (args: ChatMessagesQueryArgs) => {
     const firstMessage = messages[0];
 
     if (firstMessage && firstMessage.createdAt) {
-      const args: ChatMessagesQueryArgs = {
+      const argsss: ChatMessagesQueryArgs = {
         convoId,
         after: firstMessage.createdAt,
       };
-      await getMessages(args);
+      await getMessages(argsss);
     }
   };
 

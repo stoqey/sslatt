@@ -1,4 +1,4 @@
-import { GET_ME, type UserType } from '@roadmanjs/auth-client';
+import { GET_ME } from '@roadmanjs/auth-client';
 import gql from 'graphql-tag';
 
 import type { UserType } from '@/components/types.generated';

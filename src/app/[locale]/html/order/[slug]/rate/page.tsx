@@ -16,11 +16,12 @@ const OrderRatingActionPage = async ({
   const message = cookieStore.get('message')?.value;
   const success = cookieStore.get('success')?.value === 'true';
 
-  const { loading: loadingExisting, data: existingRating } =
-    await getClient().query<{ data: OrderRatingOutput }>({
-      query: GET_ORDER_RATING_ID,
-      variables: { orderId: id },
-    });
+  const { data: existingRating } = await getClient().query<{
+    data: OrderRatingOutput;
+  }>({
+    query: GET_ORDER_RATING_ID,
+    variables: { orderId: id },
+  });
 
   console.log('OrderRatingActionPage', { existingRating, id });
 

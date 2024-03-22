@@ -65,7 +65,9 @@ export const uploadFilesApiRest = async ({
     throw new Error('error uploading image data, please try again later');
   } catch (err) {
     console.error(err);
-    error && (await error(err));
+    if (error) {
+      await error(err as any);
+    }
   }
 };
 
@@ -114,6 +116,6 @@ export const uploadFilesApi = async ({
     throw new Error('error getting portfolios data, please try again later');
   } catch (err) {
     console.error(err);
-    error && (await error(err));
+    if (error) await error(err as any);
   }
 };

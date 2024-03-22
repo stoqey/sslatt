@@ -30,7 +30,7 @@ export const getCdnHost = (): string => {
   return backendUrl;
 };
 
-export const cdnPath = (path: string): string => {
+export const cdnPath = (path?: string): string => {
   try {
     if (path === '' || !path) return '';
     // has existing url

@@ -17,6 +17,9 @@
   "overrides": [
     // Configuration for TypeScript files
     {
+      "excludedFiles": [
+        "src/components/types.generated.ts"
+      ],
       "files": [
         "**/*.ts",
         "**/*.tsx"
@@ -64,17 +67,23 @@
         "import/order": "off", // Avoid conflict rule between `eslint-plugin-import` and `eslint-plugin-simple-import-sort`
         "@typescript-eslint/no-unused-vars": "off",
         "unused-imports/no-unused-imports": "error",
-        "unused-imports/no-unused-vars": [
-          "error",
-          {
-            "argsIgnorePattern": "^_"
-          }
-        ],
+        "unused-imports/no-unused-vars": "warn",
         "tailwindcss/no-custom-classname": "off", // Disable tailwindcss/no-custom-classname rule,
         "import/no-extraneous-dependencies": "off",
         "import/no-named-as-default": "off",
         "consistent-return": "off",
-        "react/no-unstable-nested-components": "off"
+        "@typescript-eslint/no-throw-literal": "off",
+        "react/no-unused-prop-types": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "no-underscore-dangle": "off",
+        "prefer-const": "off",
+        "react/no-children-prop": "warn",
+        "jsx-a11y/control-has-associated-label": "warn",
+        "jsx-a11y/anchor-has-content": "warn",
+        "jsx-a11y/click-events-have-key-events": "warn",
+        "jsx-a11y/no-static-element-interactions": "warn",
+        "react/no-unstable-nested-components": "warn",
+        "react/jsx-no-useless-fragment": "warn"
       }
     },
     // Configuration for testing

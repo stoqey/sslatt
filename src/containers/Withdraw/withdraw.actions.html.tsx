@@ -64,6 +64,7 @@ export function CreateWithdrawForm(
     checkoutFeePerc: 0,
   };
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { walletsAmount: wallets } = useWalletTotalUsdHtml({
     wallets: props.wallets,
     rates,
@@ -89,10 +90,9 @@ export function CreateWithdrawForm(
       <FormGroup label="Wallet">
         {/* Select wallet */}
         <Select defaultValue={walletId as any} id="wallet" name="wallet">
-          {wallets.map((wallet) => (
-            <option key={wallet.id} value={wallet.id}>
-              {wallet.amount.toFixed(8)} {wallet.currency} (
-              {niceDec(wallet.amountUsd)})
+          {wallets.map((wal) => (
+            <option key={wal.id} value={wal.id}>
+              {wal.amount.toFixed(8)} {wal.currency} ({niceDec(wal.amountUsd)})
             </option>
           ))}
         </Select>

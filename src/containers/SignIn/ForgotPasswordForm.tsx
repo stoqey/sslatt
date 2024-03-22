@@ -42,8 +42,6 @@ import {
   userCacheManager,
 } from '@/lib/storage/deviceStorage';
 
-import type { SignInFormProps } from './signin.interface';
-
 const appEvents = AppEvents.Instance;
 
 interface FormMessage {
@@ -59,7 +57,7 @@ interface LoginForm {
   encryptedCode?: string;
 }
 
-interface ForgotPasswordForm extends LoginForm {
+interface ForgotPasswordFormProps extends LoginForm {
   userId?: string;
   newPassword?: string;
   newPasswordRepeat?: string;
@@ -68,7 +66,7 @@ interface ForgotPasswordForm extends LoginForm {
 }
 
 type State = LoginForm &
-  ForgotPasswordForm & {
+  ForgotPasswordFormProps & {
     title?: string;
     auth?: LoginResponseType | SignUpResponse;
   };
@@ -81,6 +79,7 @@ const passwordStrength = (pwd: string) => {
   array[3] = pwd.match(/[!_.-]/);
 
   let sum = 0;
+  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < array.length; i++) {
     sum += array[i] ? 1 : 0;
   }
@@ -120,9 +119,10 @@ const passwordStrength = (pwd: string) => {
   return { strength: sum, text, color };
 };
 
-export function ForgotPasswordForm(props: SignInFormProps) {
+export function ForgotPasswordForm() {
   const client = useApolloClient();
-  const { push, refresh: reload } = useRouter();
+  const { push } = useRouter();
+  const [message, showMessage] = React.useState<FormMessage | undefined>();
 
   const [state, setState] = useState<State>({
     title: 'Forgot Password',
@@ -131,7 +131,7 @@ export function ForgotPasswordForm(props: SignInFormProps) {
     useMnemonic: false,
   });
 
-  const [errors, setErrors] = useState<ForgotPasswordForm>({});
+  const [errors, setErrors] = useState<ForgotPasswordFormProps>({});
 
   const clearErrors = () => {
     showMessage(undefined);
@@ -141,8 +141,6 @@ export function ForgotPasswordForm(props: SignInFormProps) {
       newPasswordRepeat: '',
     });
   };
-
-  const [message, showMessage] = React.useState<FormMessage | undefined>();
 
   const {
     username,
@@ -532,4 +530,4 @@ export function ForgotPasswordForm(props: SignInFormProps) {
   );
 }
 
-export default ForgotPasswordForm;
+export default ForgotPasswordFormProps;

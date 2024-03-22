@@ -41,8 +41,8 @@ export function CreateWithdrawForm(
   });
 
   const { amount: amountError, receiver: receiverError } = errors;
-  const setAmountError = (amountError: string) =>
-    setErrors({ ...errors, amount: amountError });
+  const setAmountError = (amtE: string) =>
+    setErrors({ ...errors, amount: amtE });
 
   const { walletsAmount: wallets } = useWalletTotalUsd();
 
@@ -115,23 +115,21 @@ export function CreateWithdrawForm(
           value={amount as any}
           onChange={(e: any) => {
             const requestedAmount = +e.target.value as any;
-            let amountError = '';
+            let amtE = '';
 
-            const withdrawMinCur = feePrices.withdrawMin[state.currency];
-            const withdrawMinCurFeeMin =
-              (feePrices.withdrawFeePerc / 100) * withdrawMinCur;
-            const withdrawMin = (withdrawMinCurFeeMin + withdrawMinCur).toFixed(
-              8,
-            );
+            const wthdrwMinCur = feePrices.withdrawMin[state.currency];
+            const wthdrwMinCurFeeMin =
+              (feePrices.withdrawFeePerc / 100) * wthdrwMinCur;
+            const wthdrwMin = (wthdrwMinCurFeeMin + wthdrwMinCur).toFixed(8);
 
-            if (requestedAmount < withdrawMin) {
-              amountError = `Min amount is ${withdrawMin}`;
+            if (requestedAmount < wthdrwMin) {
+              amtE = `Min amount is ${wthdrwMin}`;
             }
 
             if (requestedAmount > walletBalance) {
-              amountError = `Max amount is ${walletBalance}`;
+              amtE = `Max amount is ${walletBalance}`;
             }
-            setAmountError(amountError);
+            setAmountError(amtE);
             setState({ ...state, amount: requestedAmount });
           }}
         />
@@ -146,16 +144,16 @@ export function CreateWithdrawForm(
           name="receiver"
           value={receiver}
           onChange={(e: any) => {
-            const receiver: any = e.target.value;
+            const receiv: any = e.target.value;
             let receiverErr = '';
 
             // TODO how many
-            if (receiver.length < 5) {
+            if (receiv.length < 5) {
               receiverErr = 'Not a valid address';
             }
 
             setErrors({ ...errors, receiver: receiverErr });
-            handleChange('receiver')(receiver);
+            handleChange('receiver')(receiv);
           }}
         />
       </FormGroup>

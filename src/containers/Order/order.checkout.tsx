@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import type { BtcpayserverRate } from '@roadmanjs/wallet-client';
 import { FETCH_RATES_QUERY } from '@roadmanjs/wallet-client';
@@ -118,7 +119,6 @@ const OrderCheckout = () => {
   useEffect(() => {
     if (typeof createdOrder === 'boolean') {
       const closeTimeout = setTimeout(() => {
-        close();
         if (createdOrder) {
           toast.success(`Order successfully created.`);
           push('/order');
@@ -181,7 +181,7 @@ const OrderCheckout = () => {
   const totalAmount = sumBy(orderSummary, 'value');
 
   const getRate = (currency: string) => {
-    const rate = ratesData?.data.find((rate) => endsWith(rate.pair, currency));
+    const rate = ratesData?.data.find((rat) => endsWith(rat.pair, currency));
     return rate?.rate;
   };
 

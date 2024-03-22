@@ -84,9 +84,9 @@ export default function AdSearchListHtml(props: AdSearchListProps) {
         placeholderItems={20}
       >
         {!isEmpty(adsItems) &&
-          adsItems?.map((item, index) => (
+          adsItems?.map((item) => (
             <AdsSearchItem
-              key={index}
+              key={item.id}
               {...item}
               linkTo={onLinkToAd(item, action)}
               {...props.itemProps}
