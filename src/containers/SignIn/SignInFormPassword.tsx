@@ -1,4 +1,5 @@
-import { APPEVENTS, AppEvents } from '@/lib/AppEvent';
+import { useApolloClient } from '@apollo/client';
+import type { LoginResponseType } from '@stoqey/client-graphql';
 import {
   AlertBanner,
   AlertBannerType,
@@ -22,28 +23,28 @@ import {
   TextArea,
   Title,
 } from '@uuixjs/uuixweb';
-import {
-  LOGIN_2AUTH_MUTATION,
-  LOGIN_MUTATION,
-  SIGNUP_MUTATION,
-} from '@/lib/gql/auth';
+import { isEmpty } from 'lodash';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+
 import type {
   LoginResponse,
   SignUpResponse,
   UserType,
 } from '@/components/types.generated';
-import React, { useState } from 'react';
+import { APPEVENTS, AppEvents } from '@/lib/AppEvent';
+import {
+  LOGIN_2AUTH_MUTATION,
+  LOGIN_MUTATION,
+  SIGNUP_MUTATION,
+} from '@/lib/gql/auth';
 import {
   accessTokenManager,
   userCacheManager,
 } from '@/lib/storage/deviceStorage';
 
-import Link from 'next/link';
-import type { LoginResponseType } from '@stoqey/client-graphql';
 import type { SignInFormProps } from './signin.interface';
-import { isEmpty } from 'lodash';
-import { useApolloClient } from '@apollo/client';
-import { useRouter } from 'next/navigation';
 
 const appEvents = AppEvents.Instance;
 

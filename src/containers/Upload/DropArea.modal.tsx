@@ -1,3 +1,5 @@
+import { useApolloClient } from '@apollo/client';
+import type { MediaDataType } from '@stoqey/client-graphql';
 import {
   AlignContent,
   Button,
@@ -15,17 +17,16 @@ import {
   ModalSize,
   SVGAsset,
 } from '@uuixjs/uuixweb';
-import React, { useEffect, useState } from 'react';
-
-import type { IFileSpec } from './Upload.interfaces';
-import type { MediaDataType } from '@stoqey/client-graphql';
-import type { ReactChild } from 'react';
-import { cdnPath } from '@/lib/utils/api.utils';
 import { isEmpty } from 'lodash';
+import type { ReactChild } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+
+import { cdnPath } from '@/lib/utils/api.utils';
+
 import styles from './style';
 import { uploadFilesApiRest } from './Upload.api';
-import { useApolloClient } from '@apollo/client';
-import { useDropzone } from 'react-dropzone';
+import type { IFileSpec } from './Upload.interfaces';
 
 const {
   thumbButton,

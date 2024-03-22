@@ -1,4 +1,5 @@
-import { APPEVENTS, AppEvents } from '@/lib/AppEvent';
+import { useApolloClient } from '@apollo/client';
+import type { LoginResponseType } from '@stoqey/client-graphql';
 import {
   AlertBanner,
   AlertBannerType,
@@ -20,27 +21,26 @@ import {
   TextArea,
   Title,
 } from '@uuixjs/uuixweb';
-import {
-  FORGOT_PW_CONFIRM_MUTATION,
-  FORGOT_PW_MUTATION,
-  PW_RESET_MUTATION,
-} from '@/lib/gql/auth';
+import { isEmpty } from 'lodash';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+
 import type {
   ForgotPasswordResponse,
   LoginResponse,
   ResType,
   SignUpResponse,
 } from '@/components/types.generated';
-import React, { useState } from 'react';
+import { APPEVENTS, AppEvents } from '@/lib/AppEvent';
+import {
+  FORGOT_PW_CONFIRM_MUTATION,
+  FORGOT_PW_MUTATION,
+  PW_RESET_MUTATION,
+} from '@/lib/gql/auth';
 import {
   accessTokenManager,
   userCacheManager,
 } from '@/lib/storage/deviceStorage';
-
-import type { LoginResponseType } from '@stoqey/client-graphql';
-import { isEmpty } from 'lodash';
-import { useApolloClient } from '@apollo/client';
-import { useRouter } from 'next/navigation';
 
 const appEvents = AppEvents.Instance;
 

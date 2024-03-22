@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
@@ -37,12 +33,8 @@
     // Path aliases
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/public/*": [
-        "./public/*"
-      ]
+      "@/*": ["./src/*"],
+      "@/public/*": ["./public/*"]
     },
     // Editor support
     "plugins": [
@@ -51,10 +43,7 @@
       }
     ]
   },
-  "exclude": [
-    "./out/**/*",
-    "./node_modules/**/*"
-  ],
+  "exclude": ["./out/**/*", "./node_modules/**/*"],
   "include": [
     "next-env.d.ts",
     "types.d.ts",

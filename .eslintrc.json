@@ -14,16 +14,11 @@
       }
     ] // Avoid conflict rule between Prettier and Airbnb Eslint
   },
-  "ignorePatterns": [
-    "**/types.generated.ts"
-  ],
+  "ignorePatterns": ["**/types.generated.ts"],
   "overrides": [
     // Configuration for TypeScript files
     {
-      "files": [
-        "**/*.ts",
-        "**/*.tsx"
-      ],
+      "files": ["**/*.ts", "**/*.tsx"],
       "plugins": [
         "@typescript-eslint",
         "unused-imports",
@@ -88,16 +83,8 @@
     },
     // Configuration for testing
     {
-      "files": [
-        "**/*.test.ts",
-        "**/*.test.tsx"
-      ],
-      "plugins": [
-        "jest",
-        "jest-formatting",
-        "testing-library",
-        "jest-dom"
-      ],
+      "files": ["**/*.test.ts", "**/*.test.tsx"],
+      "plugins": ["jest", "jest-formatting", "testing-library", "jest-dom"],
       "extends": [
         "plugin:jest/recommended",
         "plugin:jest-formatting/recommended",
@@ -107,21 +94,13 @@
     },
     // Configuration for e2e testing (Playwright)
     {
-      "files": [
-        "**/*.spec.ts"
-      ],
-      "extends": [
-        "plugin:playwright/recommended"
-      ]
+      "files": ["**/*.spec.ts"],
+      "extends": ["plugin:playwright/recommended"]
     },
     // Configuration for Storybook
     {
-      "files": [
-        "*.stories.*"
-      ],
-      "extends": [
-        "plugin:storybook/recommended"
-      ],
+      "files": ["*.stories.*"],
+      "extends": ["plugin:storybook/recommended"],
       "rules": {
         "import/no-extraneous-dependencies": [
           "error",
