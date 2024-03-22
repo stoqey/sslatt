@@ -11,18 +11,12 @@ import {
   InputType,
   JustifyContent,
   Layout,
-  Select,
   SVGAsset,
+  Select,
   TextArea,
   Title,
   TitleSize,
 } from '@uuixjs/uuixweb';
-import { endsWith, sumBy } from 'lodash';
-import isEmpty from 'lodash/isEmpty';
-import { useParams, usePathname, useSearchParams } from 'next/navigation';
-import React from 'react';
-
-import { Container } from '@/components/container';
 import type {
   AdsListingOutput,
   FeePrices,
@@ -30,11 +24,16 @@ import type {
   UserType,
   WalletOutput,
 } from '@/components/types.generated';
-import { niceDec } from '@/lib/utils/number';
+import { endsWith, sumBy } from 'lodash';
+import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
-import { parseAdItem } from '../../components/AdLists/ads.item';
+import { Container } from '@/components/container';
 import { MessageSuccessHtml } from '../actions.html';
+import React from 'react';
 import { currencies } from '../Wallet/MyWallets';
+import isEmpty from 'lodash/isEmpty';
+import { niceDec } from '@/lib/utils/number';
+import { parseAdItem } from '../../components/AdLists/ads.item';
 import { useWalletTotalUsdHtml } from '../Wallet/MyWallets.html';
 
 const walletscurrencies = currencies.slice(1, currencies.length); // BTC, XMR
@@ -168,16 +167,16 @@ const OrderCheckoutHtml = (props: OrderCheckoutHtmlProps) => {
                           {/* summary */}
 
                           {/* Price */}
-                          {[orderSummary[0]].map((os, i) => (
+                          {[orderSummary[0]].map((os) => (
                             <Layout
-                              key={os.name}
+                              key={os?.name}
                               display={Display.Flex}
                               justifyContent={JustifyContent.Between}
                             >
                               <Title size={TitleSize.ExtraSmall}>
-                                {os.name}
+                                {os?.name}
                               </Title>
-                              {os.label}
+                              {os?.label}
                             </Layout>
                           ))}
 
@@ -207,15 +206,15 @@ const OrderCheckoutHtml = (props: OrderCheckoutHtmlProps) => {
                           {/* Fee */}
                           {[orderSummary[1]].map((os, i) => (
                             <Layout
-                              key={os.name}
+                              key={os?.name}
                               display={Display.Flex}
                               padding={{ top: 1 }}
                               justifyContent={JustifyContent.Between}
                             >
                               <Title size={TitleSize.ExtraSmall}>
-                                {os.name}
+                                {os?.name}
                               </Title>
-                              {os.label}
+                              {os?.label}
                             </Layout>
                           ))}
 

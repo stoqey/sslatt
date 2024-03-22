@@ -70,6 +70,7 @@ const ScSvgSslatt = styled.svg`
   }
 `;
 
+// FIXME: Change Icon
 export const SslattIcon = (props: { scale?: number }) => {
   const scale = props.scale || 1;
   const width = 151 * scale;

@@ -250,7 +250,7 @@ REDIS_URL="redis://localhost"
 
 ### Frontend customization
 
-Here is some of the most important files to customize:
+Search for // FIXME: to customize: here is some of the most important files to customize: 
 
 - `public/apple-touch-icon.png`, `public/favicon.ico`, `public/favicon-16x16.png` and `public/favicon-32x32.png`: your website favicon, you can generate from https://favicon.io/favicon-converter/
 - `src/components/logo`: logo and load screen animation

@@ -14,53 +14,40 @@ const bundleAnalyzer = withBundleAnalyzer({
 /** @type {import('next').NextConfig} */
 export default withSentryConfig(
   bundleAnalyzer(
-    withNextIntlConfig(
-      {
-        eslint: {
-          dirs: ['.'],
-        },
-        poweredByHeader: false,
-        reactStrictMode: true,
-        experimental: {
-          // Related to Pino error with RSC: https://github.com/orgs/vercel/discussions/3150
-          serverComponentsExternalPackages: ['pino'],
-        },
-        webpack: (config) => {
-          // config.externals is needed to resolve the following errors:
-          // Module not found: Can't resolve 'bufferutil'
-          // Module not found: Can't resolve 'utf-8-validate'
-          config.externals.push({
-            bufferutil: 'bufferutil',
-            'utf-8-validate': 'utf-8-validate',
-          });
-
-          return config;
-        },
+    withNextIntlConfig({
+      eslint: {
+        dirs: ['.'],
+        ignoreDuringBuilds: true,
       },
-      {
-        poweredByHeader: false,
-        // output: 'export',
-        experimental: {
-          serverActions: true,
-        },
-        reactStrictMode: true,
-        swcMinify: true,
-        compiler: {
-          styledComponents: true,
-        },
-
-        typescript: {
-          ignoreBuildErrors: true, // TODO: remove this
-        },
-        eslint: {
-          // Warning: This allows production builds to successfully complete even if
-          // your project has ESLint errors.
-          ignoreDuringBuilds: true,
-        },
-        // For all available options, see:
-        transpilePackages: ['@uuixjs/uuixweb', 'captcha-canvas'],
+      poweredByHeader: false,
+      reactStrictMode: true,
+      experimental: {
+        // Related to Pino error with RSC: https://github.com/orgs/vercel/discussions/3150
+        serverComponentsExternalPackages: ['pino'],
+        serverActions: true,
       },
-    ),
+      webpack: (config) => {
+        // config.externals is needed to resolve the following errors:
+        // Module not found: Can't resolve 'bufferutil'
+        // Module not found: Can't resolve 'utf-8-validate'
+        config.externals.push({
+          bufferutil: 'bufferutil',
+          'utf-8-validate': 'utf-8-validate',
+        });
+
+        return config;
+      },
+      swcMinify: true,
+      compiler: {
+        styledComponents: true,
+      },
+
+      typescript: {
+        ignoreBuildErrors: true, // TODO: remove this
+      },
+      // For all available options, see:
+      transpilePackages: ['@uuixjs/uuixweb', 'captcha-canvas'],
+    }),
   ),
   {
     // For all available options, see:
@@ -69,8 +56,8 @@ export default withSentryConfig(
     // Suppresses source map uploading logs during build
     silent: true,
     // FIXME: Add your Sentry organization and project names
-    org: 'nextjs-boilerplate-org',
-    project: 'nextjs-boilerplate',
+    org: 'stoqey',
+    project: 'sslatt',
   },
   {
     // For all available options, see:

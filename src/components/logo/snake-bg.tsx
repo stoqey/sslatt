@@ -8,7 +8,7 @@ const ScSvg = styled.svg`
   }
 `;
 
-// Pass color
+// FIXME: Change endgame background
 export const SnakeBgIcon = () => (
   <ScSvg
     xmlns="http://www.w3.org/2000/svg"

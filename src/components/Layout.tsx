@@ -52,7 +52,8 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
     <Wrapper id="rootx">
       <CoreUIRoot appRootElementId="__next" theme={theme} cssVars>
         <AccentRegion
-        // {...generateAccentRegionProps("#fffb00")}
+        // FIXME: Change theme color
+        // e.g {...generateAccentRegionProps("#fffb00")}
         >
           {/* <LayoutSEO serviceProvider={serviceProvider} /> */}
           <Layout
