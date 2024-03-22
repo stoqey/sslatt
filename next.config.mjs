@@ -24,7 +24,6 @@ export default withSentryConfig(
       experimental: {
         // Related to Pino error with RSC: https://github.com/orgs/vercel/discussions/3150
         serverComponentsExternalPackages: ['pino'],
-        serverActions: true,
       },
       webpack: (config) => {
         // config.externals is needed to resolve the following errors:
