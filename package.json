@@ -22,7 +22,8 @@
     "serve-storybook": "run-s storybook:*",
     "test-storybook:ci": "start-server-and-test serve-storybook http://127.0.0.1:6006 test-storybook",
     "prepare": "husky",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "docker": "act --job gke-build-publish-deploy --secret-file .env.prod --container-architecture linux/amd64 -v"
   },
   "dependencies": {
     "@apollo/client": ">=3.8.0-rc.1",

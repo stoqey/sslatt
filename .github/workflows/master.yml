@@ -1,0 +1,103 @@
+name: production
+
+on:
+  push:
+    branches:
+      - "master"
+
+env:
+  REGISTRY: ${{ secrets.REGISTRY }}
+  IMAGE: ${{ secrets.IMAGE }}
+  DEPLOYMENT: ${{ secrets.DEPLOYMENT }}
+
+  CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
+
+  NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+  GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
+  GKE_ZONE: ${{ secrets.GKE_ZONE }}
+  GKE_ZONE_CLUSTER: ${{ secrets.GKE_ZONE_CLUSTER }}
+  GKE_SA_KEY: ${{ secrets.GKE_SA_KEY }}
+
+jobs:
+  gke-build-publish-deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    container: catthehacker/ubuntu:act-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildtoogle-cache
+          key: ${{ runner.os }}-buildtoogle-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildtoogle-
+
+      - name: Get short SHA
+        id: slug
+        run: echo "::set-output name=sha7::$(git rev-parse --short HEAD)"
+
+      - name: Login to GCR
+        uses: docker/login-action@v1
+        with:
+          registry: us-docker.pkg.dev
+          username: _json_key
+          password: ${{ secrets.GKE_SA_KEY }}
+
+      - name: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GKE_SA_KEY }}'
+  
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+  
+      - name: 'Use gcloud CLI'
+        run: 'gcloud auth list --filter=status:ACTIVE --format="value(account)"'
+
+      - name: 'Configure Kubernetes CLI'
+        run: 'gcloud components install gke-gcloud-auth-plugin --quiet && gcloud container clusters get-credentials $CLUSTER_NAME --zone $GKE_ZONE --project $GKE_PROJECT'
+        env:
+          CLUSTER_NAME: ${{ env.CLUSTER_NAME }}
+          GKE_ZONE: ${{ env.GKE_ZONE_CLUSTER }}
+          GKE_PROJECT: ${{ env.GKE_PROJECT }}
+
+      - name: Set up k8s
+        run: curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+      - name: Set chmod +x kubectl
+        run: chmod +x kubectl
+
+      - name: Kubernetes Cluster info
+        run: ./kubectl cluster-info
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}:${{ env.IMAGE }}-${{ steps.slug.outputs.sha7 }},${{ env.REGISTRY }}:latest
+          platforms: linux/amd64
+          cache-from: type=local,src=/tmp/.buildtoogle-cache
+          cache-to: type=local,dest=/tmp/.buildtoogle-cache-new,mode=max
+          build-args: |
+            GITHUB_SHA=${{ github.sha }}
+            GITHUB_REF=${{ github.ref }}
+            NPM_AUTH_TOKEN=${{ secrets.NPM_AUTH_TOKEN }}
+            NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+            NEXT_PUBLIC_CDN_URL=${{ secrets.NEXT_PUBLIC_CDN_URL }}
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildtoogle-cache
+          mv /tmp/.buildtoogle-cache-new /tmp/.buildtoogle-cache
+           
+      # Deploy the Docker image to the GKE cluster
+      - name: Deploy/Update new Image to Kubernetes
+        run: ./kubectl set image deploy/$DEPLOYMENT $DEPLOYMENT=$REGISTRY:$IMAGE-${{ steps.slug.outputs.sha7 }}
