@@ -6,6 +6,7 @@
     "dev:next": "next dev",
     "dev": "run-p dev:*",
     "build": "next build",
+    "vercel-build": "yum install gcc-c++ cairo-devel pango-devel libjpeg-turbo-devel giflib-devel",
     "start": "next start",
     "build-stats": "cross-env ANALYZE=true npm run build",
     "clean": "rimraf .next .swc out coverage",
