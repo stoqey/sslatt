@@ -1,7 +1,6 @@
 import { CaptchaGenerator } from 'captcha-canvas';
 
-let PORT = process.env.PORT || 3000;
-PORT = +PORT + 1;
+import { saveKeyToLocalhost } from './rate-limit.redis';
 
 const isEmpty = (val: any) => {
   return (
@@ -29,6 +28,19 @@ export const getCaptchaFromLocalhost = async (): Promise<Captcha> => {
     text: captchaText,
     data: imgStr,
   };
+};
+
+export const saveCaptchaToRedis = async (
+  iv: string,
+  captchaString: string,
+): Promise<Boolean> => {
+  try {
+    await saveKeyToLocalhost(iv, captchaString, 60, false);
+    return true;
+  } catch (error) {
+    console.log('saveCaptchaToRedis error', error);
+    return false;
+  }
 };
 
 function hex2ab(hexString: string): Uint8Array {
@@ -106,25 +118,6 @@ export const encryptCaptchaCode = async (
   const iv = Array.from(ivCyphertext)
     .map((byte: any) => byte.toString(16).padStart(2, '0'))
     .join('');
-
-  // const encryptedNameAb = hex2ab(encryptedName);
-  // const ivNameAb = hex2ab(ivName);
-
-  // console.log("encryptedName", {
-  //     encrypted, iv,
-  //     encryptedName, ivName, encryptedNameAb, ivNameAb
-  // });
-
-  // const decoded = await decrypt(encryptedNameAb, iv);
-
-  // const tDecoded = new TextDecoder().decode(decoded);
-  // console.log("uint8arr", {
-  //     decoded,
-  //     tDecoded
-  // });
-
-  // const encryptedx = new TextDecoder().decode(encrypted);
-  // console.log("encrypted", encryptedx);
 
   return {
     iv,

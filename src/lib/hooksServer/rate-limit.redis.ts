@@ -20,7 +20,7 @@ type Options = {
 const getKeyFromLocalhost = async (
   key: string,
 ): Promise<string | undefined> => {
-  const appUrl = `${baseUrl}/key?json=false&key=${key}`;
+  const appUrl = `${baseUrl}/xcaptcha/key?json=false&key=${key}`;
   try {
     const fetchRes = await fetch(appUrl, {
       method: 'GET',
@@ -38,19 +38,20 @@ const getKeyFromLocalhost = async (
   }
 };
 
-const saveKeyToLocalhost = async (
+export const saveKeyToLocalhost = async (
   key: string,
   data: any,
   expires?: number,
+  json = true,
 ): Promise<string | undefined> => {
-  const appUrl = `${baseUrl}/key`;
+  const appUrl = `${baseUrl}/xcaptcha/key`;
 
   try {
     const saveData = {
       key,
       data,
       expire: expires,
-      json: false,
+      json,
     };
 
     const fetchRes = await fetch(appUrl, {

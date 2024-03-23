@@ -53,13 +53,14 @@ export const getRedisCache = () => {
 
 export const getRedisKey = async (
   key: string = '',
+  json = true,
 ): Promise<string | undefined> => {
   try {
     if (isEmpty(key)) {
       throw new Error('key is empty');
     }
     const redis = getRedisCache();
-    const data = await redis.get(key);
+    const data = await redis.get(key, json);
     return data;
   } catch (error) {
     console.log('getKeyFromLocalhost error', error);
@@ -71,13 +72,14 @@ export const saveRedisKey = async (
   key: string,
   data: any,
   expires?: number,
+  json = true,
 ): Promise<any> => {
   try {
     if (!data) {
       throw new Error('data is empty');
     }
     const redis = getRedisCache();
-    const resdata = await redis.save(key, data, expires || 0);
+    const resdata = await redis.save(key, data, expires || 0, json);
     return resdata;
   } catch (error) {
     console.log('saveKeyToLocalhost error', error);

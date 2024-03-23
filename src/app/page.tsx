@@ -6,6 +6,7 @@ import { PageNotFound } from '@/components/404s/NotFound';
 import {
   encryptCaptchaCode,
   getCaptchaFromLocalhost,
+  saveCaptchaToRedis,
 } from '@/lib/hooksServer/captcha';
 import { validateEndgameSession } from '@/middlewares/endgame.utils';
 
@@ -39,6 +40,7 @@ export default async function Home() {
     if (encryptedCaptchaCode) {
       iv = encryptedCaptchaCode.iv;
       ciphertext = encryptedCaptchaCode.data;
+      await saveCaptchaToRedis(iv, captcha);
     }
   }
 

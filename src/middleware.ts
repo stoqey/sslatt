@@ -11,5 +11,5 @@ const middlewares = [endGameMiddleware];
 export default stackMiddlewares(middlewares);
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next|key).*)', '/', '/(api|trpc)(.*)'],
+  matcher: ['/((?!.+\\.[\\w]+$|_next|xcaptcha).*)', '/', '/(api|trpc)(.*)'],
 };

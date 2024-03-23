@@ -1,3 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
+
+'use client';
+
 import {
   AccentRegion,
   Background,
@@ -38,37 +42,12 @@ export interface AuthWallProps {
 }
 
 export const AuthWall = (props: AuthWallProps) => {
-  // const [blobUrl, setBlobUrl] = React.useState<string | undefined >(null);
-  // #39FF14
   const { captcha = '', iv, encrypted, message = '', success = false } = props;
-  // const cols = { default: 12, md: 6, lg: 6, xl: 6, xxl: 6 };
-
-  // useEffect(() => {
-  //   if (process.browser) {
-  //     const filebinary = atob(captcha);
-  //     const myUint8Array = Uint8Array.from(filebinary, (c) => c.charCodeAt(0));
-  //     const blob = new Blob([myUint8Array], { type: 'image/png' });
-  //     const myUrl = window.URL.createObjectURL(blob);
-  //     setBlobUrl(myUrl);
-  //   }
-  // }, [captcha]);
-
-  const filebinary = atob(captcha);
-  const myUint8Array = Uint8Array.from(filebinary, (c) => c.charCodeAt(0));
-  const blob = new Blob([myUint8Array], { type: 'image/png' });
-
-  if (!process.browser) {
-    return undefined;
-  }
-
-  const blobUrl = window.URL.createObjectURL(blob);
-
   return (
     <AccentRegion inputColorIsDark>
       <Layout
         className="relative"
         background={Background.AccentAlt2}
-        // fullHeight fullWidth
         style={{ background: 'blue', height: '100vh', width: '100vw' }}
       >
         <SnakeBg
@@ -120,14 +99,10 @@ export const AuthWall = (props: AuthWallProps) => {
                   <Layout
                     margin={{ top: 1 }}
                     style={{
-                      // width: "200px",
                       background: 'white',
                     }}
-                    // dangerouslySetInnerHTML={{
-                    //   __html: captcha,
-                    // }}
                   >
-                    {blobUrl && <img src={blobUrl} alt="captcha" />}
+                    {iv && <img src={`/xcaptcha?key=${iv}`} alt="captcha" />}
                   </Layout>
                 )}
 
