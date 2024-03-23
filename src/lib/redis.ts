@@ -71,9 +71,9 @@ export const saveRedisKey = async (
   key: string,
   data: any,
   expires?: number,
-): Promise<unknown> => {
+): Promise<any> => {
   try {
-    if (isEmpty(data)) {
+    if (!data) {
       throw new Error('data is empty');
     }
     const redis = getRedisCache();

@@ -1,8 +1,6 @@
 import { addMinutes, differenceInSeconds } from 'date-fns';
 
-import { getBackendHost } from '../utils/api.utils';
-
-const baseUrl = getBackendHost();
+const baseUrl = 'http://localhost:3000';
 
 const isEmpty = (val: any) => {
   return (
@@ -22,11 +20,18 @@ type Options = {
 const getKeyFromLocalhost = async (
   key: string,
 ): Promise<string | undefined> => {
-  const appUrl = `${baseUrl}/captcha/key?json=false&key=${key}`;
+  const appUrl = `${baseUrl}/key?json=false&key=${key}`;
   try {
-    const fetchRes = await fetch(appUrl);
-    const dataRes = await fetchRes.json();
-    return dataRes.data;
+    const fetchRes = await fetch(appUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const dataBody = await fetchRes.json();
+
+    return dataBody.data;
   } catch (error) {
     console.log('getKeyFromLocalhost error', error);
     return undefined;
@@ -35,27 +40,32 @@ const getKeyFromLocalhost = async (
 
 const saveKeyToLocalhost = async (
   key: string,
-  data: number,
+  data: any,
   expires?: number,
 ): Promise<string | undefined> => {
-  const appUrl = `${baseUrl}/captcha/key`;
+  const appUrl = `${baseUrl}/key`;
 
   try {
+    const saveData = {
+      key,
+      data,
+      expire: expires,
+      json: false,
+    };
+
     const fetchRes = await fetch(appUrl, {
       method: 'POST',
-      body: JSON.stringify({
-        key,
-        data,
-        expire: expires,
-        json: false,
-      }),
+      body: JSON.stringify(saveData),
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
-    const dataResponse = await fetchRes.json();
-    return dataResponse;
+    if (!fetchRes.ok) {
+      throw new Error('saveKeyToLocalhost failed');
+    }
+
+    return fetchRes.statusText;
   } catch (error) {
     console.log('saveKeyToLocalhost error', error);
     return undefined;
@@ -96,7 +106,7 @@ export default function rateLimit(options?: Options) {
         await saveKeyToLocalhost(
           token,
           tokenCount,
-          !isNewToken ? undefined : timeExpire(),
+          !isNewToken ? undefined : (timeExpire() as any),
         );
       }
 
