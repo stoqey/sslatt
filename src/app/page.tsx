@@ -26,7 +26,7 @@ export default async function Home() {
     validateEndgameSession(endgamex, endgamei),
   );
   if (validEndgame) {
-    return <meta http-equiv="refresh" content="0; url=/html" />;
+    return <meta httpEquiv="refresh" content="0; url=/html" />;
   }
 
   const [, captchaRes] = await awaitTo(getCaptchaFromLocalhost());

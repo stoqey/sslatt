@@ -39,7 +39,7 @@ const verifyPgpPage = async () => {
     <ApolloWrapper>
       {isNotValidRequest && (
         <noscript>
-          <meta http-equiv="refresh" content="0; url=/html/settings/pgp" />
+          <meta httpEquiv="refresh" content="0; url=/html/settings/pgp" />
         </noscript>
       )}
       <PgpSettingPage {...props} />;

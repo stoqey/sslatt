@@ -43,7 +43,7 @@ export default async function RootLayout({
     vendor = await getVendor();
     wallets = await getMyWallets(walletscurrencies);
   } else if (!fullUrl.includes('login') && !fullUrl.includes('signup')) {
-    return <meta http-equiv="refresh" content="0; url=/html/login" />;
+    return <meta httpEquiv="refresh" content="0; url=/html/login" />;
   }
 
   return (

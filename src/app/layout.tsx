@@ -6,11 +6,8 @@ import 'react-image-gallery/styles/css/image-gallery.css';
 import { isEmpty } from 'lodash';
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
-import { notFound } from 'next/navigation';
-import { NextIntlClientProvider, useMessages } from 'next-intl';
 
 import StyledComponentsRegistry from '@/lib/styled-registry';
-import { AppConfig } from '@/utils/AppConfig';
 
 export const metadata: Metadata = {
   icons: [
@@ -44,26 +41,15 @@ export default function RootLayout(props: {
   const cookieStore = cookies();
   const theme = cookieStore.get('theme');
 
-  // Validate that the incoming `locale` parameter is valid
-  if (!AppConfig.locales.includes(props.params.locale)) notFound();
-
-  // Using internationalization in Client Components
-  const messages = useMessages();
-
   return (
     <html
-      lang={props.params.locale}
+      lang="en"
       className={`js-focus-visible tw-root--theme-${
         theme && !isEmpty(theme?.value) ? theme.value : 'light'
       } tw-root--hover`}
     >
       <body>
-        <NextIntlClientProvider
-          locale={props.params.locale}
-          messages={messages}
-        >
-          <StyledComponentsRegistry>{props.children}</StyledComponentsRegistry>
-        </NextIntlClientProvider>
+        <StyledComponentsRegistry>{props.children}</StyledComponentsRegistry>
       </body>
     </html>
   );
