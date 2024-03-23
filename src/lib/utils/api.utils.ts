@@ -1,6 +1,6 @@
 import { isLocalNetwork, isTorNetwork } from './url.util';
 
-const urlFromJson = process.env.NEXT_PUBLIC_API_URL;
+const urlFromJson = process.env.NEXT_PUBLIC_API_URL || 'localhost:3000';
 
 export const cdnUrl = process.env.NEXT_PUBLIC_CDN_URL;
 

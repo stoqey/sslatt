@@ -1,5 +1,9 @@
 import { addMinutes, differenceInSeconds } from 'date-fns';
 
+import { getBackendHost } from '../utils/api.utils';
+
+const baseUrl = getBackendHost();
+
 const isEmpty = (val: any) => {
   return (
     val === null ||
@@ -18,7 +22,7 @@ type Options = {
 const getKeyFromLocalhost = async (
   key: string,
 ): Promise<string | undefined> => {
-  const appUrl = `/captcha/key?json=false&key=${key}`;
+  const appUrl = `${baseUrl}/captcha/key?json=false&key=${key}`;
   try {
     const fetchRes = await fetch(appUrl);
     const dataRes = await fetchRes.json();
@@ -34,7 +38,7 @@ const saveKeyToLocalhost = async (
   data: number,
   expires?: number,
 ): Promise<string | undefined> => {
-  const appUrl = `/captcha/key`;
+  const appUrl = `${baseUrl}/captcha/key`;
 
   try {
     const fetchRes = await fetch(appUrl, {
