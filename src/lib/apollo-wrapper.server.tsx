@@ -107,7 +107,7 @@ function createApolloClient() {
             //   // log.error('Error when refreshing TOKEN', message);
             // }
             if (includes(message.toLocaleLowerCase(), 'not authenticated')) {
-              console.log('APPEVENTS.LOGOUT not authenticated', message);
+              // console.log('APPEVENTS.LOGOUT not authenticated server', message);
               // Ask user to login again
               events.emit(APPEVENTS.LOGOUT, APPEVENTS.LOGOUT); // emit logout
             }

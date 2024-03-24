@@ -55,9 +55,6 @@ export function ForgotPasswordFormHtml(state: ForgotPasswordFormHtmlProps) {
   const {
     success = false,
     message = '',
-    username,
-    newPassword,
-    newPasswordRepeat,
     confirmCode,
     codeId,
     verified: isVerified,

@@ -1,3 +1,4 @@
+import { awaitTo } from '@stoqey/client-graphql';
 import { cookies, headers } from 'next/headers';
 import React from 'react';
 
@@ -8,6 +9,7 @@ import { getMyWallets, getRates } from '@/lib/hooksServer/wallet';
 
 import { HtmlPageWrapper } from './html.wrapper';
 
+const publicRoutes = ['/html/login', '/html/signup', '/html/forgot-password'];
 export default async function RootLayout({
   children,
 }: {
@@ -22,15 +24,8 @@ export default async function RootLayout({
   let user;
   let openSideBar;
   let theme;
-  // endgamex,
-  // endgamei;
 
-  // endgamex = cookieStore.get("endgamex")?.value || "";
-  // endgamei = cookieStore.get("endgamei")?.value || "";
-  // const endgame = await validateEndgameSession(endgamex, endgamei);
-  // if (endgame) {
-  //   return sendToIndex();
-  // }
+  const [, currentUrl] = await awaitTo(Promise.resolve(new URL(fullUrl)));
 
   theme = cookieStore.get('theme')?.value;
   openSideBar = cookieStore.get('openSidebar')?.value === 'true';
@@ -42,7 +37,11 @@ export default async function RootLayout({
   if (user) {
     vendor = await getVendor();
     wallets = await getMyWallets(walletscurrencies);
-  } else if (!fullUrl.includes('login') && !fullUrl.includes('signup')) {
+  } else if (
+    !publicRoutes.some((route) =>
+      (currentUrl?.pathname || '').startsWith(route),
+    )
+  ) {
     return <meta httpEquiv="refresh" content="0; url=/html/login" />;
   }
 
