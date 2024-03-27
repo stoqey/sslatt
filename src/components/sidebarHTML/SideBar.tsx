@@ -119,7 +119,7 @@ export const VerticalSideBar = ({
             <VerticalNavigationStateProvider
               defaultOpenGroupIDs={[...pathnames]}
             >
-              {({ openGroupIDs, onOpenGroup, onCloseGroup }) => (
+              {() => (
                 <VerticalNavigation>
                   <form action={openSideBarLink} method="POST">
                     <input type="hidden" value={pathname} name="pathname" />

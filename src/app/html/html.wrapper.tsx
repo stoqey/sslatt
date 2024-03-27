@@ -11,6 +11,7 @@ import {
   Overflow,
   SVGAsset,
 } from '@uuixjs/uuixweb';
+import { isEmpty } from 'lodash';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
@@ -20,6 +21,7 @@ import VerticalSideBar from '@/components/sidebarHTML/SideBar';
 
 import { BodyContent } from '../coreui';
 
+const isJsOnly = !isEmpty(process.env.NEXT_PUBLIC_JS_ONLY);
 const isProduction = process.env.NODE_ENV === 'production';
 
 export const HtmlPageWrapper = ({ children, ...otherProps }: any) => {
@@ -48,7 +50,7 @@ export const HtmlPageWrapper = ({ children, ...otherProps }: any) => {
           fullWidth
           fullHeight
         >
-          {hasJs && isProduction ? (
+          {isJsOnly && hasJs && isProduction ? (
             <PageNotFound
               icon={SVGAsset.Lock}
               message="please disable javascript, and refresh"
