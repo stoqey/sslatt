@@ -77,9 +77,10 @@ export const VerticalSideBar = ({
 
   const pathnames = pathname.split('/');
 
+  // eslint-disable-next-line react/no-unstable-nested-components
   const NavItem = (item: IMenu) => {
     const menuItems = item.menu as MenuItemProps[];
-    const slugend = item.slug.split('/').pop();
+    const slugend = item.slug.split('/').pop() || '';
     const isOpened = pathnames.includes(slugend);
 
     return (
@@ -153,7 +154,10 @@ export const VerticalSideBar = ({
                         >
                           {menuItems.map((subitem) => {
                             return (
-                              <Link href={subitem?.slug || ''} key={item.slug}>
+                              <Link
+                                href={subitem?.slug || ''}
+                                key={subitem.slug}
+                              >
                                 <StyledSubMenuItem id={subitem.slug}>
                                   <VerticalNavigationItem
                                     selected={subitem.slug === pathname}
