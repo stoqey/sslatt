@@ -1,6 +1,7 @@
 import {
   AlignItems,
   Avatar,
+  BadgeType,
   Button,
   ButtonIcon,
   ButtonIconType,
@@ -10,6 +11,7 @@ import {
   FlexDirection,
   JustifyContent,
   Layout,
+  NumberBadge,
   SVGAsset,
 } from '@uuixjs/uuixweb';
 import { isEmpty } from 'lodash';
@@ -21,6 +23,7 @@ import { useWalletTotalUsdHtml } from '@/containers/Wallet/MyWallets.html';
 import { cdnPath } from '@/lib/utils/api.utils';
 import { niceDec } from '@/lib/utils/number';
 
+import type { Badge } from '../types.generated';
 import type { NavProps } from './Nav';
 
 const ThemeToggle = ({ theme }: { theme: string }) => {
@@ -46,6 +49,7 @@ const AuthRightNav = ({
   rates,
   wallets,
   theme,
+  badges,
 }: NavProps) => {
   const { walletsTotal, walletsAmount } = useWalletTotalUsdHtml({
     wallets,
@@ -53,6 +57,10 @@ const AuthRightNav = ({
   });
 
   console.log('walletsAmount', walletsAmount);
+
+  const notificationBadge: Badge = badges?.find(
+    (b) => (b.model || '').toLowerCase() === BadgeType.Notification,
+  );
 
   const avatarUri = cdnPath(currentUser && currentUser.avatar); // TODO default image
 
@@ -124,6 +132,26 @@ const AuthRightNav = ({
             icon={SVGAsset.Whisper}
             variant={ButtonIconType.Primary}
           />
+        </Link>
+      </Layout>
+
+      <Layout padding={{ left: 1 }}>
+        <Link href="/html/notifications">
+          <Layout display={Display.Flex}>
+            <ButtonIcon
+              type="submit"
+              size={ButtonSize.Default}
+              aria-label="aria label"
+              icon={SVGAsset.NotificationBell}
+              variant={ButtonIconType.Primary}
+            />
+
+            {notificationBadge && notificationBadge.count && (
+              <div style={{ marginLeft: '-15px', marginTop: '-10px' }}>
+                <NumberBadge value={notificationBadge.count} />
+              </div>
+            )}
+          </Layout>
         </Link>
       </Layout>
 

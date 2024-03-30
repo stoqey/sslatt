@@ -12,7 +12,7 @@ import {
 import { BorderRadius } from '@uuixjs/uuixweb-lib';
 import React from 'react';
 
-import type { PairRate, WalletOutput } from '../types.generated';
+import type { Badge, PairRate, WalletOutput } from '../types.generated';
 import LeftNav from './LeftNav';
 import RightNav from './RightNav';
 
@@ -21,6 +21,7 @@ export interface NavProps {
   user?: UserType;
   rates?: PairRate[];
   wallets?: WalletOutput[];
+  badges?: Badge[];
 }
 
 export const Nav = (props: NavProps) => {

@@ -23,6 +23,7 @@
     "test-storybook:ci": "start-server-and-test serve-storybook http://127.0.0.1:6006 test-storybook",
     "prepare": "husky",
     "postbuild": "next-sitemap",
+    "codegen": "graphql-codegen --config codegen.ts",
     "docker": "act --job gke-build-publish-deploy --secret-file .env.prod --container-architecture linux/amd64 -v"
   },
   "dependencies": {

@@ -1,14 +1,8 @@
-export type Maybe<T> = T | undefined;
+export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -18,7 +12,6 @@ export type Scalars = {
   Float: number;
   DateTime: any;
   JSON: any;
-  Upload: any;
 };
 
 export type AdCategoryType = {
@@ -208,6 +201,18 @@ export type AuthResType = {
   success: Scalars['Boolean'];
 };
 
+export type Badge = {
+  __typename?: 'Badge';
+  /** Counts */
+  count?: Maybe<Scalars['Float']>;
+  /** ID of the badge */
+  id?: Maybe<Scalars['String']>;
+  /** The model for this badge */
+  model?: Maybe<Scalars['String']>;
+  /** The owner of the account */
+  owner?: Maybe<Scalars['String']>;
+};
+
 export type ChatAttachmentType = {
   __typename?: 'ChatAttachmentType';
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -374,23 +379,11 @@ export type CountryType = {
   timezones?: Maybe<Array<TimezoneType>>;
 };
 
-export type CreatePaymentResponse = {
-  __typename?: 'CreatePaymentResponse';
-  payment: NowPaymentsCreatePayment;
-  transaction: Transaction;
-};
-
 export type FeePrices = {
   __typename?: 'FeePrices';
   checkoutFeePerc: Scalars['Float'];
   withdrawFeePerc: Scalars['Float'];
   withdrawMin: WithdrawMin;
-};
-
-export type FileStringInput = {
-  filename?: InputMaybe<Scalars['String']>;
-  mimetype?: InputMaybe<Scalars['String']>;
-  uri?: InputMaybe<Scalars['String']>;
 };
 
 export type ForgotPasswordResponse = {
@@ -419,12 +412,6 @@ export type GeoTypeInput = {
   lon?: InputMaybe<Scalars['Float']>;
 };
 
-export type GetPaymentStatusResponse = {
-  __typename?: 'GetPaymentStatusResponse';
-  payment: NowPaymentsGetPaymentStatus;
-  transaction: Transaction;
-};
-
 export type LoginResponse = {
   __typename?: 'LoginResponse';
   accessToken?: Maybe<Scalars['String']>;
@@ -445,34 +432,6 @@ export type LoginResponseType = {
   refreshToken?: Maybe<Scalars['String']>;
   success: Scalars['Boolean'];
   user?: Maybe<UserType>;
-};
-
-export type MarketData = {
-  __typename?: 'MarketData';
-  close?: Maybe<Scalars['Float']>;
-  date?: Maybe<Scalars['DateTime']>;
-  high?: Maybe<Scalars['Float']>;
-  low?: Maybe<Scalars['Float']>;
-  open?: Maybe<Scalars['Float']>;
-  symbol?: Maybe<Scalars['String']>;
-  volume?: Maybe<Scalars['Float']>;
-};
-
-export type MediaDataType = {
-  __typename?: 'MediaDataType';
-  createdAt?: Maybe<Scalars['DateTime']>;
-  encoding?: Maybe<Scalars['String']>;
-  filename?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  mimetype?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  owner?: Maybe<Scalars['String']>;
-  path?: Maybe<Scalars['String']>;
-  /** The server where the file is stored, e.g fastdfs */
-  server?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  url?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -503,7 +462,6 @@ export type Mutation = {
   login: LoginResponse;
   login2Auth: LoginResponse;
   logout: Scalars['Boolean'];
-  nowPaymentsCreatePayment: CreatePaymentResponse;
   passwordChange: PasswordChangeResponse;
   passwordChangeConfirm: ResType;
   passwordLogin: LoginResponseType;
@@ -512,50 +470,49 @@ export type Mutation = {
   postChangeVisibility: SocialResType;
   postCreate: SocialResType;
   postDelete: SocialResType;
-  pushNotificationCreate: PushNotificationResType;
-  pushNotificationDelete: PushNotificationResType;
   rateOrder?: Maybe<ResType>;
   reactionCreate: ReactionResType;
   reactionDelete: ReactionResType;
   revokeRefreshTokenForUser: AuthResType;
   signup: SignUpResponse;
   startConvo: ChatResType;
-  stopTraining: ResType;
   transactionCreate: TransactionResType;
   transactionDelete: TransactionResType;
   updateOrderTracking: ResType;
   updateUserProfile: AuthResType;
   updateVendor: ResType;
-  upload: Array<MediaDataType>;
-  uploadFastdfs?: Maybe<Array<MediaDataType>>;
-  uploadString: Array<MediaDataType>;
-  uploadStringFastdfs?: Maybe<Array<MediaDataType>>;
   verifyNewKey: ResType;
   verifyOrder: ResType;
 };
+
 
 export type MutationAddNewKeyArgs = {
   publicKey: Scalars['String'];
 };
 
+
 export type MutationAdsListingTypeCreateArgs = {
   args: AdsListingTypeInput;
 };
+
 
 export type MutationAdsListingTypeDeleteArgs = {
   id: Scalars['String'];
   owner?: InputMaybe<Scalars['String']>;
 };
 
+
 export type MutationCancelOrderArgs = {
   id: Scalars['String'];
   reason?: InputMaybe<Scalars['String']>;
 };
 
+
 export type MutationCancelWithdrawRequestArgs = {
   id: Scalars['String'];
   reason?: InputMaybe<Scalars['String']>;
 };
+
 
 export type MutationChangeVisibilityAdListingArgs = {
   id: Scalars['String'];
@@ -563,23 +520,28 @@ export type MutationChangeVisibilityAdListingArgs = {
   visible: Scalars['Boolean'];
 };
 
+
 export type MutationCheckUsernameArgs = {
   username: Scalars['String'];
 };
+
 
 export type MutationCheckoutOrderArgs = {
   order: OrderTypeInput;
   walletId: Scalars['String'];
 };
 
+
 export type MutationCommentCreateArgs = {
   args: CommentInput;
 };
+
 
 export type MutationCommentDeleteArgs = {
   id: Scalars['String'];
   owner?: InputMaybe<Scalars['String']>;
 };
+
 
 export type MutationConfirmOrderArgs = {
   confirm?: InputMaybe<Scalars['Boolean']>;
@@ -587,39 +549,48 @@ export type MutationConfirmOrderArgs = {
   reason?: InputMaybe<Scalars['String']>;
 };
 
+
 export type MutationConfirmWithdrawRequestArgs = {
   confirm?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['String'];
   reason?: InputMaybe<Scalars['String']>;
 };
 
+
 export type MutationCreateAdListingArgs = {
   args: AdsListingTypeInput;
 };
+
 
 export type MutationCreateChatConvoArgs = {
   args?: InputMaybe<ChatConvoInput>;
 };
 
+
 export type MutationCreateChatMessageArgs = {
   args: ChatMessageInput;
 };
+
 
 export type MutationCreateWithdrawRequestByWalletArgs = {
   args: WithdrawRequestInput;
 };
 
+
 export type MutationDeleteAdListingArgs = {
   id: Scalars['String'];
 };
+
 
 export type MutationFinalizeOrderArgs = {
   id: Scalars['String'];
 };
 
+
 export type MutationForgotPasswordArgs = {
   username: Scalars['String'];
 };
+
 
 export type MutationForgotPasswordConfirmArgs = {
   codeId?: InputMaybe<Scalars['String']>;
@@ -628,25 +599,24 @@ export type MutationForgotPasswordConfirmArgs = {
   userId: Scalars['String'];
 };
 
+
 export type MutationGetWalletAddressArgs = {
   currency: Scalars['String'];
   forceGenerate?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationLoginArgs = {
   password: Scalars['String'];
   username: Scalars['String'];
 };
 
+
 export type MutationLogin2AuthArgs = {
   codeId: Scalars['String'];
   confirmCode: Scalars['String'];
 };
 
-export type MutationNowPaymentsCreatePaymentArgs = {
-  amount: Scalars['Float'];
-  order_description?: InputMaybe<Scalars['String']>;
-};
 
 export type MutationPasswordChangeConfirmArgs = {
   codeId?: InputMaybe<Scalars['String']>;
@@ -656,11 +626,13 @@ export type MutationPasswordChangeConfirmArgs = {
   oldPassword: Scalars['String'];
 };
 
+
 export type MutationPasswordLoginArgs = {
   createNew: Scalars['Boolean'];
   password: Scalars['String'];
   username: Scalars['String'];
 };
+
 
 export type MutationPasswordResetArgs = {
   codeId?: InputMaybe<Scalars['String']>;
@@ -670,33 +642,29 @@ export type MutationPasswordResetArgs = {
   userId: Scalars['String'];
 };
 
+
 export type MutationPhoneLoginArgs = {
   createNew?: InputMaybe<Scalars['Boolean']>;
   firebaseToken: Scalars['String'];
   phone: Scalars['String'];
 };
 
+
 export type MutationPostChangeVisibilityArgs = {
   id: Scalars['String'];
   visibility: Scalars['String'];
 };
 
+
 export type MutationPostCreateArgs = {
   args?: InputMaybe<PostInput>;
 };
+
 
 export type MutationPostDeleteArgs = {
   id: Scalars['String'];
 };
 
-export type MutationPushNotificationCreateArgs = {
-  args: PushNotificationInput;
-};
-
-export type MutationPushNotificationDeleteArgs = {
-  id: Scalars['String'];
-  owner?: InputMaybe<Scalars['String']>;
-};
 
 export type MutationRateOrderArgs = {
   id: Scalars['String'];
@@ -704,69 +672,60 @@ export type MutationRateOrderArgs = {
   review?: InputMaybe<Scalars['String']>;
 };
 
+
 export type MutationReactionCreateArgs = {
   args: ReactionInput;
 };
+
 
 export type MutationReactionDeleteArgs = {
   id: Scalars['String'];
   owner?: InputMaybe<Scalars['String']>;
 };
 
+
 export type MutationRevokeRefreshTokenForUserArgs = {
   userId: Scalars['String'];
 };
+
 
 export type MutationSignupArgs = {
   password: Scalars['String'];
   username: Scalars['String'];
 };
 
+
 export type MutationStartConvoArgs = {
   args?: InputMaybe<ChatConvoInput>;
 };
 
-export type MutationStopTrainingArgs = {
-  queueId: Scalars['String'];
-};
 
 export type MutationTransactionCreateArgs = {
   args: TransactionInput;
 };
+
 
 export type MutationTransactionDeleteArgs = {
   id: Scalars['String'];
   owner?: InputMaybe<Scalars['String']>;
 };
 
+
 export type MutationUpdateOrderTrackingArgs = {
   id: Scalars['String'];
   tracking: Scalars['String'];
 };
 
+
 export type MutationUpdateUserProfileArgs = {
   user: UserTypeInput;
 };
+
 
 export type MutationUpdateVendorArgs = {
   vendor?: InputMaybe<VendorTypeInput>;
 };
 
-export type MutationUploadArgs = {
-  files: Array<Scalars['Upload']>;
-};
-
-export type MutationUploadFastdfsArgs = {
-  files: Array<Scalars['Upload']>;
-};
-
-export type MutationUploadStringArgs = {
-  files: Array<FileStringInput>;
-};
-
-export type MutationUploadStringFastdfsArgs = {
-  files: Array<FileStringInput>;
-};
 
 export type MutationVerifyNewKeyArgs = {
   codeId: Scalars['String'];
@@ -775,45 +734,29 @@ export type MutationVerifyNewKeyArgs = {
   newConfirmCode?: InputMaybe<Scalars['String']>;
 };
 
+
 export type MutationVerifyOrderArgs = {
   orderCode: Scalars['String'];
   orderId: Scalars['String'];
 };
 
-export type NowPaymentsCreatePayment = {
-  __typename?: 'NowPaymentsCreatePayment';
-  created_at?: Maybe<Scalars['String']>;
-  ipn_callback_url?: Maybe<Scalars['String']>;
-  order_description?: Maybe<Scalars['String']>;
-  order_id?: Maybe<Scalars['String']>;
-  pay_address?: Maybe<Scalars['String']>;
-  pay_amount?: Maybe<Scalars['Float']>;
-  pay_currency?: Maybe<Scalars['String']>;
-  payment_id?: Maybe<Scalars['Float']>;
-  payment_status?: Maybe<Scalars['String']>;
-  price_amount?: Maybe<Scalars['Float']>;
-  price_currency?: Maybe<Scalars['String']>;
-  purchase_id?: Maybe<Scalars['Float']>;
-  updated_at?: Maybe<Scalars['String']>;
+export type Notification = {
+  __typename?: 'Notification';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  owner?: Maybe<Scalars['String']>;
+  read?: Maybe<Scalars['Boolean']>;
+  source?: Maybe<Scalars['String']>;
+  sourceId?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-export type NowPaymentsGetPaymentStatus = {
-  __typename?: 'NowPaymentsGetPaymentStatus';
-  actually_paid?: Maybe<Scalars['Float']>;
-  created_at?: Maybe<Scalars['String']>;
-  order_description?: Maybe<Scalars['String']>;
-  order_id?: Maybe<Scalars['String']>;
-  outcome_amount?: Maybe<Scalars['Float']>;
-  outcome_currency?: Maybe<Scalars['String']>;
-  pay_address?: Maybe<Scalars['String']>;
-  pay_amount?: Maybe<Scalars['Float']>;
-  pay_currency?: Maybe<Scalars['String']>;
-  payment_id?: Maybe<Scalars['Float']>;
-  payment_status?: Maybe<Scalars['String']>;
-  price_amount?: Maybe<Scalars['Float']>;
-  price_currency?: Maybe<Scalars['String']>;
-  purchase_id?: Maybe<Scalars['Float']>;
-  updated_at?: Maybe<Scalars['String']>;
+export type NotificationPagination = {
+  __typename?: 'NotificationPagination';
+  hasNext?: Maybe<Scalars['Boolean']>;
+  items?: Maybe<Array<Notification>>;
+  params?: Maybe<Scalars['JSON']>;
 };
 
 export type OnChatMessage = {
@@ -1026,34 +969,6 @@ export type PostPagination = {
   params?: Maybe<Scalars['JSON']>;
 };
 
-export type PushNotification = {
-  __typename?: 'PushNotification';
-  createdAt?: Maybe<Scalars['DateTime']>;
-  cron?: Maybe<Scalars['String']>;
-  deleted?: Maybe<Scalars['Boolean']>;
-  env?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  message?: Maybe<Scalars['String']>;
-  owner?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  typeData?: Maybe<Scalars['JSON']>;
-  typeId?: Maybe<Scalars['String']>;
-  tz?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type PushNotificationInput = {
-  cron?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  type?: InputMaybe<Scalars['String']>;
-  typeData?: InputMaybe<Scalars['JSON']>;
-  typeId?: InputMaybe<Scalars['String']>;
-  tz?: InputMaybe<Scalars['String']>;
-};
-
 export type Query = {
   __typename?: 'Query';
   adsListingTypeGet: AdsListingType;
@@ -1072,19 +987,16 @@ export type Query = {
   getAdCategory: AdCategoryType;
   getAdListing?: Maybe<AdsListingOutput>;
   getAllCountries: Array<CountryType>;
+  getBadges: Array<Badge>;
   getCSRFToken?: Maybe<Scalars['String']>;
   getCityByState: Array<CityType>;
   getFeePrices: FeePrices;
-  getMarketData: Array<MarketData>;
   getMoneyInEscrow?: Maybe<Scalars['Float']>;
   getOrderRating?: Maybe<OrderRatingType>;
   getOrderRatings: OrderRatingOutputPagination;
   getPgpKey?: Maybe<PgpPublicKey>;
   getSiteSettings: SiteSettings;
   getStateByCountry: Array<StateType>;
-  getTicker: TickerData;
-  getTrainedResult: TrainedResults;
-  getTrendingSymbols: Array<TrendingSymbols>;
   getUser: Array<UserType>;
   getUserVendorAdsListing?: Maybe<UserVendorAdsListingPage>;
   getVendor?: Maybe<VendorType>;
@@ -1092,19 +1004,15 @@ export type Query = {
   myAdListing: Array<AdsListingType>;
   myAds: AdsListingTypePagination;
   myOrders: OrderTypeOutputPagination;
-  myTrainedResults: TrainedResultsPagination;
   myWallets?: Maybe<Array<WalletOutput>>;
   myWithdrawRequests: WithdrawRequestOutputPagination;
-  nowPaymentsGetStatus: GetPaymentStatusResponse;
+  notifications: NotificationPagination;
   onMapRegion: Array<AdsListingType>;
   orderById?: Maybe<OrderTypeOutput>;
   posts: PostPagination;
-  pushNotificationGet: PushNotification;
-  pushNotificationPagination: PushNotificationPagination;
   reactionGet: Reaction;
   reactionPagination: ReactionPagination;
   searchAdListingPublic?: Maybe<AdsListingOutputPagination>;
-  startTraining: ResType;
   transactionById?: Maybe<Transaction>;
   transactionGet: Transaction;
   transactionPagination: TransactionPagination;
@@ -1112,10 +1020,12 @@ export type Query = {
   withdrawRequestById?: Maybe<WithdrawRequestOutput>;
 };
 
+
 export type QueryAdsListingTypeGetArgs = {
   id: Scalars['String'];
   owner?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryAdsListingTypePaginationArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
@@ -1125,12 +1035,14 @@ export type QueryAdsListingTypePaginationArgs = {
   sort?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryAllTransactionsArgs = {
   limit?: InputMaybe<Scalars['Float']>;
   owner?: InputMaybe<Scalars['Float']>;
   page?: InputMaybe<Scalars['Float']>;
   search?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryAllWithdrawRequestsArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
@@ -1140,6 +1052,7 @@ export type QueryAllWithdrawRequestsArgs = {
   sort?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryChatConvoArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
   before?: InputMaybe<Scalars['DateTime']>;
@@ -1147,13 +1060,16 @@ export type QueryChatConvoArgs = {
   owner: Scalars['String'];
 };
 
+
 export type QueryChatConvoByIdArgs = {
   id: Scalars['String'];
 };
 
+
 export type QueryChatConvoPublicByIdArgs = {
   id: Scalars['String'];
 };
+
 
 export type QueryChatMessageArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
@@ -1162,15 +1078,18 @@ export type QueryChatMessageArgs = {
   limit?: InputMaybe<Scalars['Float']>;
 };
 
+
 export type QueryChatTypingArgs = {
   convoId: Scalars['String'];
   time?: InputMaybe<Scalars['DateTime']>;
 };
 
+
 export type QueryCommentGetArgs = {
   id: Scalars['String'];
   owner?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryCommentPaginationArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
@@ -1180,32 +1099,37 @@ export type QueryCommentPaginationArgs = {
   sort?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryFetchRatesArgs = {
   pairs: Scalars['String'];
 };
+
 
 export type QueryGetAdCategoryArgs = {
   id: Scalars['String'];
 };
 
+
 export type QueryGetAdListingArgs = {
   id: Scalars['String'];
 };
+
+
+export type QueryGetBadgesArgs = {
+  models: Array<Scalars['String']>;
+};
+
 
 export type QueryGetCityByStateArgs = {
   countryCode: Scalars['String'];
   stateCode: Scalars['String'];
 };
 
-export type QueryGetMarketDataArgs = {
-  endDate?: InputMaybe<Scalars['DateTime']>;
-  startDate: Scalars['DateTime'];
-  symbol: Scalars['String'];
-};
 
 export type QueryGetOrderRatingArgs = {
   orderId: Scalars['String'];
 };
+
 
 export type QueryGetOrderRatingsArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
@@ -1215,22 +1139,16 @@ export type QueryGetOrderRatingsArgs = {
   sort?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryGetStateByCountryArgs = {
   countryCode: Scalars['String'];
 };
 
-export type QueryGetTickerArgs = {
-  symbol: Scalars['String'];
-};
-
-export type QueryGetTrainedResultArgs = {
-  id?: InputMaybe<Scalars['String']>;
-  queueId?: InputMaybe<Scalars['String']>;
-};
 
 export type QueryGetUserArgs = {
   id: Scalars['String'];
 };
+
 
 export type QueryGetUserVendorAdsListingArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
@@ -1239,12 +1157,14 @@ export type QueryGetUserVendorAdsListingArgs = {
   username?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryMyAdListingArgs = {
   filter?: InputMaybe<Scalars['String']>;
   limit?: InputMaybe<Scalars['Float']>;
   owner?: InputMaybe<Scalars['String']>;
   page?: InputMaybe<Scalars['Float']>;
 };
+
 
 export type QueryMyAdsArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
@@ -1254,6 +1174,7 @@ export type QueryMyAdsArgs = {
   sort?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryMyOrdersArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
   before?: InputMaybe<Scalars['DateTime']>;
@@ -1262,19 +1183,12 @@ export type QueryMyOrdersArgs = {
   sort?: InputMaybe<Scalars['String']>;
 };
 
-export type QueryMyTrainedResultsArgs = {
-  after?: InputMaybe<Scalars['DateTime']>;
-  before?: InputMaybe<Scalars['DateTime']>;
-  filter?: InputMaybe<Scalars['String']>;
-  limit?: InputMaybe<Scalars['Float']>;
-  owner: Scalars['String'];
-  sort?: InputMaybe<Scalars['String']>;
-};
 
 export type QueryMyWalletsArgs = {
   createNew?: InputMaybe<Scalars['Boolean']>;
   currency: Array<Scalars['String']>;
 };
+
 
 export type QueryMyWithdrawRequestsArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
@@ -1284,9 +1198,16 @@ export type QueryMyWithdrawRequestsArgs = {
   sort?: InputMaybe<Scalars['String']>;
 };
 
-export type QueryNowPaymentsGetStatusArgs = {
-  id: Scalars['String'];
+
+export type QueryNotificationsArgs = {
+  after?: InputMaybe<Scalars['DateTime']>;
+  before?: InputMaybe<Scalars['DateTime']>;
+  filter?: InputMaybe<Scalars['String']>;
+  limit?: InputMaybe<Scalars['Float']>;
+  read?: InputMaybe<Scalars['Boolean']>;
+  sort?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryOnMapRegionArgs = {
   env: Scalars['String'];
@@ -1295,9 +1216,11 @@ export type QueryOnMapRegionArgs = {
   zoom?: InputMaybe<Scalars['Float']>;
 };
 
+
 export type QueryOrderByIdArgs = {
   id: Scalars['String'];
 };
+
 
 export type QueryPostsArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
@@ -1308,23 +1231,12 @@ export type QueryPostsArgs = {
   sort?: InputMaybe<Scalars['String']>;
 };
 
-export type QueryPushNotificationGetArgs = {
-  id: Scalars['String'];
-  owner?: InputMaybe<Scalars['String']>;
-};
-
-export type QueryPushNotificationPaginationArgs = {
-  after?: InputMaybe<Scalars['DateTime']>;
-  before?: InputMaybe<Scalars['DateTime']>;
-  filter?: InputMaybe<Scalars['String']>;
-  limit?: InputMaybe<Scalars['Float']>;
-  sort?: InputMaybe<Scalars['String']>;
-};
 
 export type QueryReactionGetArgs = {
   id: Scalars['String'];
   owner?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryReactionPaginationArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
@@ -1333,6 +1245,7 @@ export type QueryReactionPaginationArgs = {
   limit?: InputMaybe<Scalars['Float']>;
   sort?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QuerySearchAdListingPublicArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
@@ -1344,18 +1257,17 @@ export type QuerySearchAdListingPublicArgs = {
   sort?: InputMaybe<Scalars['String']>;
 };
 
-export type QueryStartTrainingArgs = {
-  args: RunTrain;
-};
 
 export type QueryTransactionByIdArgs = {
   id: Scalars['String'];
 };
 
+
 export type QueryTransactionGetArgs = {
   id: Scalars['String'];
   owner?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryTransactionPaginationArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
@@ -1365,6 +1277,7 @@ export type QueryTransactionPaginationArgs = {
   sort?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryTransactionsArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
   before?: InputMaybe<Scalars['DateTime']>;
@@ -1372,6 +1285,7 @@ export type QueryTransactionsArgs = {
   limit?: InputMaybe<Scalars['Float']>;
   sort?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryWithdrawRequestByIdArgs = {
   id: Scalars['String'];
@@ -1399,14 +1313,6 @@ export type ResType = {
   data?: Maybe<Scalars['JSON']>;
   message?: Maybe<Scalars['String']>;
   success: Scalars['Boolean'];
-};
-
-export type RunTrain = {
-  capital?: InputMaybe<Scalars['Float']>;
-  endDate?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['String']>;
-  startDate: Scalars['DateTime'];
-  symbol: Scalars['String'];
 };
 
 export type SignUpResponse = {
@@ -1453,8 +1359,8 @@ export type Subscription = {
   __typename?: 'Subscription';
   onChatMessage: OnChatMessage;
   onConvos: OnChatMessage;
-  onTrainedResults: TrainedResults;
 };
+
 
 export type SubscriptionOnChatMessageArgs = {
   convoId: Scalars['String'];
@@ -1462,27 +1368,10 @@ export type SubscriptionOnChatMessageArgs = {
   time?: InputMaybe<Scalars['DateTime']>;
 };
 
+
 export type SubscriptionOnConvosArgs = {
   owner: Scalars['String'];
   time?: InputMaybe<Scalars['DateTime']>;
-};
-
-export type SubscriptionOnTrainedResultsArgs = {
-  owner?: InputMaybe<Scalars['String']>;
-  queueId: Scalars['String'];
-};
-
-export type TickerData = {
-  __typename?: 'TickerData';
-  description?: Maybe<Scalars['String']>;
-  exchange?: Maybe<Scalars['String']>;
-  icon?: Maybe<Scalars['String']>;
-  industry?: Maybe<Scalars['String']>;
-  locale?: Maybe<Scalars['String']>;
-  logo?: Maybe<Scalars['String']>;
-  market?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  symbol?: Maybe<Scalars['String']>;
 };
 
 export type TimezoneType = {
@@ -1492,56 +1381,6 @@ export type TimezoneType = {
   gmtOffsetName?: Maybe<Scalars['String']>;
   tzName?: Maybe<Scalars['String']>;
   zoneName?: Maybe<Scalars['String']>;
-};
-
-export type TrainedData = {
-  __typename?: 'TrainedData';
-  algoMode?: Maybe<Scalars['String']>;
-  algoVersion?: Maybe<Scalars['String']>;
-  date?: Maybe<Scalars['DateTime']>;
-  endDate?: Maybe<Scalars['DateTime']>;
-  id?: Maybe<Scalars['String']>;
-  minutesHeld?: Maybe<Scalars['Float']>;
-  name?: Maybe<Scalars['String']>;
-  profit?: Maybe<Scalars['Float']>;
-  startDate?: Maybe<Scalars['DateTime']>;
-  symbol?: Maybe<Scalars['String']>;
-  zoneName?: Maybe<Scalars['Float']>;
-};
-
-export type TrainedResults = {
-  __typename?: 'TrainedResults';
-  capital?: Maybe<Scalars['Float']>;
-  days?: Maybe<Array<Scalars['DateTime']>>;
-  endDate?: Maybe<Scalars['DateTime']>;
-  id?: Maybe<Scalars['String']>;
-  owner?: Maybe<Scalars['String']>;
-  profit?: Maybe<Scalars['Float']>;
-  queueId?: Maybe<Scalars['String']>;
-  startDate: Scalars['DateTime'];
-  symbol: Scalars['String'];
-  totalTrades?: Maybe<Scalars['Float']>;
-  trades?: Maybe<Array<TrainedTrade>>;
-  trained?: Maybe<Array<TrainedData>>;
-};
-
-export type TrainedResultsPagination = {
-  __typename?: 'TrainedResultsPagination';
-  hasNext?: Maybe<Scalars['Boolean']>;
-  items?: Maybe<Array<TrainedResults>>;
-  params?: Maybe<Scalars['JSON']>;
-};
-
-export type TrainedTrade = {
-  __typename?: 'TrainedTrade';
-  entryPrice?: Maybe<Scalars['Float']>;
-  entryTime?: Maybe<Scalars['DateTime']>;
-  exitTime?: Maybe<Scalars['DateTime']>;
-  id?: Maybe<Scalars['String']>;
-  profit?: Maybe<Scalars['Float']>;
-  profitAmount?: Maybe<Scalars['Float']>;
-  profitPct?: Maybe<Scalars['Float']>;
-  tradeType?: Maybe<Scalars['String']>;
 };
 
 export type Transaction = {
@@ -1582,13 +1421,6 @@ export type TransactionPagination = {
   hasNext?: Maybe<Scalars['Boolean']>;
   items?: Maybe<Array<Transaction>>;
   params?: Maybe<Scalars['JSON']>;
-};
-
-export type TrendingSymbols = {
-  __typename?: 'TrendingSymbols';
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  symbol?: Maybe<Scalars['String']>;
 };
 
 export type UserStats = {
@@ -1834,20 +1666,6 @@ export type CommentPagination = {
 
 export type CommentResType = {
   __typename?: 'commentResType';
-  data?: Maybe<Scalars['JSON']>;
-  message?: Maybe<Scalars['String']>;
-  success: Scalars['Boolean'];
-};
-
-export type PushNotificationPagination = {
-  __typename?: 'pushNotificationPagination';
-  hasNext?: Maybe<Scalars['Boolean']>;
-  items?: Maybe<Array<PushNotification>>;
-  params?: Maybe<Scalars['JSON']>;
-};
-
-export type PushNotificationResType = {
-  __typename?: 'pushNotificationResType';
   data?: Maybe<Scalars['JSON']>;
   message?: Maybe<Scalars['String']>;
   success: Scalars['Boolean'];
