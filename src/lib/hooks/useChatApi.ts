@@ -1,29 +1,29 @@
+import { useApolloClient } from '@apollo/client';
+import {
+  ON_CHAT_MESSAGE_SUBSCRIPTION,
+  ON_CONVOS_SUBSCRIPTION,
+} from '@roadmanjs/chat-client';
 import type {
   ChatConvo,
   ChatMessage,
   ChatMessageType,
   UserType,
 } from '@stoqey/client-graphql';
+import { awaitTo } from '@stoqey/client-graphql';
+import includes from 'lodash/includes';
+import isEmpty from 'lodash/isEmpty';
+import uniqBy from 'lodash/uniqBy';
+import { useEffect, useState } from 'react';
+
+import { userCacheManager } from '../storage/deviceStorage';
 import type { ChatConvoArgs, ChatMessagesQueryArgs } from './apiChat';
-import {
-  ON_CHAT_MESSAGE_SUBSCRIPTION,
-  ON_CONVOS_SUBSCRIPTION,
-} from '@roadmanjs/chat-client';
 import {
   fetchChatConvo,
   fetchChatMessageQuery,
   sendChatMessageMutation,
   startChatFromUsers,
 } from './apiChat';
-import { useEffect, useState } from 'react';
-
-import { awaitTo } from '@stoqey/client-graphql';
-import includes from 'lodash/includes';
-import isEmpty from 'lodash/isEmpty';
-import uniqBy from 'lodash/uniqBy';
-import { useApolloClient } from '@apollo/client';
 import { useMyData } from './useProfileApi';
-import { userCacheManager } from '../storage/deviceStorage';
 
 interface ChatMessagesState {
   messages: ChatMessage[];

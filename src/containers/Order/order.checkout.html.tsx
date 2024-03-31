@@ -11,12 +11,18 @@ import {
   InputType,
   JustifyContent,
   Layout,
-  SVGAsset,
   Select,
+  SVGAsset,
   TextArea,
   Title,
   TitleSize,
 } from '@uuixjs/uuixweb';
+import { endsWith, sumBy } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import { useParams, usePathname, useSearchParams } from 'next/navigation';
+import React from 'react';
+
+import { Container } from '@/components/container';
 import type {
   AdsListingOutput,
   FeePrices,
@@ -24,16 +30,11 @@ import type {
   UserType,
   WalletOutput,
 } from '@/components/types.generated';
-import { endsWith, sumBy } from 'lodash';
-import { useParams, usePathname, useSearchParams } from 'next/navigation';
-
-import { Container } from '@/components/container';
-import { MessageSuccessHtml } from '../actions.html';
-import React from 'react';
-import { currencies } from '../Wallet/MyWallets';
-import isEmpty from 'lodash/isEmpty';
 import { niceDec } from '@/lib/utils/number';
+
 import { parseAdItem } from '../../components/AdLists/ads.item';
+import { MessageSuccessHtml } from '../actions.html';
+import { currencies } from '../Wallet/MyWallets';
 import { useWalletTotalUsdHtml } from '../Wallet/MyWallets.html';
 
 const walletscurrencies = currencies.slice(1, currencies.length); // BTC, XMR

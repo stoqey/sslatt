@@ -1,5 +1,4 @@
-import * as React from 'react';
-
+import type { VerticalNavigationItemProps } from '@uuixjs/uuixweb';
 import {
   Attached,
   Display,
@@ -7,18 +6,19 @@ import {
   FlexDirection,
   Layout,
   SVGAsset,
+  useDialogState,
   VerticalNavigation,
   VerticalNavigationGroup,
   VerticalNavigationItem,
   VerticalNavigationStateProvider,
-  useDialogState,
 } from '@uuixjs/uuixweb';
-import { adminMenus, adsStoreMenus, clientMenus } from './menus';
-import { useMeApi, useVendor } from '@/lib/hooks/useUserCache';
-import { usePathname, useRouter } from 'next/navigation';
-
-import type { VerticalNavigationItemProps } from '@uuixjs/uuixweb';
 import isEmpty from 'lodash/isEmpty';
+import { usePathname, useRouter } from 'next/navigation';
+import * as React from 'react';
+
+import { useMeApi, useVendor } from '@/lib/hooks/useUserCache';
+
+import { adminMenus, adsStoreMenus, clientMenus } from './menus';
 
 interface MenuItemProps extends VerticalNavigationItemProps {
   slug?: string;
@@ -72,7 +72,7 @@ export const VerticalSideBar = ({
     // const isOpen = pathnames.includes(item.slug);
     const menuItems = item.menu as MenuItemProps[];
 
-    const slugend = item.slug.split('/').pop() || "";
+    const slugend = item.slug.split('/').pop() || '';
     const isOpened = pathnames.includes(slugend);
 
     return (
@@ -81,7 +81,7 @@ export const VerticalSideBar = ({
           iconAsset={item.iconAsset}
           {...anchorProps}
           selected={isOpened}
-        >{""}</VerticalNavigationItem>
+        />
         {show && (
           <Attached direction="right">
             <DropDownMenuWrapper>
@@ -124,7 +124,7 @@ export const VerticalSideBar = ({
                         ? SVGAsset.ColSlideLeft
                         : SVGAsset.ColSlideRight
                     }
-                  >{""}</VerticalNavigationItem>
+                  />
 
                   {menus.map((item) => {
                     // return  <MenuItem index={menu.slug} item={menu} onCloseGroup={onCloseGroup} onOpenGroup={onOpenGroup} openGroupIDs={openGroupIDs} />

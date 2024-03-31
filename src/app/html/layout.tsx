@@ -3,6 +3,7 @@ import { cookies, headers } from 'next/headers';
 import React from 'react';
 
 import { walletscurrencies } from '@/lib/const';
+import { fetchBadges } from '@/lib/hooksServer/notifications';
 import { getMe } from '@/lib/hooksServer/user';
 import { getVendor } from '@/lib/hooksServer/vendor';
 import { getMyWallets, getRates } from '@/lib/hooksServer/wallet';
@@ -24,6 +25,7 @@ export default async function RootLayout({
   let user;
   let openSideBar;
   let theme;
+  let badges;
 
   const [, currentUrl] = await awaitTo(Promise.resolve(new URL(fullUrl)));
 
@@ -35,6 +37,7 @@ export default async function RootLayout({
 
   user = await getMe();
   if (user) {
+    badges = await fetchBadges({ models: ['Notification', 'Chat'] });
     vendor = await getVendor();
     wallets = await getMyWallets(walletscurrencies);
   } else if (
@@ -53,6 +56,7 @@ export default async function RootLayout({
       rates={rates}
       openSideBar={openSideBar}
       theme={theme}
+      badges={badges}
     >
       {children}
     </HtmlPageWrapper>
