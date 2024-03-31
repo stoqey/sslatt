@@ -62,6 +62,8 @@ const AuthRightNav = ({
     (b) => (b.model || '').toLowerCase() === BadgeType.Notification,
   );
 
+  const notificationBadgeCount = notificationBadge?.count || 0;
+
   const avatarUri = cdnPath(currentUser && currentUser.avatar); // TODO default image
 
   const username = currentUser.username || '';
@@ -146,11 +148,11 @@ const AuthRightNav = ({
               variant={ButtonIconType.Primary}
             />
 
-            {notificationBadge && notificationBadge.count && (
-              <div style={{ marginLeft: '-15px', marginTop: '-10px' }}>
-                <NumberBadge value={notificationBadge.count} />
-              </div>
-            )}
+            {notificationBadgeCount > 0 && (
+                <div style={{ marginLeft: '-15px', marginTop: '-10px' }}>
+                  <NumberBadge value={notificationBadge.count} />
+                </div>
+              )}
           </Layout>
         </Link>
       </Layout>

@@ -37,7 +37,7 @@ export const HtmlPageWrapper = ({ children, ...otherProps }: any) => {
   console.log('HtmlPageWrapper', { pathname, hasJs });
 
   return (
-    <CoreUIRoot cssVars>
+    <CoreUIRoot cssVars theme={otherProps.theme}>
       {/* @ts-ignore */}
       <AccentRegion
       // {...generateAccentRegionProps("#28ff00")}

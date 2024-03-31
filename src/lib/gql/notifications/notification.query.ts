@@ -38,3 +38,12 @@ export const GET_NOTIFICATIONS = gql`
   }
   ${NotificationFragment}
 `;
+
+export const READ_NOTIFICATIONS = gql`
+  query ReadNotification($id: String, $before: DateTime, $limit: Float) {
+    data: readNotifications(id: $id, before: $before, limit: $limit) {
+      ...NotificationFragment
+    }
+  }
+  ${NotificationFragment}
+`;

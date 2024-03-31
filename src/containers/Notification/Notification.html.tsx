@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  Background,
   CoreText,
   Display,
   FlexDirection,
@@ -10,12 +11,13 @@ import {
   SVGAsset,
 } from '@uuixjs/uuixweb';
 import { BorderRadius } from '@uuixjs/uuixweb-lib';
+import Link from 'next/link';
 import React from 'react';
 
-import type { NotificationType } from '@/components/types.generated';
+import type { Notification } from '@/components/types.generated';
 
 interface Props {
-  notifications?: NotificationType[];
+  notifications?: Notification[];
   // todo pagination
 }
 
@@ -29,23 +31,30 @@ export const NotificationsContainerHtml = (props: Props) => {
       <Layout
         display={Display.Flex}
         justifyContent={JustifyContent.Center}
-        margin={{ top: 2 }}
+        margin={{ top: 2, bottom: 2 }}
       >
         <CoreText as="h3">Notifications</CoreText>
       </Layout>
 
       {notifications.map((notification) => (
-        <Layout
+        <Link
           key={notification.id}
-          padding={2}
-          display={Display.Flex}
-          border={BorderRadius.None}
+          href={`/html/notifications/${notification.id}`}
         >
-          <Icon asset={SVGAsset.Account} />
-          <CoreText as="h5" bold>
-            {notification.message}
-          </CoreText>{' '}
-        </Layout>
+          <Layout
+            padding={2}
+            display={Display.Flex}
+            border={BorderRadius.None}
+            background={
+              notification.read ? Background.Alt2 : Background.Inherit
+            }
+          >
+            <Icon asset={SVGAsset.Account} />
+            <CoreText as="h5" bold>
+              {notification.message}
+            </CoreText>{' '}
+          </Layout>
+        </Link>
       ))}
     </Layout>
   );

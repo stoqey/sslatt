@@ -992,6 +992,7 @@ export type Query = {
   getCityByState: Array<CityType>;
   getFeePrices: FeePrices;
   getMoneyInEscrow?: Maybe<Scalars['Float']>;
+  getNotification?: Maybe<Notification>;
   getOrderRating?: Maybe<OrderRatingType>;
   getOrderRatings: OrderRatingOutputPagination;
   getPgpKey?: Maybe<PgpPublicKey>;
@@ -1012,6 +1013,7 @@ export type Query = {
   posts: PostPagination;
   reactionGet: Reaction;
   reactionPagination: ReactionPagination;
+  readNotifications: Array<Notification>;
   searchAdListingPublic?: Maybe<AdsListingOutputPagination>;
   transactionById?: Maybe<Transaction>;
   transactionGet: Transaction;
@@ -1123,6 +1125,11 @@ export type QueryGetBadgesArgs = {
 export type QueryGetCityByStateArgs = {
   countryCode: Scalars['String'];
   stateCode: Scalars['String'];
+};
+
+
+export type QueryGetNotificationArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -1244,6 +1251,13 @@ export type QueryReactionPaginationArgs = {
   filter?: InputMaybe<Scalars['String']>;
   limit?: InputMaybe<Scalars['Float']>;
   sort?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryReadNotificationsArgs = {
+  before?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['String']>;
+  limit?: InputMaybe<Scalars['Float']>;
 };
 
 
