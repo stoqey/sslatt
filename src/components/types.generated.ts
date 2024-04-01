@@ -238,6 +238,9 @@ export type ChatConvo = {
   name?: Maybe<Scalars['String']>;
   owner?: Maybe<ChatUserType>;
   public?: Maybe<Scalars['Boolean']>;
+  source?: Maybe<Scalars['JSON']>;
+  sourceId?: Maybe<Scalars['String']>;
+  sourceType?: Maybe<Scalars['String']>;
   unread?: Maybe<Scalars['Float']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -253,6 +256,8 @@ export type ChatConvoInput = {
   name?: InputMaybe<Scalars['String']>;
   owner?: InputMaybe<Scalars['String']>;
   public?: InputMaybe<Scalars['Boolean']>;
+  sourceId?: InputMaybe<Scalars['String']>;
+  sourceType?: InputMaybe<Scalars['String']>;
   unread?: InputMaybe<Scalars['Float']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };

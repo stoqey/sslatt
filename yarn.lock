@@ -4604,10 +4604,10 @@
   dependencies:
     graphql-tag "^2.12.5"
 
-"@roadmanjs/chat-client@^0.0.62":
-  version "0.0.62"
-  resolved "https://registry.yarnpkg.com/@roadmanjs/chat-client/-/chat-client-0.0.62.tgz#ba6f80af10988ed5da036a288d94198b16aa8bfe"
-  integrity sha512-XS83zSWTc7ctAbHXVlJKp6l7ZQFuw6BuQmJQOBvIDyJRzbGZyyqe8blv9czgTX8cHCWz1CTgi0Y7sjFmrPFzMA==
+"@roadmanjs/chat-client@^0.0.66":
+  version "0.0.66"
+  resolved "https://registry.yarnpkg.com/@roadmanjs/chat-client/-/chat-client-0.0.66.tgz#9feda89901912d3384bdf8ca8619f5076b8e7748"
+  integrity sha512-NrSYxeExenZDNLj2CRxB18rEEEk6HlbmxQCPHxV0IgAuV9vnitcKwkeNP6+38GiIxtihya7/j4P56Ub3fl4gNA==
   dependencies:
     graphql-tag "^2.12.5"
 
@@ -4625,10 +4625,10 @@
   dependencies:
     graphql-tag "^2.12.5"
 
-"@roadmanjs/wallet-client@^0.0.65":
-  version "0.0.65"
-  resolved "https://registry.yarnpkg.com/@roadmanjs/wallet-client/-/wallet-client-0.0.65.tgz#bcb870cc37d4e06ce57146182c0365c231083d81"
-  integrity sha512-REP9D7PaO/xl+eQs7iKoDwENsNLXSqvoxnw0UlG/1Wq4ZayCbplV3kIpMq2gxXW8CFXD5ucwfpfO+BtAEZB3Zw==
+"@roadmanjs/wallet-client@^0.0.74":
+  version "0.0.74"
+  resolved "https://registry.yarnpkg.com/@roadmanjs/wallet-client/-/wallet-client-0.0.74.tgz#f00395950d3acc7b3b99dad0e89038d2e1df43c2"
+  integrity sha512-xgCD2Lo18UD/TR1THbE9pB5RuJqoyWlB7rxsOw1a8T2oB2rKVmKdnSR0PaidLIfTxVWVC0KgK7fn95ByzpQGuA==
   dependencies:
     graphql-tag "^2.12.5"
 

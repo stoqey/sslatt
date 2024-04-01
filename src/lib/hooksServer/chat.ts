@@ -13,6 +13,7 @@ import pickBy from 'lodash/pickBy';
 
 import type {
   ChatConvo,
+  ChatConvoInput,
   ChatConvoPagination,
   ChatMessagePagination,
   OrderTypeOutput,
@@ -22,6 +23,7 @@ import type {
 import { getClient } from '../apollo-wrapper.server';
 import type { ResType } from '../gql';
 import type { CreateChatConvoType } from '../hooks/apiChat';
+import { logger } from '../Logger';
 
 interface ChatConvoArgs {
   userId: string;
@@ -118,45 +120,55 @@ export const fetchChatMessages = async (
   return undefined;
 };
 
-export interface StartChatFromOrderProps {
-  order: OrderTypeOutput;
+interface StartChatFromOrder {
   user: UserType;
+  order: OrderTypeOutput;
 }
 
 /**
- * @param order
- * @param client
+ * Start chat from order
+ * @param {user, order}
  * @returns
  */
 export const startChatFromOrder = async (
-  props: StartChatFromOrderProps,
-): Promise<ChatConvo> => {
-  const { order, user } = props;
-  const owner = _get(user, 'id', '') || '';
+  args: StartChatFromOrder,
+): Promise<ChatConvo | null> => {
+  const { user, order } = args;
+  const owner = _get(user, 'id', '') as any;
 
   const members: string[] = uniq(
     compact([order.owner?.id, order.seller?.id, owner]),
   );
-  const item: CreateChatConvoType = {
+  const item: ChatConvoInput = {
     name: `Order #${order.id}`, // use 4 letters from the order.id
     // avatar: ad.photos ? ad.photos[0] : "",
     owner,
     group: true,
     members,
+    sourceType: 'order',
+    sourceId: order.id,
   };
 
-  const { data } = await getClient().mutate<{ data: ResType }>({
-    mutation: START_CHAT_CONVO_MUTATIONS,
-    variables: { args: item },
-    fetchPolicy: 'no-cache',
-  });
+  const [errorData, resData] = await awaitTo(
+    getClient().mutate<{ data: ResType }>({
+      mutation: START_CHAT_CONVO_MUTATIONS,
+      variables: { args: item },
+      fetchPolicy: 'no-cache',
+    }),
+  );
+  if (errorData) {
+    logger.error(errorData);
+    return null;
+  }
+  const data = resData?.data;
 
   if (data && data.data) {
     const chatConvo = data.data.data;
     return chatConvo;
   }
 
-  throw new Error('error getting start convo');
+  logger.error(new Error('error getting start convo'));
+  return null;
 };
 
 interface StartChatFromUser {

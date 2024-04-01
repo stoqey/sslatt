@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import type { OrderTypeOutput, UserType } from '@/components/types.generated';
 import { getClient } from '@/lib/apollo-wrapper.server';
 import { GET_ORDER } from '@/lib/gql';
-import { fetchChatMessages, startChatFromUsers } from '@/lib/hooksServer/chat';
+import { fetchChatMessages, startChatFromOrder } from '@/lib/hooksServer/chat';
 import { getMe } from '@/lib/hooksServer/user';
 import { getVendor } from '@/lib/hooksServer/vendor';
 
@@ -31,16 +31,15 @@ const OrderViewPage = async ({ params }: { params: { slug: string } }) => {
   if (order && user) {
     vendor = await getVendor();
 
-    // TODO after group
-    // convo = await startChatFromOrder({
-    //   order,
-    //   user,
-    // });
-
-    convo = await startChatFromUsers({
-      friends: [order.seller as UserType],
+    convo = await startChatFromOrder({
+      order,
       user,
     });
+    
+    // convo = await startChatFromUsers({
+    //   friends: [order.seller as UserType],
+    //   user,
+    // });
 
     const messagesPage = convo
       ? await fetchChatMessages({
