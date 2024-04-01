@@ -64,6 +64,7 @@ export async function POST(req: NextRequest) {
   let iv = '';
   let encrypted = '';
   let confirmCode = '';
+  let hasJs = false;
   const sendError = (_message = '') => {
     let allowedOrigins = '*';
     if (isProd) {
@@ -104,6 +105,9 @@ export async function POST(req: NextRequest) {
   // console.log("captcha api", req);
   try {
     const formData = await req.formData();
+    const hasJavascript = formData.get('js') as string;
+    hasJs = hasJavascript === 'true';
+
     iv = formData.get('encryptedi') as string;
     if (isEmpty(iv)) return sendError();
 
@@ -141,12 +145,14 @@ export async function POST(req: NextRequest) {
     cookieStore.set('refresh', 'true', { expires: in3Secs });
     // cookieStore.set("message", "Successfully verified code", { expires: in3Secs });
     // cookieStore.set("success", "true", { expires: in3Secs });
+    cookieStore.set('js', `${hasJs}`, { expires: in1hr });
     cookieStore.set('endgamex', endgameCypher, { expires: in1hr });
     cookieStore.set('endgamei', endgameCypherIv, { expires: in1hr });
 
+    const resUrl = !hasJs ? '/html' : '/';
     return new Response(null, {
       headers: {
-        Refresh: `0; url=/html`,
+        Refresh: `0; url=${resUrl}`,
         // 'Refresh': `0; url=/`,
       },
     });

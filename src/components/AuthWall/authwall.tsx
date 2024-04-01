@@ -15,9 +15,8 @@ import {
 import { styled } from '@uuixjs/uuixweb-lib';
 import React from 'react';
 
+import { SslattIcon } from '@/components/logo/icon';
 import { MessageSuccessHtml } from '@/containers/actions.html';
-
-import { SslattIcon } from '../logo/icon';
 
 const SnakeBg = styled(Layout)`
   .cls-snake-1,
@@ -43,6 +42,13 @@ export interface AuthWallProps {
 
 export const AuthWall = (props: AuthWallProps) => {
   const { captcha = '', iv, encrypted, message = '', success = false } = props;
+
+  const [hasJs, setHasJs] = React.useState(false);
+
+  React.useEffect(() => {
+    setHasJs(true);
+  }, []);
+
   return (
     <AccentRegion inputColorIsDark>
       <Layout
@@ -107,6 +113,7 @@ export const AuthWall = (props: AuthWallProps) => {
                 )}
 
                 <form action="/api/captcha" method="POST">
+                  <input type="hidden" name="js" value={hasJs} />
                   <input type="hidden" name="encryptedi" value={iv} />
                   <input type="hidden" name="encryptedx" value={encrypted} />
                   {/* image render */}

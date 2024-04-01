@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import React from 'react';
 
 import { PageNotFound } from '@/components/404s/NotFound';
+import { AuthWall } from '@/components/AuthWall/authwall';
 import {
   encryptCaptchaCode,
   getCaptchaFromLocalhost,
@@ -10,22 +11,28 @@ import {
 } from '@/lib/hooksServer/captcha';
 import { validateEndgameSession } from '@/middlewares/endgame.utils';
 
-import RootIndex from './homepage';
+import JsLayout from './js.layout';
+import SearchPage from './search/page';
 
 // PUBLIC PAGE
-export default async function Home() {
+export default async function RootPage() {
   let iv;
   let ciphertext;
   let captcha;
   const cookieStore = cookies();
   const message = cookieStore.get('message')?.value;
   const success = cookieStore.get('success')?.value === 'true';
+  const hasJs = cookieStore.get('js')?.value === 'true';
 
   const endgamex = cookieStore.get('endgamex')?.value || '';
   const endgamei = cookieStore.get('endgamei')?.value || '';
   const [, validEndgame] = await awaitTo(
     validateEndgameSession(endgamex, endgamei),
   );
+
+  if (hasJs && validEndgame) {
+    return JsLayout({ children: <SearchPage /> });
+  }
   if (validEndgame) {
     return <meta httpEquiv="refresh" content="0; url=/html" />;
   }
@@ -54,7 +61,7 @@ export default async function Home() {
   }
 
   return (
-    <RootIndex
+    <AuthWall
       message={message}
       success={success}
       iv={iv}

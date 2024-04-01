@@ -11,7 +11,7 @@ import { getMyWallets, getRates } from '@/lib/hooksServer/wallet';
 import { HtmlPageWrapper } from './html.wrapper';
 
 const publicRoutes = ['/html/login', '/html/signup', '/html/forgot-password'];
-export default async function RootLayout({
+export default async function HtmlLayout({
   children,
 }: {
   children: React.ReactNode;

@@ -1,5 +1,5 @@
-import './globals.css';
-import './base.css';
+import '@/styles/globals.css';
+import '@/styles/base.css';
 import 'react-image-gallery/styles/css/image-gallery.css';
 
 import { isEmpty } from 'lodash';
