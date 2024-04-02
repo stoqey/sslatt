@@ -22,20 +22,22 @@ Super Slime 🐍 Love All The Time
   </tr>
 </table>
 
-## Features
+## Main Features
 
-| Name                    | Description |
-| ----------------------- | ----------- |
-| PGP 2FA                 | ✅          |
-| Autowithdraw            | ✅          |
-| BTC, XMR                | ✅          |
-| Escrow / FE             | ✅          |
-| Multisig support        | 🔄          |
-| Jabberbot               | 🔄          |
-| FE disputes             | 🔄          |
-| Auto dispute resolution | 🔄          |
-| Walletless pay          | 🔄          |
+| Name                    | Progress |
+| ----------------------- | -------- |
+| PGP 2FA                 | ✅       |
+| Autowithdraw            | ✅       |
+| BTC, XMR                | ✅       |
+| Escrow / FE             | ✅       |
+| Multisig support        | ❌       |
+| Jabberbot               | ❌       |
+| FE disputes             | ❌       |
+| Auto dispute resolution | ❌       |
+| Walletless pay          | ❌       |
 
+
+<a href="#Roadmap">See all features ....</a>
 <p align="center">
   <img height="500" src="public/assets/images/infra-ops.png" alt="SSLATT Infra">
 </p>
@@ -111,16 +113,15 @@ REDIS_URL="rediss://:xxxxxxxx@xxxxxxxx:30296"
 
 Default storage is set to local uploads, but you can set fastdfs, pictr e.t.c
 
-
 #### Database migration
+
 To set up db indexes, and initial data pass the `STARTUP` env with any value, this will populate the database with the defined config from `src/config` i.e categories, site settings, admin user e.t.c
 
 ```shell
 STARTUP=anyvalue
 ```
 
-Once app is up and running you can remove the `STARTUP` env 
-
+Once app is up and running you can remove the `STARTUP` env
 
 #### Set up Payments XMR/BTC
 
@@ -250,7 +251,7 @@ REDIS_URL="redis://localhost"
 
 ### Frontend customization
 
-Search for // FIXME: to customize: here is some of the most important files to customize: 
+Search for // FIXME: to customize: here is some of the most important files to customize:
 
 - `public/apple-touch-icon.png`, `public/favicon.ico`, `public/favicon-16x16.png` and `public/favicon-32x32.png`: your website favicon, you can generate from https://favicon.io/favicon-converter/
 - `src/components/logo`: logo and load screen animation
@@ -263,6 +264,48 @@ You also require to run the command each time you want to update the database sc
 ### Contributions
 
 Everyone is welcome to contribute to this project. Feel free to open an issue if you have question or found a bug. Totally open to any suggestions and improvements.
+
+### Roadmap
+
+<a href="https://github.com/orgs/stoqey/projects/1">SSLATT Project</a>
+
+- API - Backend api
+- HTML - HTML only routes / noscript / no javascript
+- JS - Javascript routes
+
+| Feature                 | API | HTML | JS  |
+| ----------------------- | --- | ---- | --- |
+| Profile / Account       | ✅  | ✅   | ❌  |
+| PGP 2FA                 | ✅  | ✅   | ❌  |
+| PWD change/reset        | ✅  | ✅   | ✅  |
+| Orders manager          | ✅  | ✅   | ✅  |
+| Orders admin manager    | ✅  | ❌   | ❌  |
+| Wallet BTC, XMR         | ✅  | ✅   | ❌  |
+| Wallet transactions     | ✅  | ✅   | ✅  |
+| Wallet withdraw / auto  | ✅  | ✅   | ✅  |
+| Wallet admin withdraw   | ✅  | ❌   | ❌  |
+| Wallet admin manager    | ❌  | ❌   | ❌  |
+| Store dashboard         | ✅  | ✅   | ❌  |
+| Store ads manager       | ✅  | ✅   | ✅  |
+| Store ads admin         | ❌  | ❌   | ❌  |
+| Store settings          | ✅  | ✅   | ✅  |
+| Escrow / FE             | ✅  | ✅   | ✅  |
+| Notifications           | ✅  | ✅   | ❌  |
+| Jabberbot               | ✅  | ❌   | ❌  |
+| Chat                    | ✅  | ✅   | ❌  |
+| Chat admin              | ✅  | ✅   | ❌  |
+| Chat admin tickets      | ❌  | ❌   | ❌  |
+| Disputes                | ❌  | ❌   | ❌  |
+| Disputes admin manager  | ❌  | ❌   | ❌  |
+| Admin category          | ✅  | ❌   | ❌  |
+| Admin branding          | ❌  | ❌   | ❌  |
+| FE disputes             | ❌  | ❌   | ❌  |
+| Auto dispute resolution | ❌  | ❌   | ❌  |
+| Multisig support        | ❌  | ❌   | ❌  |
+| Walletless pay          | ❌  | ❌   | ❌  |
+
+
+##### ✅ - implemented, ❌ - no implemented yet
 
 ### License
 
