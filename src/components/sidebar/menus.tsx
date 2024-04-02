@@ -12,63 +12,77 @@ interface IMenu {
   slug: string;
 }
 
-const adminWithdrawRequestList: MenuItemProps = {
-  iconAsset: SVGAsset.Gift,
-  children: 'Requests',
-  slug: '/admin/withdraw',
-};
-
-const adminAdsList: MenuItemProps = {
-  iconAsset: SVGAsset.Gift,
-  children: 'All Ads',
-  slug: '/admin/ads',
-};
-
-const postList: MenuItemProps = {
-  iconAsset: SVGAsset.Gift,
-  children: 'All Post',
-  slug: '/admin/post',
-};
-const postCreate: MenuItemProps = {
-  iconAsset: SVGAsset.Gift,
-  children: 'Post Create',
-  slug: '/admin/post/create',
-};
-
-const pushList: MenuItemProps = {
-  iconAsset: SVGAsset.Gift,
-  children: 'Push',
-  slug: '/admin/push',
-};
-const pushCreate: MenuItemProps = {
-  iconAsset: SVGAsset.Gift,
-  children: 'Create Push',
-  slug: '/admin/push/create',
-};
-
-const pushSend: MenuItemProps = {
-  iconAsset: SVGAsset.Gift,
-  children: 'Send Push',
-  slug: '/admin/push/send',
-};
 export const adminMenus: IMenu[] = [
   {
-    iconAsset: SVGAsset.Plus,
-    title: 'Withdraws',
-    menu: [adminWithdrawRequestList],
-    slug: '/admin/withdraw',
+    iconAsset: SVGAsset.Gear,
+    title: 'Settings',
+    slug: '/admin/site',
+    menu: [
+      {
+        children: 'Site settings',
+        slug: '/admin/site/settings',
+      },
+      {
+        children: 'Category settings',
+        slug: '/admin/site/categories',
+      },
+    ],
+  },
+  // users,
+  // orders
+  {
+    iconAsset: SVGAsset.BountyBoard,
+    title: 'Wallet',
+    slug: '/admin/wallet',
+    menu: [
+      {
+        children: 'All wallets',
+        slug: '/admin/wallet',
+      },
+      {
+        children: 'Withdraw Requests',
+        slug: '/admin/wallet/withdraw',
+      },
+    ],
   },
   {
-    iconAsset: SVGAsset.Plus,
-    title: 'Ads',
-    menu: [adminAdsList],
-    slug: '/admin/ads',
+    iconAsset: SVGAsset.NavDashboard,
+    title: 'Stores',
+    slug: '/admin/store',
+    menu: [
+      {
+        children: 'All Stores',
+        slug: '/admin/store',
+      },
+      {
+        children: 'All Ads',
+        slug: '/admin/store/ads',
+      },
+    ],
+  },
+
+  {
+    iconAsset: SVGAsset.MessagesSC,
+    title: 'Tickets',
+    slug: '/admin/tickets',
+    menu: [
+      {
+        children: 'Tickets',
+        slug: '/admin/tickets',
+      },
+    ],
   },
   {
-    iconAsset: SVGAsset.Heart,
-    title: 'Push',
-    menu: [pushList, pushCreate, pushSend],
-    slug: '/admin/push',
+    iconAsset: SVGAsset.ChatRiskFlag,
+    title: 'Disputes',
+    slug: '/admin/disputes',
+    menu: [
+      {
+        children: 'All Disputes',
+        slug: '/admin/disputes',
+      },
+      { children: 'Dispute Requests', slug: '/admin/disputes/requests' },
+    ],
   },
 ];
 

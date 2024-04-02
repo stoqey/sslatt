@@ -1,4 +1,4 @@
-import type { VerticalNavigationItemProps } from '@uuixjs/uuixweb';
+import type { VerticalNavigationItemProps } from "@uuixjs/uuixweb";
 import {
   Attached,
   Display,
@@ -11,14 +11,15 @@ import {
   VerticalNavigationGroup,
   VerticalNavigationItem,
   VerticalNavigationStateProvider,
-} from '@uuixjs/uuixweb';
-import isEmpty from 'lodash/isEmpty';
-import { usePathname, useRouter } from 'next/navigation';
-import * as React from 'react';
+} from "@uuixjs/uuixweb";
+import { styled } from '@uuixjs/uuixweb-lib';
+import isEmpty from "lodash/isEmpty";
+import { usePathname, useRouter } from "next/navigation";
+import * as React from "react";
 
-import { useMeApi, useVendor } from '@/lib/hooks/useUserCache';
+import { useMeApi, useVendor } from "@/lib/hooks/useUserCache";
 
-import { adminMenus, adsStoreMenus, clientMenus } from './menus';
+import { adminMenus, adsStoreMenus, clientMenus } from "./menus";
 
 interface MenuItemProps extends VerticalNavigationItemProps {
   slug?: string;
@@ -35,6 +36,16 @@ interface VerticalSideBarProps {
   client?: boolean;
   isOpen?: boolean;
 }
+
+const ColOpenSideBar = styled(VerticalNavigationItem)<{ open: boolean }>`
+  display: flex;
+  justify-content: ${(props) => (props.open ? 'end' : 'start')};
+
+  .vertical-navigation-item-base__text-container {
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+  }
+`;
 
 export const VerticalSideBar = ({
   client = false,
@@ -56,14 +67,14 @@ export const VerticalSideBar = ({
 
   if (!isEmpty(vendor)) {
     menus = menus.map((menu) => {
-      if (menu.slug === '/store') {
+      if (menu.slug === "/store") {
         return adsStoreMenus;
       }
       return menu;
     });
   }
 
-  const pathnames = pathname.split('/');
+  const pathnames = pathname.split("/");
 
   const NavItem = (item: IMenu) => {
     const { anchorProps, dialogProps } = useDialogState();
@@ -72,7 +83,7 @@ export const VerticalSideBar = ({
     // const isOpen = pathnames.includes(item.slug);
     const menuItems = item.menu as MenuItemProps[];
 
-    const slugend = item.slug.split('/').pop() || '';
+    const slugend = item.slug.split("/").pop() || "";
     const isOpened = pathnames.includes(slugend);
 
     return (
@@ -89,7 +100,7 @@ export const VerticalSideBar = ({
                 <VerticalNavigationItem
                   key={subitem.slug}
                   onClick={() => {
-                    push(subitem?.slug || '/');
+                    push(subitem?.slug || "/");
                   }}
                 >
                   {subitem.children}
@@ -106,7 +117,7 @@ export const VerticalSideBar = ({
     <Layout display={Display.Flex} flexDirection={FlexDirection.Column}>
       <Layout
         display={Display.Flex}
-        style={{ height: '-webkit-fill-available' }}
+        style={{ height: "-webkit-fill-available" }}
       >
         <div style={{ width: open ? 200 : 60 }}>
           <Layout fullHeight border>
@@ -115,7 +126,7 @@ export const VerticalSideBar = ({
             >
               {({ openGroupIDs, onOpenGroup, onCloseGroup }) => (
                 <VerticalNavigation>
-                  <VerticalNavigationItem
+                  {/* <VerticalNavigationItem
                     onClick={() => {
                       setState({ open: !state.open });
                     }}
@@ -124,6 +135,18 @@ export const VerticalSideBar = ({
                         ? SVGAsset.ColSlideLeft
                         : SVGAsset.ColSlideRight
                     }
+                  /> */}
+
+                  <ColOpenSideBar
+                    id="openSideBar"
+                    type="submit"
+                    onClick={() => {
+                      setState({ open: !state.open });
+                    }}
+                    iconAsset={
+                      open ? SVGAsset.ColSlideLeft : SVGAsset.ColSlideRight
+                    }
+                    open={open}
                   />
 
                   {menus.map((item) => {
@@ -132,7 +155,7 @@ export const VerticalSideBar = ({
 
                     if (Array.isArray(menu)) {
                       const menuItems = menu as MenuItemProps[];
-                      const slugend = slug.split('/').pop();
+                      const slugend = slug.split("/").pop();
                       const isOpened = openGroupIDs.includes(slugend);
 
                       return open ? (
@@ -147,7 +170,7 @@ export const VerticalSideBar = ({
                           {menuItems.map((subitem, index) => {
                             return (
                               <VerticalNavigationItem
-                                key={item.slug}
+                                key={subitem.slug}
                                 selected={subitem.slug === pathname}
                                 onClick={() => {
                                   push(subitem.slug);
@@ -187,11 +210,11 @@ export const VerticalSideBar = ({
                     );
                   })}
 
-                  <div style={{ height: '400px' }} />
+                  <div style={{ height: "400px" }} />
                 </VerticalNavigation>
               )}
             </VerticalNavigationStateProvider>
-            <div style={{ height: '50vh' }} />
+            <div style={{ height: "50vh" }} />
           </Layout>
         </div>
       </Layout>
