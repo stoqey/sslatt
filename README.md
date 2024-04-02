@@ -263,9 +263,7 @@ Search for // FIXME: to customize: here is some of the most important files to c
 - `src/components/logo`: logo and load screen animation
 - `.env`: default environment variables
 
-You have access to the whole code source if you need further customization. The provided code is only example for you to start your project. The sky is the limit 🚀.
-
-You also require to run the command each time you want to update the database schema.
+You have access to the whole code source if you need further customization.  
 
 ### Contributions
 
