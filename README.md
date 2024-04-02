@@ -36,11 +36,15 @@ Super Slime 🐍 Love All The Time
 | Auto dispute resolution | ❌       |
 | Walletless pay          | ❌       |
 
-
 <a href="#Roadmap">See all features ....</a>
+
 <p align="center">
   <img height="500" src="public/assets/images/infra-ops.png" alt="SSLATT Infra">
 </p>
+
+#### Demo
+- JS <a target="_blank" href="https://sslat.com">sslatt.com</a> (any browser)
+- HTML <a target="_blank" href="https://sslat.com/html">sslatt.com/html</a> (tor browser without js)
 
 ### Features frontend
 
@@ -226,10 +230,12 @@ REDIS_URL="redis://localhost"
 ├── .vscode                           # VSCode configuration
 ├── public                            # Public assets folder
 ├── src                               #
-│   ├── app                           # Next JS App (App Router)
-│   │   └── (locale)                  # locale
-│   │   │    ├── /                    # JS routes
-│   │   │    └── /html                # HTML-only routes (NOSCRIPT)
+│   └── app                           # Next JS App (App Router)
+│   │    ├── /*                       # JS   routes
+│   │    ├── /login                   # JS   /login route
+│   │    ├── /html/*                  # HTML routes (NOSCRIPT)
+│   │    ├── /html/login              # HTML /html/login route
+│   │    └── /api                     # API  routes
 │   ├── components                    # React components
 │   ├── containers                    # React containers
 │   │   └── feature                   # feature, e.g auth, wallet, user
@@ -303,7 +309,6 @@ Everyone is welcome to contribute to this project. Feel free to open an issue if
 | Auto dispute resolution | ❌  | ❌   | ❌  |
 | Multisig support        | ❌  | ❌   | ❌  |
 | Walletless pay          | ❌  | ❌   | ❌  |
-
 
 ##### ✅ - implemented, ❌ - no implemented yet
 
