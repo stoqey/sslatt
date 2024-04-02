@@ -60,18 +60,6 @@ export const adminMenus: IMenu[] = [
       },
     ],
   },
-
-  {
-    iconAsset: SVGAsset.MessagesSC,
-    title: 'Tickets',
-    slug: '/admin/tickets',
-    menu: [
-      {
-        children: 'Tickets',
-        slug: '/admin/tickets',
-      },
-    ],
-  },
   {
     iconAsset: SVGAsset.ChatRiskFlag,
     title: 'Disputes',
@@ -82,6 +70,17 @@ export const adminMenus: IMenu[] = [
         slug: '/admin/disputes',
       },
       { children: 'Dispute Requests', slug: '/admin/disputes/requests' },
+    ],
+  },
+  {
+    iconAsset: SVGAsset.MessagesSC,
+    title: 'Tickets',
+    slug: '/admin/tickets',
+    menu: [
+      {
+        children: 'Tickets',
+        slug: '/admin/tickets',
+      },
     ],
   },
 ];
