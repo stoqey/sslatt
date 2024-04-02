@@ -43,8 +43,8 @@ Super Slime 🐍 Love All The Time
 </p>
 
 #### Demo
-- JS <a target="_blank" href="https://sslat.com">sslatt.com</a> (any browser)
-- HTML <a target="_blank" href="https://sslat.com/html">sslatt.com/html</a> (tor browser without js)
+- JS <a target="_blank" href="https://sslatt.com">sslatt.com</a> (any browser)
+- HTML <a target="_blank" href="https://sslatt.com/html">sslatt.com/html</a> (tor browser without js)
 
 ### Features frontend
 
