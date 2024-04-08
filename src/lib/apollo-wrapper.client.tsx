@@ -18,6 +18,7 @@ import {
 } from '@apollo/experimental-nextjs-app-support/ssr';
 import includes from 'lodash/includes';
 import { useRouter } from 'next/navigation';
+import omitDeep from 'omit-deep';
 import { useEffect, useMemo } from 'react';
 import { setVerbosity } from 'ts-invariant';
 
@@ -49,6 +50,15 @@ function createApolloClient() {
   const wsUrl = `ws${useHttps ? 's' : ''}${devBaseUrl}`;
 
   console.log('api server', backendUrl);
+
+  const cleanTypeName = new ApolloLink((operation, forward) => {
+    if (operation.variables) {
+      operation.variables = omitDeep(operation.variables, '__typename');
+    }
+    return forward(operation).map((data) => {
+      return data;
+    });
+  });
 
   const authLink = setContext(async (_, ctx) => {
     const headers = (ctx && ctx.headers) || {};
@@ -139,6 +149,7 @@ function createApolloClient() {
       : authLink;
 
   const link = from([
+    cleanTypeName,
     tcpLink,
     authLink,
     errorLink,

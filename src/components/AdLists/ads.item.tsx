@@ -42,7 +42,7 @@ export interface IAdItem {
   owner?: UserType;
 
   price: number;
-  views: number;
+  views?: number;
   ratings?: number;
   ratingsCount?: number; // not required
   reviews?: number;
