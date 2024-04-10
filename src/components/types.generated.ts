@@ -384,11 +384,52 @@ export type CountryType = {
   timezones?: Maybe<Array<TimezoneType>>;
 };
 
+export type DisputeInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  deleted?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['String']>;
+  order?: InputMaybe<Scalars['String']>;
+  owner?: InputMaybe<Scalars['String']>;
+  reason?: InputMaybe<Scalars['String']>;
+  seller?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type DisputeOutput = {
+  __typename?: 'DisputeOutput';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  deleted?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['String']>;
+  /** Order */
+  order?: Maybe<OrderType>;
+  /** Owner */
+  owner?: Maybe<UserType>;
+  reason?: Maybe<Scalars['String']>;
+  /** Seller */
+  seller?: Maybe<UserType>;
+  status?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type DisputeOutputPagination = {
+  __typename?: 'DisputeOutputPagination';
+  hasNext?: Maybe<Scalars['Boolean']>;
+  items?: Maybe<Array<DisputeOutput>>;
+  params?: Maybe<Scalars['JSON']>;
+};
+
 export type FeePrices = {
   __typename?: 'FeePrices';
   checkoutFeePerc: Scalars['Float'];
   withdrawFeePerc: Scalars['Float'];
   withdrawMin: WithdrawMin;
+};
+
+export type FeePricesInput = {
+  checkoutFeePerc: Scalars['Float'];
+  withdrawFeePerc: Scalars['Float'];
+  withdrawMin: WithdrawMinInput;
 };
 
 export type ForgotPasswordResponse = {
@@ -444,6 +485,7 @@ export type Mutation = {
   addNewKey: ResType;
   adsListingTypeCreate: AdsListingTypeResType;
   adsListingTypeDelete: AdsListingTypeResType;
+  cancelDispute: ResType;
   cancelOrder: ResType;
   cancelWithdrawRequest: ResType;
   changeVisibilityAdListing: ResType;
@@ -451,15 +493,20 @@ export type Mutation = {
   checkoutOrder?: Maybe<ResType>;
   commentCreate: CommentResType;
   commentDelete: CommentResType;
+  /** Admin can confirm or reject dispute */
+  confirmDispute: ResType;
   confirmOrder: ResType;
   /** Admin can confirm or reject withdraw request */
   confirmWithdrawRequest: ResType;
   createAdListing: ResType;
   createChatConvo: ChatResType;
   createChatMessage: ChatResType;
+  createDispute?: Maybe<ResType>;
   createVendor: ResType;
   createWithdrawRequestByWallet?: Maybe<ResType>;
   deleteAdListing?: Maybe<ResType>;
+  /** Admin can finalize or reject dispute */
+  finalizeDispute: ResType;
   finalizeOrder: ResType;
   forgotPassword: ForgotPasswordResponse;
   forgotPasswordConfirm: ResType;
@@ -484,6 +531,7 @@ export type Mutation = {
   transactionCreate: TransactionResType;
   transactionDelete: TransactionResType;
   updateOrderTracking: ResType;
+  updateSiteSettings: ResType;
   updateUserProfile: AuthResType;
   updateVendor: ResType;
   verifyNewKey: ResType;
@@ -504,6 +552,12 @@ export type MutationAdsListingTypeCreateArgs = {
 export type MutationAdsListingTypeDeleteArgs = {
   id: Scalars['String'];
   owner?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationCancelDisputeArgs = {
+  id: Scalars['String'];
+  reason?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -548,6 +602,13 @@ export type MutationCommentDeleteArgs = {
 };
 
 
+export type MutationConfirmDisputeArgs = {
+  confirm?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['String'];
+  reason?: InputMaybe<Scalars['String']>;
+};
+
+
 export type MutationConfirmOrderArgs = {
   confirm?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['String'];
@@ -577,12 +638,23 @@ export type MutationCreateChatMessageArgs = {
 };
 
 
+export type MutationCreateDisputeArgs = {
+  args: DisputeInput;
+};
+
+
 export type MutationCreateWithdrawRequestByWalletArgs = {
   args: WithdrawRequestInput;
 };
 
 
 export type MutationDeleteAdListingArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationFinalizeDisputeArgs = {
+  confirm?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['String'];
 };
 
@@ -719,6 +791,11 @@ export type MutationTransactionDeleteArgs = {
 export type MutationUpdateOrderTrackingArgs = {
   id: Scalars['String'];
   tracking: Scalars['String'];
+};
+
+
+export type MutationUpdateSiteSettingsArgs = {
+  args?: InputMaybe<SiteSettingsInput>;
 };
 
 
@@ -978,6 +1055,8 @@ export type Query = {
   __typename?: 'Query';
   adsListingTypeGet: AdsListingType;
   adsListingTypePagination: AdsListingTypePagination;
+  allDisputes: DisputeOutputPagination;
+  allSiteSettings: SiteSettings;
   allTransactions: Array<Transaction>;
   allWithdrawRequests: WithdrawRequestOutputPagination;
   chatConvo: ChatConvoPagination;
@@ -987,6 +1066,7 @@ export type Query = {
   chatTyping: Scalars['Boolean'];
   commentGet: Comment;
   commentPagination: CommentPagination;
+  disputeById?: Maybe<DisputeOutput>;
   fetchRates: Array<PairRate>;
   getAdCategories: Array<AdCategoryType>;
   getAdCategory: AdCategoryType;
@@ -1009,6 +1089,7 @@ export type Query = {
   me: UserType;
   myAdListing: Array<AdsListingType>;
   myAds: AdsListingTypePagination;
+  myDisputes: DisputeOutputPagination;
   myOrders: OrderTypeOutputPagination;
   myWallets?: Maybe<Array<WalletOutput>>;
   myWithdrawRequests: WithdrawRequestOutputPagination;
@@ -1035,6 +1116,15 @@ export type QueryAdsListingTypeGetArgs = {
 
 
 export type QueryAdsListingTypePaginationArgs = {
+  after?: InputMaybe<Scalars['DateTime']>;
+  before?: InputMaybe<Scalars['DateTime']>;
+  filter?: InputMaybe<Scalars['String']>;
+  limit?: InputMaybe<Scalars['Float']>;
+  sort?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryAllDisputesArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
   before?: InputMaybe<Scalars['DateTime']>;
   filter?: InputMaybe<Scalars['String']>;
@@ -1104,6 +1194,11 @@ export type QueryCommentPaginationArgs = {
   filter?: InputMaybe<Scalars['String']>;
   limit?: InputMaybe<Scalars['Float']>;
   sort?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryDisputeByIdArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -1179,6 +1274,15 @@ export type QueryMyAdListingArgs = {
 
 
 export type QueryMyAdsArgs = {
+  after?: InputMaybe<Scalars['DateTime']>;
+  before?: InputMaybe<Scalars['DateTime']>;
+  filter?: InputMaybe<Scalars['String']>;
+  limit?: InputMaybe<Scalars['Float']>;
+  sort?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryMyDisputesArgs = {
   after?: InputMaybe<Scalars['DateTime']>;
   before?: InputMaybe<Scalars['DateTime']>;
   filter?: InputMaybe<Scalars['String']>;
@@ -1350,12 +1454,83 @@ export type SignUpResponse = {
 
 export type SiteSettings = {
   __typename?: 'SiteSettings';
+  BTCPAYSERVER_BTC?: Maybe<Scalars['String']>;
+  BTCPAYSERVER_CRON?: Maybe<Scalars['String']>;
+  BTCPAYSERVER_CRON_ENABLED?: Maybe<Scalars['String']>;
+  BTCPAYSERVER_URL?: Maybe<Scalars['String']>;
+  BTC_WITHDRAW_MIN?: Maybe<Scalars['Float']>;
+  CHECKOUT_FEE_PERC?: Maybe<Scalars['Float']>;
+  ENABLE_BTC?: Maybe<Scalars['Boolean']>;
+  ENABLE_PGP?: Maybe<Scalars['Boolean']>;
+  ENABLE_XMPP?: Maybe<Scalars['Boolean']>;
+  ENABLE_XMR?: Maybe<Scalars['Boolean']>;
+  MONEROX_CRON?: Maybe<Scalars['String']>;
+  MONEROX_URL?: Maybe<Scalars['String']>;
+  MONEROX_WALLET?: Maybe<Scalars['String']>;
+  PGP_PUBLIC_KEY?: Maybe<Scalars['String']>;
+  WALLETS_DIR?: Maybe<Scalars['String']>;
+  WALLET_PASSWORD?: Maybe<Scalars['String']>;
+  WALLET_PATH?: Maybe<Scalars['String']>;
+  WALLET_RPC_PASSWORD?: Maybe<Scalars['String']>;
+  WALLET_RPC_URL?: Maybe<Scalars['String']>;
+  WALLET_RPC_USER?: Maybe<Scalars['String']>;
+  WITHDRAW_FEE_PERC?: Maybe<Scalars['Float']>;
+  XMPP_HOST?: Maybe<Scalars['String']>;
+  XMPP_JID?: Maybe<Scalars['String']>;
+  XMPP_PASSWORD?: Maybe<Scalars['String']>;
+  XMPP_PORT?: Maybe<Scalars['String']>;
+  XMR_WITHDRAW_MIN?: Maybe<Scalars['Float']>;
   adCount?: Maybe<Scalars['Float']>;
-  feePrices: FeePrices;
-  id: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  feePrices?: Maybe<FeePrices>;
+  id?: Maybe<Scalars['String']>;
+  logo?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  slogan?: Maybe<Scalars['String']>;
+  theme?: Maybe<Scalars['String']>;
   userCount?: Maybe<Scalars['Float']>;
-  vendorBond: Scalars['Float'];
+  vendorBond?: Maybe<Scalars['Float']>;
   vendorCount?: Maybe<Scalars['Float']>;
+};
+
+export type SiteSettingsInput = {
+  BTCPAYSERVER_BTC?: InputMaybe<Scalars['String']>;
+  BTCPAYSERVER_CRON?: InputMaybe<Scalars['String']>;
+  BTCPAYSERVER_CRON_ENABLED?: InputMaybe<Scalars['String']>;
+  BTCPAYSERVER_URL?: InputMaybe<Scalars['String']>;
+  BTC_WITHDRAW_MIN?: InputMaybe<Scalars['Float']>;
+  CHECKOUT_FEE_PERC?: InputMaybe<Scalars['Float']>;
+  ENABLE_BTC?: InputMaybe<Scalars['Boolean']>;
+  ENABLE_PGP?: InputMaybe<Scalars['Boolean']>;
+  ENABLE_XMPP?: InputMaybe<Scalars['Boolean']>;
+  ENABLE_XMR?: InputMaybe<Scalars['Boolean']>;
+  MONEROX_CRON?: InputMaybe<Scalars['String']>;
+  MONEROX_URL?: InputMaybe<Scalars['String']>;
+  MONEROX_WALLET?: InputMaybe<Scalars['String']>;
+  PGP_PUBLIC_KEY?: InputMaybe<Scalars['String']>;
+  WALLETS_DIR?: InputMaybe<Scalars['String']>;
+  WALLET_PASSWORD?: InputMaybe<Scalars['String']>;
+  WALLET_PATH?: InputMaybe<Scalars['String']>;
+  WALLET_RPC_PASSWORD?: InputMaybe<Scalars['String']>;
+  WALLET_RPC_URL?: InputMaybe<Scalars['String']>;
+  WALLET_RPC_USER?: InputMaybe<Scalars['String']>;
+  WITHDRAW_FEE_PERC?: InputMaybe<Scalars['Float']>;
+  XMPP_HOST?: InputMaybe<Scalars['String']>;
+  XMPP_JID?: InputMaybe<Scalars['String']>;
+  XMPP_PASSWORD?: InputMaybe<Scalars['String']>;
+  XMPP_PORT?: InputMaybe<Scalars['String']>;
+  XMR_WITHDRAW_MIN?: InputMaybe<Scalars['Float']>;
+  adCount?: InputMaybe<Scalars['Float']>;
+  description?: InputMaybe<Scalars['String']>;
+  feePrices?: InputMaybe<FeePricesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  logo?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  slogan?: InputMaybe<Scalars['String']>;
+  theme?: InputMaybe<Scalars['String']>;
+  userCount?: InputMaybe<Scalars['Float']>;
+  vendorBond?: InputMaybe<Scalars['Float']>;
+  vendorCount?: InputMaybe<Scalars['Float']>;
 };
 
 export type SocialResType = {
@@ -1609,6 +1784,11 @@ export type WithdrawMin = {
   __typename?: 'WithdrawMin';
   BTC: Scalars['Float'];
   XMR?: Maybe<Scalars['Float']>;
+};
+
+export type WithdrawMinInput = {
+  BTC: Scalars['Float'];
+  XMR?: InputMaybe<Scalars['Float']>;
 };
 
 export type WithdrawRequestInput = {

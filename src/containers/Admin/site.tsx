@@ -1,5 +1,6 @@
-"use client";
+'use client';
 
+import { useMutation, useQuery } from '@apollo/client';
 import {
   AlignItems,
   Avatar,
@@ -24,41 +25,24 @@ import {
   TextArea,
   Toggle,
   Tower,
-} from "@uuixjs/uuixweb";
-import _get from "lodash/get";
-import isEmpty from "lodash/isEmpty";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+} from '@uuixjs/uuixweb';
+import { identity, omit, pickBy } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
-import { cdnPath } from "@/lib/utils/api.utils";
+import type { SiteSettings } from '@/components/types.generated';
+import { GET_SITE_SETTINGS_ADMIN, UPDATE_SITE_SETTINGS_ADMIN } from '@/lib/gql';
+import { cdnPath } from '@/lib/utils/api.utils';
 
-import { DropAreaModal } from "../Upload/DropArea.modal";
+import { DropAreaModal } from '../Upload/DropArea.modal';
 
-interface FormData {
-  firstname: string;
-  lastname: string;
-  username: string;
-  // phone: string; TODO add phone
-  // email: undefined,
-  // website: undefined,
-  // address: undefined,
-  country: string;
-  bio: string;
-  // city: undefined,
-  // state: undefined,
-  // zipcode: undefined,
-  avatar: string;
-  coverImage: string;
-}
+interface FormData extends SiteSettings {}
 
 export const AdminSiteSettings = () => {
   const { back, push } = useRouter();
 
-  // const { post, save, loadAdListing } = useAdsEditor(slug);
-
-  const [form, setForm] = useState<FormData>({
-    country: "US",
-  } as any);
+  const [form, setForm] = useState<FormData>({} as any);
 
   const handle = (field: string) => {
     return (val: any) => {
@@ -67,8 +51,7 @@ export const AdminSiteSettings = () => {
   };
 
   const {
-    avatar,
-    username,
+    logo,
     name,
     slogan,
     description,
@@ -107,28 +90,23 @@ export const AdminSiteSettings = () => {
     theme,
   } = form;
 
-  // const [updateUserProfile, { data, loading }] =
-  //   useMutation(UPDATE_USER_PROFILE);
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  const [updateSiteSettings, { data: updatedSiteSettings, loading }] =
+    useMutation<{
+      data: { data: SiteSettings; success?: boolean; message?: string };
+    }>(UPDATE_SITE_SETTINGS_ADMIN);
 
-  // const { data: countriesData } = useQuery<{
-  //   data: CountryType[];
-  // }>(GET_ALL_COUNTRIES_QUERY);
-
-
+  const { data: siteSettings } = useQuery<{
+    data: SiteSettings;
+  }>(GET_SITE_SETTINGS_ADMIN);
 
   const onSubmit = () => {
-    // updateUserProfile({
-    //   variables: {
-    //     user: pick(form, [
-    //       "firstname",
-    //       "lastname",
-    //       "coverImage",
-    //       "avatar",
-    //       "country",
-    //       "bio",
-    //     ]),
-    //   },
-    // });
+    console.log('form submit', pickBy(form, identity));
+    updateSiteSettings({
+      variables: {
+        args: pickBy(form, identity),
+      },
+    });
   };
 
   const onClose = () => {
@@ -136,25 +114,25 @@ export const AdminSiteSettings = () => {
   };
 
   const handleViewClick = () => {
-    push(`/u/${username}`);
+    push('/');
   };
 
-  // useEffect(() => {
-  //   if (isEmpty(user)) return;
-  //   setForm(user as any);
-  // }, [user]);
+  useEffect(() => {
+    if (isEmpty(siteSettings) && isEmpty(form)) return;
+    setForm(omit(siteSettings?.data, ['feePrices']) as any);
+  }, [siteSettings]);
 
-  // useEffect(() => {
-  //   if (isEmpty(updatedProfile)) return;
-  //   setForm(updatedProfile as any);
-  // }, [updatedProfile]);
+  useEffect(() => {
+    if (isEmpty(updatedSiteSettings?.data) || loading) return;
+    setForm(omit(updatedSiteSettings?.data?.data, ['feePrices']) as any);
+  }, [updatedSiteSettings]);
 
   const AvatarComponent = () => (
     <DropAreaModal
       defaultFiles={
-        isEmpty(avatar)
+        isEmpty(logo)
           ? []
-          : [cdnPath(avatar)].map((i) => ({
+          : [cdnPath(logo)].map((i) => ({
               uploaded: true,
               url: i,
               filename: i,
@@ -166,14 +144,14 @@ export const AdminSiteSettings = () => {
         const newPhotos = files.map((file) => file.url);
         const newAvatar = newPhotos[0];
         if (isEmpty(newAvatar)) return;
-        setForm({ ...form, avatar: cdnPath(newAvatar as any) });
+        setForm({ ...form, logo: cdnPath(newAvatar as any) });
       }}
       Placeholder={
         <Layout margin={0.5}>
           <Avatar
             size={80}
             alt=""
-            userLogin={username}
+            userLogin={name}
             presenceIndicator
             presenceStatus={PresenceStatus.Online}
           />
@@ -195,8 +173,6 @@ export const AdminSiteSettings = () => {
     />
   );
 
-  console.log("form", form);
-
   return (
     <Layout overflow={Overflow.Scroll}>
       <Layout padding={{ left: 2, right: 2 }}>
@@ -217,7 +193,7 @@ export const AdminSiteSettings = () => {
                 onClick={handleViewClick}
                 icon={SVGAsset.Share}
               >
-                View Profile
+                View Site
               </Button>
             </Layout>
           </Layout>
@@ -239,14 +215,14 @@ export const AdminSiteSettings = () => {
                 <FormGroup label="Name">
                   <Input
                     value={name}
-                    onChange={handle("name")}
+                    onChange={handle('name')}
                     type={InputType.Text}
                   />
                 </FormGroup>
                 <FormGroup label="Slogan">
                   <Input
                     value={slogan}
-                    onChange={handle("slogan")}
+                    onChange={handle('slogan')}
                     type={InputType.Text}
                   />
                 </FormGroup>
@@ -255,7 +231,7 @@ export const AdminSiteSettings = () => {
                   <FormGroup label="Description">
                     <TextArea
                       value={description}
-                      onChange={handle("description")}
+                      onChange={handle('description')}
                       size={InputSize.Large}
                     />
                   </FormGroup>
@@ -266,7 +242,7 @@ export const AdminSiteSettings = () => {
                     {/* color picker */}
                     <Input
                       value={theme}
-                      onChange={handle("theme")}
+                      onChange={handle('theme')}
                       type={InputType.Text}
                     />
                     <CoreButton> See all colors </CoreButton>
@@ -282,21 +258,21 @@ export const AdminSiteSettings = () => {
                   <Toggle
                     checked={ENABLE_BTC}
                     onChange={() =>
-                      handle("ENABLE_BTC")({ target: { value: !ENABLE_BTC } })
+                      handle('ENABLE_BTC')({ target: { value: !ENABLE_BTC } })
                     }
                   />
                   <Layout fullWidth padding={{ left: 2 }}>
                     {[
-                      { label: "BTCPAYSERVER_BTC", value: BTCPAYSERVER_BTC },
-                      { label: "BTCPAYSERVER_CRON", value: BTCPAYSERVER_CRON },
+                      { label: 'BTCPAYSERVER_BTC', value: BTCPAYSERVER_BTC },
+                      { label: 'BTCPAYSERVER_CRON', value: BTCPAYSERVER_CRON },
                       {
-                        label: "BTCPAYSERVER_CRON_ENABLED",
+                        label: 'BTCPAYSERVER_CRON_ENABLED',
                         value: BTCPAYSERVER_CRON_ENABLED,
                       },
-                      { label: "BTCPAYSERVER_URL", value: BTCPAYSERVER_URL },
+                      { label: 'BTCPAYSERVER_URL', value: BTCPAYSERVER_URL },
                     ].map((i) => (
                       <Layout key={i.label}>
-                        <CoreText>{i.label.replace("_", " ")}</CoreText>
+                        <CoreText>{i.label.replace('_', ' ')}</CoreText>
                         <Input
                           disabled={!ENABLE_BTC}
                           value={i.value}
@@ -311,26 +287,26 @@ export const AdminSiteSettings = () => {
                   <Toggle
                     checked={ENABLE_XMR}
                     onChange={() =>
-                      handle("ENABLE_XMR")({ target: { value: !ENABLE_XMR } })
+                      handle('ENABLE_XMR')({ target: { value: !ENABLE_XMR } })
                     }
                   />
                   <Layout fullWidth padding={{ left: 2 }}>
                     {[
-                      { label: "WALLET_RPC_URL", value: WALLET_RPC_URL },
-                      { label: "WALLET_RPC_USER", value: WALLET_RPC_USER },
+                      { label: 'WALLET_RPC_URL', value: WALLET_RPC_URL },
+                      { label: 'WALLET_RPC_USER', value: WALLET_RPC_USER },
                       {
-                        label: "WALLET_RPC_PASSWORD",
+                        label: 'WALLET_RPC_PASSWORD',
                         value: WALLET_RPC_PASSWORD,
                       },
-                      { label: "WALLET_PATH", value: WALLET_PATH },
-                      { label: "WALLET_PASSWORD", value: WALLET_PASSWORD },
-                      { label: "WALLETS_DIR", value: WALLETS_DIR },
-                      { label: "MONEROX_URL", value: MONEROX_URL },
-                      { label: "MONEROX_WALLET", value: MONEROX_WALLET },
-                      { label: "MONEROX_CRON", value: MONEROX_CRON },
+                      { label: 'WALLET_PATH', value: WALLET_PATH },
+                      { label: 'WALLET_PASSWORD', value: WALLET_PASSWORD },
+                      { label: 'WALLETS_DIR', value: WALLETS_DIR },
+                      { label: 'MONEROX_URL', value: MONEROX_URL },
+                      { label: 'MONEROX_WALLET', value: MONEROX_WALLET },
+                      { label: 'MONEROX_CRON', value: MONEROX_CRON },
                     ].map((i) => (
                       <Layout key={i.label}>
-                        <CoreText>{i.label.replace("_", " ")}</CoreText>
+                        <CoreText>{i.label.replace('_', ' ')}</CoreText>
                         <Input
                           disabled={!ENABLE_XMR}
                           value={i.value}
@@ -352,26 +328,26 @@ export const AdminSiteSettings = () => {
                     <Toggle
                       checked={ENABLE_XMPP}
                       onChange={() =>
-                        handle("ENABLE_XMPP")({
+                        handle('ENABLE_XMPP')({
                           target: { value: !ENABLE_XMPP },
                         })
                       }
                     />
                     <Layout fullWidth padding={{ left: 2 }}>
                       {[
-                        { label: "XMPP_HOST", value: XMPP_HOST },
-                        { label: "XMPP_PORT", value: XMPP_PORT },
+                        { label: 'XMPP_HOST', value: XMPP_HOST },
+                        { label: 'XMPP_PORT', value: XMPP_PORT },
                         {
-                          label: "XMPP_JID",
+                          label: 'XMPP_JID',
                           value: XMPP_JID,
                         },
                         {
-                          label: "XMPP_PASSWORD",
+                          label: 'XMPP_PASSWORD',
                           value: XMPP_PASSWORD,
                         },
                       ].map((i) => (
                         <Layout key={i.label}>
-                          <CoreText>{i.label.replace("_", " ")}</CoreText>
+                          <CoreText>{i.label.replace('_', ' ')}</CoreText>
                           <Input
                             disabled={!ENABLE_XMPP}
                             value={i.value}
@@ -394,7 +370,7 @@ export const AdminSiteSettings = () => {
                     <Toggle
                       checked={ENABLE_PGP}
                       onChange={() =>
-                        handle("ENABLE_PGP")({
+                        handle('ENABLE_PGP')({
                           target: { value: !ENABLE_PGP },
                         })
                       }
@@ -404,7 +380,7 @@ export const AdminSiteSettings = () => {
                   <FormGroup label="Public key">
                     <TextArea
                       value={PGP_PUBLIC_KEY}
-                      onChange={handle("PGP_PUBLIC_KEY")}
+                      onChange={handle('PGP_PUBLIC_KEY')}
                       size={InputSize.Large}
                       rows={3}
                     />
@@ -511,6 +487,14 @@ export const AdminSiteSettings = () => {
               variant={CoreButtonType.Primary}
               // size={ButtonSize.Large}
               onClick={() => onSubmit()}
+              loadingStatus={
+                // eslint-disable-next-line no-nested-ternary
+                loading
+                  ? 'loading'
+                  : updatedSiteSettings?.data?.success
+                    ? 'success'
+                    : 'default'
+              }
             >
               Save
             </LoadingButton>

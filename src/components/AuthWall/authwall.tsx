@@ -57,12 +57,13 @@ export const AuthWall = (props: AuthWallProps) => {
         style={{ background: 'blue', height: '100vh', width: '100vw' }}
       >
         <SnakeBg
+          background={Background.Overlay}
           style={{
             backgroundImage: 'url(/snake-bg.svg)',
             backgroundRepeat: 'no-repeat',
             backgroundPositionX: 'center',
             backgroundSize: 'cover',
-            backgroundColor: '#06535b',
+            // backgroundColor: '#06535b',
             position: 'absolute',
             height: '100vh',
             width: '100vw',
