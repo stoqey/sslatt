@@ -7,33 +7,41 @@ import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 
 import { setConfig } from '@/lib/config';
+import { fetchConfig } from '@/lib/config/server';
 import { getSiteSettings } from '@/lib/hooksServer/settings';
 import StyledComponentsRegistry from '@/lib/styled-registry';
 
-export const metadata: Metadata = {
-  icons: [
-    {
-      rel: 'apple-touch-icon',
-      url: '/apple-touch-icon.png',
-    },
-    {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '32x32',
-      url: '/favicon-32x32.png',
-    },
-    {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '16x16',
-      url: '/favicon-16x16.png',
-    },
-    {
-      rel: 'icon',
-      url: '/favicon.ico',
-    },
-  ],
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const config = await fetchConfig();
+  const siteName = config?.name || '';
+  const slogan = config?.slogan || '';
+
+  return {
+    title: `${siteName} - ${slogan}`,
+    icons: [
+      {
+        rel: 'apple-touch-icon',
+        url: '/apple-touch-icon.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        url: '/favicon-32x32.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '16x16',
+        url: '/favicon-16x16.png',
+      },
+      {
+        rel: 'icon',
+        url: '/favicon.ico',
+      },
+    ],
+  };
+}
 
 export default async function RootLayout(props: {
   children: React.ReactNode;

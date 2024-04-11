@@ -1454,6 +1454,7 @@ export type SignUpResponse = {
 
 export type SiteSettings = {
   __typename?: 'SiteSettings';
+  API_URL?: Maybe<Scalars['String']>;
   BTCPAYSERVER_BTC?: Maybe<Scalars['String']>;
   BTCPAYSERVER_CRON?: Maybe<Scalars['String']>;
   BTCPAYSERVER_CRON_ENABLED?: Maybe<Scalars['String']>;
@@ -1494,6 +1495,7 @@ export type SiteSettings = {
 };
 
 export type SiteSettingsInput = {
+  API_URL?: InputMaybe<Scalars['String']>;
   BTCPAYSERVER_BTC?: InputMaybe<Scalars['String']>;
   BTCPAYSERVER_CRON?: InputMaybe<Scalars['String']>;
   BTCPAYSERVER_CRON_ENABLED?: InputMaybe<Scalars['String']>;

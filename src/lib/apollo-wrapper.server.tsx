@@ -17,10 +17,9 @@ import { cookies } from 'next/headers';
 import omitDeep from 'omit-deep';
 
 import { APPEVENTS, AppEvents } from './AppEvent';
-import { getBackendHost } from './utils/api.utils';
 import { isLocalNetwork, isTorNetwork } from './utils/url.util';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+export const apiUrl = process.env.API_URL;
 
 function createApolloClient() {
   const cookieStore = cookies();
@@ -28,13 +27,12 @@ function createApolloClient() {
   const isTor = isTorNetwork();
   const isBrowser = typeof window !== 'undefined';
 
-  const urlFromJson = API_URL;
-  const useHttps = !(isTor || isLocalNetwork(urlFromJson));
-  const devBaseUrl = `://${urlFromJson}/graphql`;
+  const useHttps = !(isTor || isLocalNetwork(apiUrl));
+  const devBaseUrl = `://${apiUrl}/graphql`;
   const backendUrl = `http${useHttps ? 's' : ''}${devBaseUrl}`;
   const wsUrl = `ws${useHttps ? 's' : ''}${devBaseUrl}`;
 
-  console.log('api server', backendUrl);
+  console.log('api server server', backendUrl);
 
   const cleanTypeName = new ApolloLink((operation, forward) => {
     if (operation.variables) {
@@ -143,7 +141,7 @@ function createApolloClient() {
     tcpLink,
     authLink,
     new HttpLink({
-      uri: `${getBackendHost()}/graphql`,
+      uri: backendUrl,
     }),
   ]);
 

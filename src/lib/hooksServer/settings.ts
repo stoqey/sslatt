@@ -3,7 +3,16 @@ import fs from 'fs';
 import { isEmpty } from 'lodash';
 
 import type { UISiteSettings } from '../config';
-import { getBackendHost } from '../utils/api.utils';
+import { isLocalNetwork } from '../utils/url.util';
+
+export const apiUrl = process.env.API_URL;
+
+const getBackendHost = (): string => {
+  const useHttps = !isLocalNetwork(apiUrl);
+  const devBaseUrl = `://${apiUrl}`;
+  const backendUrl = `http${useHttps ? 's' : ''}${devBaseUrl}`;
+  return backendUrl;
+};
 
 export const getIconSvg = async (url?: string): Promise<string | undefined> => {
   try {
@@ -44,6 +53,9 @@ export const getSiteSettings = async (): Promise<
     const svgLogo = await getIconSvg(settings?.logo as any);
     if (svgLogo) {
       settings.logoSvg = svgLogo;
+    }
+    if (!settings?.API_URL) {
+      settings.API_URL = apiUrl;
     }
     return settings;
   } catch (error) {

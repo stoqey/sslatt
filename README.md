@@ -206,7 +206,7 @@ Open http://localhost:3000 with your favorite browser to see your project.
 ### Frontend environment
 
 ```shell
-NEXT_PUBLIC_API_URL="localhost:3037"
+API_URL="localhost:3037"
 
 ACCESS_TOKEN_SECRET=AadsfasdfASDBSADTFGHLWEFDVKAWMERTXC
 REFRESH_TOKEN_SECRET=sadfgsdfvsdfvsdafbsdfbsdf

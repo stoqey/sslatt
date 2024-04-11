@@ -1,8 +1,6 @@
 # base image
 # FROM node:14.17-stretch as builder
 FROM amd64/node:18.17-buster as builderxxx
-ARG NEXT_PUBLIC_CDN_URL 
-ARG NEXT_PUBLIC_API_URL 
 WORKDIR /srv
 
 RUN printenv
@@ -13,9 +11,6 @@ COPY . .
 RUN npm i sharp -g
 # install dependencies
 RUN NODE_OPTIONS=--max_old_space_size=8192 yarn --ignore-platform --ignore-engines
-
-ENV NEXT_PUBLIC_CDN_URL=$NEXT_PUBLIC_CDN_URL
-ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
 # Build app
 RUN yarn build

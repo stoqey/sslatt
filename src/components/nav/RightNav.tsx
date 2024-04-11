@@ -26,7 +26,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { useLogoutSession } from '@/lib/apollo.client';
+import { useLogoutSession } from '@/lib/apollo-wrapper.client';
 import { useLayoutTheme } from '@/lib/layouts/context/layout.hooks';
 import { cdnPath } from '@/lib/utils/api.utils';
 import { niceDec } from '@/lib/utils/number';

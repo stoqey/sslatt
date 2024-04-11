@@ -23,6 +23,7 @@ import { useEffect, useMemo } from 'react';
 import { setVerbosity } from 'ts-invariant';
 
 import { APPEVENTS, AppEvents } from './AppEvent';
+import { getConfig } from './config';
 import { useAppEvent } from './hooks/useAppEvent';
 import { accessTokenManager } from './storage/deviceStorage';
 import { isLocalNetwork, isTorNetwork } from './utils/url.util';
@@ -36,20 +37,19 @@ if (process.env.NODE_ENV === 'development') {
 // @ts-ignore
 let apolloClient: ApolloClient;
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 function createApolloClient() {
   const events = AppEvents.Instance;
   const isTor = isTorNetwork();
   const isBrowser = typeof window !== 'undefined';
 
-  const urlFromJson = API_URL;
-  const useHttps = !(isTor || isLocalNetwork(urlFromJson));
-  const devBaseUrl = `://${urlFromJson}/graphql`;
+  const apiUrl = getConfig()?.API_URL || '';
+  const useHttps = !(isTor || isLocalNetwork(apiUrl));
+  const devBaseUrl = `://${apiUrl}/graphql`;
   const backendUrl = `http${useHttps ? 's' : ''}${devBaseUrl}`;
   const wsUrl = `ws${useHttps ? 's' : ''}${devBaseUrl}`;
 
   console.log('api server', backendUrl);
+  // console.log('createApolloClient client', getConfig());
 
   const cleanTypeName = new ApolloLink((operation, forward) => {
     if (operation.variables) {

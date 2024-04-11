@@ -1,16 +1,14 @@
+import { getConfig } from '@/lib/config';
+
 import { isLocalNetwork, isTorNetwork } from './url.util';
-
-const urlFromJson = process.env.NEXT_PUBLIC_API_URL || 'localhost:3000';
-
-export const cdnUrl = process.env.NEXT_PUBLIC_CDN_URL;
-
 /**
  * GetBackendHost
  * @returns https:url
  */
 export const getBackendHost = (): string => {
-  const useHttps = !(isLocalNetwork(urlFromJson) || isTorNetwork());
-  const devBaseUrl = `://${urlFromJson}`;
+  const apiUrl = getConfig().API_URL || '';
+  const useHttps = !(isLocalNetwork(apiUrl) || isTorNetwork());
+  const devBaseUrl = `://${apiUrl}`;
   const backendUrl = `http${useHttps ? 's' : ''}${devBaseUrl}`;
   return backendUrl;
 };
@@ -24,6 +22,7 @@ export const getMarketIcon = (symbol: string, icon = 'icon') => {
  * @returns https:url
  */
 export const getCdnHost = (): string => {
+  const cdnUrl = getConfig().API_URL || '';
   const useHttps = !(isLocalNetwork(cdnUrl) || isTorNetwork());
   const devBaseUrl = `://${cdnUrl}`;
   const backendUrl = `http${useHttps ? 's' : ''}${devBaseUrl}`;
