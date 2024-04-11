@@ -3,8 +3,6 @@
 FROM amd64/node:18.17-buster as builderxxx
 WORKDIR /srv
 
-RUN printenv
-
 # copy source files
 COPY . .
 
