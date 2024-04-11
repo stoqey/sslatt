@@ -6,10 +6,19 @@ import type { NextFetchEvent, NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import rateLimit from '@/lib/hooksServer/rate-limit.redis';
-import { getCdnHost } from '@/lib/utils/api.utils';
+import { isLocalNetwork } from '@/lib/utils/url.util';
 
 import { validateEndgameSession } from './endgame.utils';
 import type { MiddlewareFactory } from './stackHandler';
+
+const apiUrl = process.env.API_URL;
+
+const getBackendHost = (): string => {
+  const useHttps = !isLocalNetwork(apiUrl);
+  const devBaseUrl = `://${apiUrl}`;
+  const backendUrl = `http${useHttps ? 's' : ''}${devBaseUrl}`;
+  return backendUrl;
+};
 
 const reqPerMin =
   process.env.REQ_PER_MINUTE && Number.isInteger(+process.env.REQ_PER_MINUTE)
@@ -60,7 +69,7 @@ export async function isAuth(token: string): Promise<AuthTokenPayload> {
 async function middleware(request: NextRequest, _next: any) {
   let allowedOrigins = '*';
   if (isProd) {
-    allowedOrigins = new URL(getCdnHost()).hostname;
+    allowedOrigins = new URL(getBackendHost()).hostname;
   }
 
   const getCacheKey = (str: any) => {

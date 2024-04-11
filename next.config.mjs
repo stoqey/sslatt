@@ -34,7 +34,7 @@ export default withSentryConfig(
       poweredByHeader: false,
       reactStrictMode: true,
       experimental: {
-        instrumentationHook: true,
+        // instrumentationHook: true,
         // Related to Pino error with RSC: https://github.com/orgs/vercel/discussions/3150
         serverComponentsExternalPackages: ['pino'],
       },
