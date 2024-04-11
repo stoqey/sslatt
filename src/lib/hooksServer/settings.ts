@@ -2,28 +2,8 @@ import { awaitTo } from '@stoqey/client-graphql';
 import fs from 'fs';
 import { isEmpty } from 'lodash';
 
-import type { SiteSettings } from '@/components/types.generated';
-
-import { getClient } from '../apollo-wrapper.server';
 import type { UISiteSettings } from '../config';
-import { GET_SITE_SETTINGS } from '../gql';
 import { getBackendHost } from '../utils/api.utils';
-
-export const getSiteSettingsXX = async (): Promise<
-  SiteSettings | undefined
-> => {
-  try {
-    const data = await getClient().query<{ data: SiteSettings }>({
-      query: GET_SITE_SETTINGS,
-    });
-
-    const settings = data?.data?.data;
-    return settings;
-  } catch (error) {
-    console.log('getSiteSettings error', error);
-    return undefined;
-  }
-};
 
 export const getIconSvg = async (url?: string): Promise<string | undefined> => {
   try {
@@ -38,7 +18,7 @@ export const getIconSvg = async (url?: string): Promise<string | undefined> => {
         return getDefaultSvg();
       }
       const imagepath = imageUrl.pathname;
-      const response = await fetch(`${getBackendHost()}/${imagepath}`);
+      const response = await fetch(`${getBackendHost()}${imagepath}`);
       if (!response.ok) {
         return getDefaultSvg();
       }
@@ -56,11 +36,11 @@ export const getSiteSettings = async (): Promise<
   UISiteSettings | undefined
 > => {
   try {
-    const data = await getClient().query<{ data: SiteSettings }>({
-      query: GET_SITE_SETTINGS,
-    });
-
-    const settings: UISiteSettings = { ...data?.data?.data };
+    const response = await fetch(`${getBackendHost()}/client/settings`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch settings');
+    }
+    const settings = await response.json();
     const svgLogo = await getIconSvg(settings?.logo as any);
     if (svgLogo) {
       settings.logoSvg = svgLogo;

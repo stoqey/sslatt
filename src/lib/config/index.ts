@@ -1,3 +1,4 @@
+// no imports
 import type { SiteSettings } from '@/components/types.generated';
 
 export interface UISiteSettings extends SiteSettings {

@@ -26,6 +26,7 @@ import {
   Toggle,
   Tower,
 } from '@uuixjs/uuixweb';
+import { BorderRadius } from '@uuixjs/uuixweb-lib';
 import { identity, omit, pickBy } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import { useRouter } from 'next/navigation';
@@ -90,6 +91,7 @@ export const AdminSiteSettings = () => {
     theme,
   } = form;
 
+  console.log('form', form);
   // eslint-disable-next-line unused-imports/no-unused-vars
   const [updateSiteSettings, { data: updatedSiteSettings, loading }] =
     useMutation<{
@@ -101,7 +103,6 @@ export const AdminSiteSettings = () => {
   }>(GET_SITE_SETTINGS_ADMIN);
 
   const onSubmit = () => {
-    console.log('form submit', pickBy(form, identity));
     updateSiteSettings({
       variables: {
         args: pickBy(form, identity),
@@ -129,6 +130,9 @@ export const AdminSiteSettings = () => {
 
   const AvatarComponent = () => (
     <DropAreaModal
+      accepts={{
+        'image/svg': ['.svg'],
+      }}
       defaultFiles={
         isEmpty(logo)
           ? []
@@ -149,11 +153,12 @@ export const AdminSiteSettings = () => {
       Placeholder={
         <Layout margin={0.5}>
           <Avatar
-            size={80}
-            alt=""
+            borderRadius={BorderRadius.None}
+            presenceIndicator={false}
+            size={96}
+            alt="Site logo"
             userLogin={name}
-            presenceIndicator
-            presenceStatus={PresenceStatus.Online}
+            src={!isEmpty(logo) ? cdnPath(logo) : null}
           />
         </Layout>
       }

@@ -146,6 +146,10 @@ interface SslattIconProps {
 
 const SslattIconDiv = styled.div<SslattIconProps>`
   svg {
+    path {
+      fill: ${themeTokenRule('color-text-base')};
+    }
+
     @keyframes blinking {
       0% {
         fill: var(--color-brand-accent-highlighter);

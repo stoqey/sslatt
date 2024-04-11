@@ -20,7 +20,7 @@ import {
 import { isEmpty } from 'lodash';
 import type { ReactChild } from 'react';
 import React, { useEffect, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useDropzone, type Accept } from 'react-dropzone';
 
 import { cdnPath } from '@/lib/utils/api.utils';
 
@@ -29,7 +29,6 @@ import { uploadFilesApiRest } from './Upload.api';
 import type { IFileSpec } from './Upload.interfaces';
 
 const {
-  thumbButton,
   thumbsContainer,
   thumb,
   thumbInner,
@@ -39,7 +38,7 @@ const {
 
 interface Props {
   defaultFiles?: IFileSpec[];
-  accepts?: string;
+  accepts?: Accept;
   onChangeFiles?: (files: IFileSpec[]) => any;
   multi?: boolean;
   Placeholder?: ReactChild;
@@ -60,7 +59,6 @@ export function DropAreaModal(props: Partial<Props>) {
     defaultFiles = [],
     Preview,
   } = props;
-  const client = useApolloClient();
 
   const [state, setState] = React.useState<State>({
     show: false,
