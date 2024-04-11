@@ -15,7 +15,7 @@ import {
 import { styled } from '@uuixjs/uuixweb-lib';
 import React from 'react';
 
-import { SslattIcon } from '@/components/logo/icon';
+import SslattIcon from '@/components/logo/icon';
 import { MessageSuccessHtml } from '@/containers/actions.html';
 
 const SnakeBg = styled(Layout)`

@@ -4,10 +4,15 @@ import { usePathname, useServerInsertedHTML } from 'next/navigation';
 import React, { useState } from 'react';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 
+import type { UISiteSettings } from '@/lib/config';
+import { setConfig } from '@/lib/config';
+
 export default function StyledComponentsRegistry({
   children,
+  config,
 }: {
   children: React.ReactNode;
+  config?: UISiteSettings;
 }) {
   const pathname = usePathname();
   const hasChat = pathname.includes('chat');
@@ -21,6 +26,10 @@ export default function StyledComponentsRegistry({
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{styles}</>;
   });
+
+  if (config) {
+    setConfig(config);
+  }
 
   if (typeof window !== 'undefined') return <body>{children}</body>;
 

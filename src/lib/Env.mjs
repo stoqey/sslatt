@@ -6,10 +6,12 @@ import { z } from 'zod';
 export const Env = createEnv({
   server: {
     ZZZZZ: z.string().optional(),
+    LOGTAIL_SOURCE_TOKEN: z.string().optional(),
   },
   client: {},
   // You need to destructure all the keys manually
   runtimeEnv: {
     ZZZZZ: process.env.ZZZZZ,
+    LOGTAIL_SOURCE_TOKEN: process.env.LOGTAIL_SOURCE_TOKEN,
   },
 });

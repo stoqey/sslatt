@@ -1,6 +1,8 @@
 import { styled, themeTokenRule } from '@uuixjs/uuixweb-lib';
 import React from 'react';
 
+import { getConfig } from '@/lib/config';
+
 const ScSvg = styled.svg`
   fill: ${themeTokenRule('color-fill-brand')};
   path {
@@ -137,4 +139,61 @@ export const SslattIcon = (props: { scale?: number }) => {
   );
 };
 
-export default StqRoboIcon;
+interface SslattIconProps {
+  width?: string;
+  height?: string;
+}
+
+const SslattIconDiv = styled.div<SslattIconProps>`
+  svg {
+    @keyframes blinking {
+      0% {
+        fill: var(--color-brand-accent-highlighter);
+      }
+      25% {
+        fill: var(--color-brand-accent-creamsicle);
+      }
+      50% {
+        fill: var(--color-brand-accent-blueberry);
+      }
+      75% {
+        fill: var(--color-brand-accent-slime);
+      }
+      100% {
+        fill: var(--color-brand-accent-fiji);
+      }
+    }
+    fill: ${themeTokenRule('color-text-base')};
+
+    path.sn {
+      animation: blinking 5s;
+      fill: var(--color-brand-accent-flamingo);
+    }
+
+    path#text {
+      fill: ${themeTokenRule('color-text-base')};
+    }
+
+    path#pin {
+      fill: #63b0cd;
+    }
+  }
+`;
+
+export const SslattIconSvgFile = (props: { scale?: number }) => {
+  const scale = props.scale || 1;
+  const width = 151 * scale;
+  const height = 37 * scale;
+
+  const config = getConfig() as any;
+  let svgText = config?.logoSvg || '';
+  if (svgText.includes('width="151"') && svgText.includes('height="37"')) {
+    svgText = svgText
+      .replace('width="151"', `width="${width}"`)
+      .replace('height="37"', `height="${height}"`);
+  }
+
+  return <SslattIconDiv dangerouslySetInnerHTML={{ __html: svgText }} />;
+};
+
+export default SslattIconSvgFile;

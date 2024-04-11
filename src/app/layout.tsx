@@ -6,6 +6,8 @@ import { isEmpty } from 'lodash';
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 
+import { setConfig } from '@/lib/config';
+import { getSiteSettings } from '@/lib/hooksServer/settings';
 import StyledComponentsRegistry from '@/lib/styled-registry';
 
 export const metadata: Metadata = {
@@ -33,12 +35,17 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout(props: {
+export default async function RootLayout(props: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
   const cookieStore = cookies();
   const theme = cookieStore.get('theme');
+
+  const siteSettings = await getSiteSettings();
+  if (siteSettings) {
+    setConfig(siteSettings);
+  }
 
   return (
     <html
@@ -48,7 +55,9 @@ export default function RootLayout(props: {
       } tw-root--hover`}
     >
       <body>
-        <StyledComponentsRegistry>{props.children}</StyledComponentsRegistry>
+        <StyledComponentsRegistry config={siteSettings}>
+          {props.children}
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

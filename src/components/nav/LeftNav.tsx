@@ -3,7 +3,7 @@ import React from 'react';
 
 import { useIsHome } from '@/lib/layouts/context/layout.hooks';
 
-import { SslattIcon } from '../logo/icon';
+import SslattIcon from '../logo/icon';
 
 export const LeftNav = () => {
   // const isAdmin = get(props.user, 'admin', false);

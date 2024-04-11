@@ -2,7 +2,7 @@ import { AlignItems, Display, Layout } from '@uuixjs/uuixweb';
 import Link from 'next/link';
 import React from 'react';
 
-import { SslattIcon } from '../logo/icon';
+import SslattIcon from '../logo/icon';
 import type { NavProps } from './Nav';
 
 export const LeftNav = (props: NavProps) => {
