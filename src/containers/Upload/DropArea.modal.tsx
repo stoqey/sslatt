@@ -1,4 +1,3 @@
-import { useApolloClient } from '@apollo/client';
 import type { MediaDataType } from '@stoqey/client-graphql';
 import {
   AlignContent,
@@ -20,7 +19,7 @@ import {
 import { isEmpty } from 'lodash';
 import type { ReactChild } from 'react';
 import React, { useEffect, useState } from 'react';
-import { useDropzone, type Accept } from 'react-dropzone';
+import { type Accept, useDropzone } from 'react-dropzone';
 
 import { cdnPath } from '@/lib/utils/api.utils';
 
@@ -28,13 +27,7 @@ import styles from './style';
 import { uploadFilesApiRest } from './Upload.api';
 import type { IFileSpec } from './Upload.interfaces';
 
-const {
-  thumbsContainer,
-  thumb,
-  thumbInner,
-  img,
-  dropZoneStyle,
-}: any = styles;
+const { thumbsContainer, thumb, thumbInner, img, dropZoneStyle }: any = styles;
 
 interface Props {
   defaultFiles?: IFileSpec[];

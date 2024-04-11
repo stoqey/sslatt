@@ -149,10 +149,10 @@ const AuthRightNav = ({
             />
 
             {notificationBadgeCount > 0 && (
-                <div style={{ marginLeft: '-15px', marginTop: '-10px' }}>
-                  <NumberBadge value={notificationBadge.count} />
-                </div>
-              )}
+              <div style={{ marginLeft: '-15px', marginTop: '-10px' }}>
+                <NumberBadge value={notificationBadge.count} />
+              </div>
+            )}
           </Layout>
         </Link>
       </Layout>

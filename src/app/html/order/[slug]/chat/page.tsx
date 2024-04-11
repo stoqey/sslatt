@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 
-import type { OrderTypeOutput, UserType } from '@/components/types.generated';
+import type { OrderTypeOutput } from '@/components/types.generated';
 import { getClient } from '@/lib/apollo-wrapper.server';
 import { GET_ORDER } from '@/lib/gql';
 import { fetchChatMessages, startChatFromOrder } from '@/lib/hooksServer/chat';
@@ -35,7 +35,7 @@ const OrderViewPage = async ({ params }: { params: { slug: string } }) => {
       order,
       user,
     });
-    
+
     // convo = await startChatFromUsers({
     //   friends: [order.seller as UserType],
     //   user,

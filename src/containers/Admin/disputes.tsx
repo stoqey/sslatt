@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Avatar,
@@ -6,23 +6,22 @@ import {
   CoreButtonDropdownType,
   CoreText,
   Grid,
-  InjectLayout,
   Layout,
   SplitButton,
-  Tower,
-  TowerChildWidth,
-  TowerGutter,
-} from "@uuixjs/uuixweb";
-import React from "react";
+} from '@uuixjs/uuixweb';
+import React from 'react';
 
-import AdsSearchItem from "@/components/AdLists/ads.item";
-import { Container } from "@/components/container";
+import AdsSearchItem from '@/components/AdLists/ads.item';
+import { Container } from '@/components/container';
 
 export const AdminDisputes = () => {
   return (
     <Layout>
       <Container>
-        <CoreText as="h3" ellipsis>Disputes very asdojf askfgj asfk asfkg asfgk asdfk adfkg adfkg adfgk adfgk adsfkjg </CoreText>
+        <CoreText as="h3" ellipsis>
+          Disputes very asdojf askfgj asfk asfkg asfgk asdfk adfkg adfkg adfgk
+          adfgk adsfkjg{' '}
+        </CoreText>
 
         {/* <Tower
           childWidth={TowerChildWidth.Medium}
@@ -67,9 +66,9 @@ export const AdminDisputes = () => {
                   image="http://localhost:3037/uploads/1712075717001-287429469.webp"
                   owner={{
                     avatar:
-                      "http://localhost:3037/uploads/1712075717001-287429469.webp",
-                    fullname: "Full Name",
-                    id: "someid",
+                      'http://localhost:3037/uploads/1712075717001-287429469.webp',
+                    fullname: 'Full Name',
+                    id: 'someid',
                   }}
                   ratings={4}
                   shipsFrom="ALL"
@@ -107,10 +106,7 @@ export const AdminDisputes = () => {
                   <CoreText as="h4">Dispute</CoreText>
                 </Layout>
 
-                <Layout
-                  display="flex"
-                  justifyContent="space-between"
-                >
+                <Layout display="flex" justifyContent="space-between">
                   <Layout margin={{ right: 1 }}>
                     <SplitButton
                       dropdown={{ type: CoreButtonDropdownType.ArrowDown }}
@@ -127,9 +123,9 @@ export const AdminDisputes = () => {
                   </Layout>
                 </Layout>
                 {[
-                  { label: "Label X", value: "X" },
-                  { label: "Label Z", value: "Z" },
-                  { label: "Label c", value: "c" },
+                  { label: 'Label X', value: 'X' },
+                  { label: 'Label Z', value: 'Z' },
+                  { label: 'Label c', value: 'c' },
                 ].map((x) => (
                   <Layout
                     key={x.label}
@@ -149,7 +145,7 @@ export const AdminDisputes = () => {
           </Grid>
 
           <Layout
-            style={{ background: "aliceblue", height: "50px", width: "100%" }}
+            style={{ background: 'aliceblue', height: '50px', width: '100%' }}
           />
         </Layout>
       </Container>

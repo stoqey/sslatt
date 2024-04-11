@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
 /* eslint-disable react/jsx-no-useless-fragment */
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client';
 import {
   Accordion,
   AccordionHeaderSize,
@@ -25,13 +25,13 @@ import {
   Tower,
   TowerChildWidth,
   useDialogState,
-} from "@uuixjs/uuixweb";
-import { isEmpty, kebabCase } from "lodash";
-import React, { useEffect } from "react";
+} from '@uuixjs/uuixweb';
+import { isEmpty, kebabCase } from 'lodash';
+import React, { useEffect } from 'react';
 
-import { Container } from "@/components/container";
-import type { AdCategoryType } from "@/components/types.generated";
-import { GET_AD_CATEGORIES } from "@/lib/gql/adcategory/adcategory.query";
+import { Container } from '@/components/container';
+import type { AdCategoryType } from '@/components/types.generated';
+import { GET_AD_CATEGORIES } from '@/lib/gql/adcategory/adcategory.query';
 
 interface Category extends AdCategoryType {
   subcategories?: AdCategoryType[];
@@ -44,14 +44,14 @@ interface CategoriesState {
 }
 
 interface CategoryEditProps {
-  type: "category" | "subcategory";
+  type: 'category' | 'subcategory';
   category?: Category;
   close: () => void;
   save: (category: Category) => void;
 }
 
 const CreateCategory = (props: CategoryEditProps) => {
-  const catType = props.type || "category";
+  const catType = props.type || 'category';
   const editCategory = props.category;
   const [state, setState] = React.useState<Category>({});
 
@@ -69,7 +69,7 @@ const CreateCategory = (props: CategoryEditProps) => {
     <Layout padding={3}>
       <Layout>
         <Title size={TitleSize.Small}>
-          {editCategory ? `Edit ${state.name}` : "Create"} {catType}
+          {editCategory ? `Edit ${state.name}` : 'Create'} {catType}
         </Title>
       </Layout>
       <Layout>
@@ -80,7 +80,7 @@ const CreateCategory = (props: CategoryEditProps) => {
                 name="name"
                 type={InputType.Text}
                 value={state.name}
-                onChange={handleChange("name")}
+                onChange={handleChange('name')}
               />
             </FormGroup>
 
@@ -89,7 +89,7 @@ const CreateCategory = (props: CategoryEditProps) => {
                 disabled={!!editCategory}
                 name="id"
                 value={state.id}
-                onChange={handleChange("id")}
+                onChange={handleChange('id')}
                 type={InputType.Text}
               />
             </FormGroup>
@@ -102,7 +102,7 @@ const CreateCategory = (props: CategoryEditProps) => {
         >
           <Layout margin={{ right: 1 }}>
             <Button onClick={() => props.save(state)}>
-              {editCategory ? "Update" : "Create"}
+              {editCategory ? 'Update' : 'Create'}
             </Button>
           </Layout>
 
@@ -116,8 +116,8 @@ const CreateCategory = (props: CategoryEditProps) => {
 };
 
 const DeleteCategory = (props: CategoryEditProps) => {
-  const catType = props.type || "category";
-  const catName = props.category?.name || "";
+  const catType = props.type || 'category';
+  const catName = props.category?.name || '';
 
   return (
     <Layout padding={3}>
@@ -179,7 +179,7 @@ export default function AdminCategories() {
         .map((cat) => ({
           ...cat,
           subcategories: allCategories.filter(
-            (subcat) => subcat.category === cat.id
+            (subcat) => subcat.category === cat.id,
           ),
         }));
       setState({ ...state, categories: newCategories });
@@ -195,7 +195,7 @@ export default function AdminCategories() {
           category={state.category}
           close={() => categoryDeleteAnchor.onClick()}
           save={(cat) => {
-            console.log("delete category", cat);
+            console.log('delete category', cat);
             // TODO API
             categoryDeleteAnchor.onClick();
           }}
@@ -207,7 +207,7 @@ export default function AdminCategories() {
           category={state.category}
           close={() => categoryAnchor.onClick()}
           save={(cat) => {
-            console.log("category", cat);
+            console.log('category', cat);
             if (state.category) {
               const newCat = (c: Category) => ({ ...c, ...cat });
               // update category { name }
@@ -228,10 +228,10 @@ export default function AdminCategories() {
               // create category { id, name}
               const newCat = {
                 ...cat,
-                id: cat.id || kebabCase(cat?.name || ""),
+                id: cat.id || kebabCase(cat?.name || ''),
               };
               const catExists = state.categories?.some(
-                (c) => c.id === newCat.id
+                (c) => c.id === newCat.id,
               );
               if (!catExists) {
                 const newCategories = state.categories?.concat(newCat);
@@ -251,7 +251,7 @@ export default function AdminCategories() {
           category={state.subcategory}
           close={() => subcategoryDeleteAnchor.onClick()}
           save={(cat) => {
-            console.log("delete subcategory", cat);
+            console.log('delete subcategory', cat);
             // TODO API
             subcategoryDeleteAnchor.onClick();
           }}
@@ -264,7 +264,7 @@ export default function AdminCategories() {
           close={() => subcategoryAnchor.onClick()}
           save={(subcat) => {
             const { category, subcategory } = state;
-            console.log("subcategory", subcat);
+            console.log('subcategory', subcat);
             if (subcategory && category) {
               const newsubCat = (c: Category) => ({ ...c, ...subcat });
 
@@ -296,10 +296,10 @@ export default function AdminCategories() {
               // create category { id, name}
               const newSubCat = {
                 ...subcat,
-                id: subcat.id || kebabCase(subcat?.name || ""),
+                id: subcat.id || kebabCase(subcat?.name || ''),
               };
               const subcatExists = category.subcategories?.some(
-                (c) => c.id === newSubCat.id
+                (c) => c.id === newSubCat.id,
               );
               if (!subcatExists) {
                 category.subcategories =
