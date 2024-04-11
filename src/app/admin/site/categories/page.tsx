@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteName = config?.name;
 
   return {
-    title: `Admin Category Settings ${siteName ? `- ${siteName}` : ''}`,
+    title: `Category Settings ${siteName ? `- ${siteName}` : ''}`,
   };
 }
 
