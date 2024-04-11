@@ -6,7 +6,7 @@ import type { UISiteSettings } from '../config';
 import { isLocalNetwork } from '../utils/url.util';
 
 export const apiUrl = process.env.API_URL;
-export const apiUrlClient = process.env.API_URL_CLIENT;
+export const apiUrlJs = process.env.API_URL_JS;
 
 const getBackendHost = (): string => {
   const useHttps = !isLocalNetwork(apiUrl);
@@ -56,7 +56,7 @@ export const getSiteSettings = async (): Promise<
       settings.logoSvg = svgLogo;
     }
     if (!settings?.API_URL) {
-      settings.API_URL = apiUrlClient || apiUrl;
+      settings.API_URL = apiUrlJs || apiUrl;
     }
     return settings;
   } catch (error) {
