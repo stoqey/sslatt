@@ -12,7 +12,7 @@ export function isLocalNetwork(
     hostname.startsWith('10.0.') ||
     hostname.startsWith('localhost') ||
     hostname.endsWith('.local') ||
-    hostname.endsWith('.local')
+    hostname.endsWith('.local:3000')
   );
 }
 

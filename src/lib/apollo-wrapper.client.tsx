@@ -28,6 +28,8 @@ import { useAppEvent } from './hooks/useAppEvent';
 import { accessTokenManager } from './storage/deviceStorage';
 import { isLocalNetwork, isTorNetwork } from './utils/url.util';
 
+const apiUrlEnv = process.env.API_URL;
+
 if (process.env.NODE_ENV === 'development') {
   setVerbosity('debug');
   loadDevMessages();
@@ -42,7 +44,7 @@ function createApolloClient() {
   const isTor = isTorNetwork();
   const isBrowser = typeof window !== 'undefined';
 
-  const apiUrl = getConfig()?.API_URL || '';
+  const apiUrl = getConfig()?.API_URL || apiUrlEnv;
   const useHttps = !(isTor || isLocalNetwork(apiUrl));
   const devBaseUrl = `://${apiUrl}/graphql`;
   const backendUrl = `http${useHttps ? 's' : ''}${devBaseUrl}`;
