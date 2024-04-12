@@ -32,7 +32,7 @@ export default async function RootPage() {
   );
 
   if (hasJs && validEndgame) {
-    return JsLayout({ children: <SearchPage /> });
+    return JsLayout({ children: <SearchPage nav={false} /> });
   }
   if (validEndgame) {
     return <meta httpEquiv="refresh" content="0; url=/html" />;

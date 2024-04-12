@@ -12,7 +12,7 @@ export function StoreSlugPage() {
   const { slug } = useParams();
 
   return (
-    <LayoutPage auth>
+    <LayoutPage>
       <Layout display={Display.Flex} fullWidth>
         <VerticalSideBar client isOpen={false} />
         <UVAContainer username={slug as any} />

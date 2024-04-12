@@ -2,10 +2,14 @@ import { ApolloWrapper } from '@/lib/apollo-wrapper.client';
 
 import Search from './search';
 
-const SearchPage = () => {
+interface SearchPageProps {
+  nav?: boolean;
+}
+
+const SearchPage = (props: SearchPageProps) => {
   return (
     <ApolloWrapper>
-      <Search />
+      <Search {...props} />
     </ApolloWrapper>
   );
 };

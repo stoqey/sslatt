@@ -15,10 +15,15 @@ import VerticalSideBar from '@/components/sidebar/SideBar';
 import AdFilters, { useAdFilters } from '@/containers/AdSearch/ad.filters';
 import AdSearchList from '@/containers/AdSearch/ad.list';
 
-export function AdsSearchPage() {
+interface AdsSearchPageProps {
+  children?: React.ReactNode;
+  nav?: boolean;
+}
+
+export function AdsSearchPage(props: AdsSearchPageProps) {
   const { filters, setFilters, resetFilters } = useAdFilters();
   return (
-    <LayoutPage>
+    <LayoutPage nav={props.nav}>
       <Layout display={Display.Flex} fullWidth fullHeight>
         <VerticalSideBar client />
 

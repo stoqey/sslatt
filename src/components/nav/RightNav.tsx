@@ -23,10 +23,12 @@ import {
 } from '@uuixjs/uuixweb';
 import isEmpty from 'lodash/isEmpty';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
 
-import { useLogoutSession } from '@/lib/apollo-wrapper.client';
+import { ApolloWrapper, useLogoutSession } from '@/lib/apollo-wrapper.client';
+import { APPEVENTS } from '@/lib/AppEvent';
+import { useEvent } from '@/lib/hooks/useEvent';
 import { useLayoutTheme } from '@/lib/layouts/context/layout.hooks';
 import { cdnPath } from '@/lib/utils/api.utils';
 import { niceDec } from '@/lib/utils/number';
@@ -132,74 +134,86 @@ export const RightNav = (props: NavProps) => {
   const [signup, setSignup] = React.useState(false);
   // return undefined;
   return (
-    <WithLoginWrapper
-      signup={signup}
-      TriggerComponent={(triggerProps: any) => {
-        const { anchorProps, dialogProps } = useDialogState();
-        const { theme, toggleColorMode } = useLayoutTheme();
-        return (
-          <Layout display={Display.Flex}>
-            {/* Login Buttons */}
+    <ApolloWrapper>
+      <WithLoginWrapper
+        signup={signup}
+        TriggerComponent={(triggerProps: any) => {
+          const { anchorProps, dialogProps } = useDialogState();
+          const { theme, toggleColorMode } = useLayoutTheme();
+          const pathname = usePathname();
+          const isRoot = pathname === '/';
+
+          const usedSignin = useEvent(APPEVENTS.LOGOUT);
+          useEffect(() => {
+            if (usedSignin && !dialogProps.show && !isRoot) {
+              triggerProps.onPress();
+            }
+          }, [usedSignin]);
+
+          return (
             <Layout display={Display.Flex}>
-              <Layout padding={{ right: 1 }}>
-                <Button
-                  size={ButtonSize.Default}
-                  onClick={() => {
-                    setSignup(false);
-                    triggerProps.onPress();
-                  }}
-                  variant={ButtonIconType.Secondary}
-                >
-                  Login In
-                </Button>
-              </Layout>
-              <Layout padding={{ right: 1 }}>
-                <Button
-                  size={ButtonSize.Default}
-                  onClick={() => {
-                    setSignup(true);
-                    triggerProps.onPress();
-                  }}
-                  variant={ButtonIconType.Primary}
-                >
-                  Sign Up
-                </Button>
-              </Layout>
-            </Layout>
-
-            {/* Avatar / Account login / Dropdown */}
-            <Layout>
-              {/* @ts-ignore */}
-              <ButtonIcon
-                size={ButtonSize.Default}
-                aria-label="aria label"
-                icon={SVGAsset.Account}
-                variant={ButtonIconType.Primary}
-                {...anchorProps}
-              />
-
-              <DialogLayer {...dialogProps}>
-                <DropDownMenuWrapper elevation={3}>
-                  <DropDownMenuInputItem
-                    type={DropDownMenuInputItemType.Toggle}
-                    id="dark-mode"
-                    name="dark-mode"
-                    label="Dark Mode"
-                    figure={{ icon: SVGAsset.Moon }}
-                    checked={theme === 'dark'}
-                    onChange={(e) => {
-                      toggleColorMode();
+              {/* Login Buttons */}
+              <Layout display={Display.Flex}>
+                <Layout padding={{ right: 1 }}>
+                  <Button
+                    size={ButtonSize.Default}
+                    onClick={() => {
+                      setSignup(false);
+                      triggerProps.onPress();
                     }}
-                  />
-                </DropDownMenuWrapper>
-              </DialogLayer>
+                    variant={ButtonIconType.Secondary}
+                  >
+                    Login In
+                  </Button>
+                </Layout>
+                <Layout padding={{ right: 1 }}>
+                  <Button
+                    size={ButtonSize.Default}
+                    onClick={() => {
+                      setSignup(true);
+                      triggerProps.onPress();
+                    }}
+                    variant={ButtonIconType.Primary}
+                  >
+                    Sign Up
+                  </Button>
+                </Layout>
+              </Layout>
+
+              {/* Avatar / Account login / Dropdown */}
+              <Layout>
+                {/* @ts-ignore */}
+                <ButtonIcon
+                  size={ButtonSize.Default}
+                  aria-label="aria label"
+                  icon={SVGAsset.Account}
+                  variant={ButtonIconType.Primary}
+                  {...anchorProps}
+                />
+
+                <DialogLayer {...dialogProps}>
+                  <DropDownMenuWrapper elevation={3}>
+                    <DropDownMenuInputItem
+                      type={DropDownMenuInputItemType.Toggle}
+                      id="dark-mode"
+                      name="dark-mode"
+                      label="Dark Mode"
+                      figure={{ icon: SVGAsset.Moon }}
+                      checked={theme === 'dark'}
+                      onChange={(e) => {
+                        toggleColorMode();
+                      }}
+                    />
+                  </DropDownMenuWrapper>
+                </DialogLayer>
+              </Layout>
             </Layout>
-          </Layout>
-        );
-      }}
-    >
-      <AuthRightNav {...props} />
-    </WithLoginWrapper>
+          );
+        }}
+      >
+        <AuthRightNav {...props} />
+      </WithLoginWrapper>
+    </ApolloWrapper>
   );
 };
 

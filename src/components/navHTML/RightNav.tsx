@@ -59,7 +59,7 @@ const AuthRightNav = ({
   console.log('walletsAmount', walletsAmount);
 
   const notificationBadge: Badge = badges?.find(
-    (b) => (b.model || '').toLowerCase() === BadgeType.Notification,
+    (b) => (b?.model || '').toLowerCase() === BadgeType.Notification,
   );
 
   const notificationBadgeCount = notificationBadge?.count || 0;

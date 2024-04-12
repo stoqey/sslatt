@@ -6,6 +6,7 @@ export enum APPEVENTS {
   RUN = 'run',
   SEARCH = 'search',
   LOGOUT = 'logout',
+  LOGIN = 'login',
 }
 
 export class AppEvents extends EventEmitter.EventEmitter {

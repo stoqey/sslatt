@@ -73,26 +73,50 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
               fullHeight
               {...otherProps}
             >
-              {nav && <Nav user={userAuth} />}
-
-              {auth ? (
-                // isAdmin
-                admin ? (
-                  isAdminUser ? (
-                    <BodyContent>{children}</BodyContent>
+              {nav ? (
+                <>
+                  <Nav user={userAuth} />
+                  {auth ? (
+                    // isAdmin
+                    admin ? (
+                      isAdminUser ? (
+                        <BodyContent>{children}</BodyContent>
+                      ) : (
+                        <FallbackComponent />
+                      )
+                    ) : // isAuth
+                    isLoggedIn ? (
+                      <BodyContent>{children}</BodyContent>
+                    ) : (
+                      <FallbackComponent />
+                    )
                   ) : (
-                    <FallbackComponent />
-                  )
-                ) : // isAuth
-                isLoggedIn ? (
-                  <BodyContent>{children}</BodyContent>
-                ) : (
-                  <FallbackComponent />
-                )
+                    // non-authenticated
+                    <BodyContent>{children}</BodyContent>
+                  )}
+                </>
               ) : (
-                // non-authenticated
-                <BodyContent>{children}</BodyContent>
+                <>
+                  {auth ? (
+                    // isAdmin
+                    admin ? (
+                      isAdminUser ? (
+                        children
+                      ) : (
+                        <FallbackComponent />
+                      )
+                    ) : // isAuth
+                    isLoggedIn ? (
+                      children
+                    ) : (
+                      <FallbackComponent />
+                    )
+                  ) : (
+                    children
+                  )}
+                </>
               )}
+
               {/* all app modals here */}
               <AllAppModels />
               <ToastContainer />
