@@ -36,6 +36,7 @@ interface AdSearchListProps {
   // ...action
   action?: 'edit' | 'checkout' | 'view';
   itemProps?: AdsSearchItemProps;
+  viewMode?: AdsSearchItemProps['viewMode'];
 }
 
 export default function AdSearchList(props: AdSearchListProps) {
@@ -44,6 +45,7 @@ export default function AdSearchList(props: AdSearchListProps) {
     isPublic = true,
     action = 'view',
     resetFilters,
+    viewMode,
   } = props;
 
   const allfilters = {
@@ -129,6 +131,7 @@ export default function AdSearchList(props: AdSearchListProps) {
               {...item}
               linkTo={onLinkTo(item)}
               {...props.itemProps}
+              viewMode={viewMode}
             />
           ))}
 

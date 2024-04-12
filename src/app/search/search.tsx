@@ -7,6 +7,8 @@ import {
   Grid,
   GridGutterSize,
   Layout,
+  SegmentedButton,
+  SegmentedButtonOption,
 } from '@uuixjs/uuixweb';
 import React from 'react';
 
@@ -22,6 +24,8 @@ interface AdsSearchPageProps {
 
 export function AdsSearchPage(props: AdsSearchPageProps) {
   const { filters, setFilters, resetFilters } = useAdFilters();
+  const [viewMode, setViewMode] = React.useState('grid' as 'grid' | 'list');
+
   return (
     <LayoutPage nav={props.nav}>
       <Layout display={Display.Flex} fullWidth fullHeight>
@@ -51,11 +55,27 @@ export function AdsSearchPage(props: AdsSearchPageProps) {
             </Column>
             <Column cols={{ default: 7 }}>
               <Layout padding={2}>
+                <Layout padding={2}>
+                  <SegmentedButton>
+                    <SegmentedButtonOption
+                      name="view-mode"
+                      label="Grid"
+                      onChange={() => setViewMode('grid')}
+                      defaultChecked
+                    />
+                    <SegmentedButtonOption
+                      name="view-mode"
+                      label="List"
+                      onChange={() => setViewMode('list')}
+                    />
+                  </SegmentedButton>
+                </Layout>
                 <AdSearchList
                   resetFilters={resetFilters}
                   isPublic
                   action="view"
                   filters={filters}
+                  viewMode={viewMode}
                 />
               </Layout>
             </Column>
