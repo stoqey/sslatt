@@ -11,7 +11,7 @@ const UVAview = async (props: UVAContainerHtmlProps & { isStore: boolean }) => {
   const isStore = props.isStore || false;
   const pathname = usePathname();
 
-  let tab = props.tab || 0;
+  let tab = props.tab || isStore ? 1 : 0;
   const last = pathname.split('/').pop();
 
   if (last === 'ads') {

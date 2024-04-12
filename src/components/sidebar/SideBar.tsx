@@ -126,6 +126,8 @@ export const VerticalSideBar = ({
     );
   };
 
+  if (!user) return null;
+
   return (
     <Layout display={Display.Flex} flexDirection={FlexDirection.Column}>
       <Layout

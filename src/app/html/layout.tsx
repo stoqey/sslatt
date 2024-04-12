@@ -2,6 +2,7 @@ import { awaitTo } from '@stoqey/client-graphql';
 import { cookies, headers } from 'next/headers';
 import React from 'react';
 
+import { getConfig } from '@/lib/config';
 import { walletscurrencies } from '@/lib/const';
 import { fetchBadges } from '@/lib/hooksServer/notifications';
 import { getMe } from '@/lib/hooksServer/user';
@@ -35,12 +36,17 @@ export default async function HtmlLayout({
     walletscurrencies.map((w) => `${w.toUpperCase()}_USD`).join(','),
   );
 
+  if (!getConfig().REQUIRE_LOGIN) {
+    publicRoutes.push('/html/ad/', '/html/store/');
+  }
+
   user = await getMe();
   if (user) {
     badges = await fetchBadges({ models: ['Notification', 'Chat'] });
     vendor = await getVendor();
     wallets = await getMyWallets(walletscurrencies);
   } else if (
+    currentUrl?.pathname !== '/html' &&
     !publicRoutes.some((route) =>
       (currentUrl?.pathname || '').startsWith(route),
     )
