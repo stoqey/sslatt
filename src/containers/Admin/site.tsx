@@ -27,7 +27,7 @@ import {
   Tower,
 } from '@uuixjs/uuixweb';
 import { BorderRadius } from '@uuixjs/uuixweb-lib';
-import { identity, omit, pickBy } from 'lodash';
+import { omit } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -56,6 +56,9 @@ export const AdminSiteSettings = () => {
     name,
     slogan,
     description,
+
+    ENABLE_ENDGAME,
+    REQUIRE_LOGIN,
 
     // payments {BTC, XMR}
     ENABLE_BTC,
@@ -105,7 +108,7 @@ export const AdminSiteSettings = () => {
   const onSubmit = () => {
     updateSiteSettings({
       variables: {
-        args: pickBy(form, identity),
+        args: form,
       },
     });
   };
@@ -371,6 +374,28 @@ export const AdminSiteSettings = () => {
             <Layout padding={{ bottom: 2 }}>
               <Layout padding={{ bottom: 2 }}>
                 <Tower>
+                  <FormGroup label="Enable Endgame">
+                    <Toggle
+                      checked={ENABLE_ENDGAME}
+                      onChange={() =>
+                        handle('ENABLE_ENDGAME')({
+                          target: { value: !ENABLE_ENDGAME },
+                        })
+                      }
+                    />
+                  </FormGroup>
+
+                  <FormGroup label="Require Login">
+                    <Toggle
+                      checked={REQUIRE_LOGIN}
+                      onChange={() =>
+                        handle('REQUIRE_LOGIN')({
+                          target: { value: !REQUIRE_LOGIN },
+                        })
+                      }
+                    />
+                  </FormGroup>
+
                   <FormGroup label="Enable PGP for all">
                     <Toggle
                       checked={ENABLE_PGP}

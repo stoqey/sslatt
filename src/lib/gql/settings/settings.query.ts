@@ -22,6 +22,11 @@ export const SiteSettingsFragment = gql`
     slogan
     description
 
+    SITE_APPEARANCE
+    REQUIRE_LOGIN
+    ENABLE_ENDGAME
+    API_URL
+
     ENABLE_BTC
     ENABLE_XMR
 

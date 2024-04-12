@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import { cookies } from 'next/headers';
 import type { NextRequest } from 'next/server';
 
+import { getConfig } from '@/lib/config';
 import {
   decryptCaptchaCode,
   encryptCaptchaCode,
@@ -14,7 +15,27 @@ const baseUrl = '/';
 
 const isProd = process.env.NODE_ENV === 'production';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const cookieStore = cookies();
+  const query = req.nextUrl.searchParams;
+  const hasJs = query.get('js') === 'true';
+  const endgamex = query.get('endgamex');
+  const endgamei = query.get('endgamei');
+
+  if (!getConfig().ENABLE_ENDGAME && !isEmpty(endgamei) && !isEmpty(endgamex)) {
+    const in1hr = addHours(new Date(), 1); // TODO endgame interval
+    cookieStore.set('js', `${hasJs}`, { expires: in1hr });
+    cookieStore.set('endgamex', endgamex, { expires: in1hr });
+    cookieStore.set('endgamei', endgamei, { expires: in1hr });
+    const resUrl = !hasJs ? '/html' : '/';
+    return new Response(null, {
+      headers: {
+        Refresh: `0; url=${resUrl}`,
+        // 'Refresh': `0; url=/`,
+      },
+    });
+  }
+
   const res = new Response(null, {
     headers: {
       Refresh: `10; url=${baseUrl}`,

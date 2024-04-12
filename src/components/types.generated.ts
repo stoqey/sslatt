@@ -1462,6 +1462,7 @@ export type SiteSettings = {
   BTC_WITHDRAW_MIN?: Maybe<Scalars['Float']>;
   CHECKOUT_FEE_PERC?: Maybe<Scalars['Float']>;
   ENABLE_BTC?: Maybe<Scalars['Boolean']>;
+  ENABLE_ENDGAME?: Maybe<Scalars['Boolean']>;
   ENABLE_PGP?: Maybe<Scalars['Boolean']>;
   ENABLE_XMPP?: Maybe<Scalars['Boolean']>;
   ENABLE_XMR?: Maybe<Scalars['Boolean']>;
@@ -1469,6 +1470,8 @@ export type SiteSettings = {
   MONEROX_URL?: Maybe<Scalars['String']>;
   MONEROX_WALLET?: Maybe<Scalars['String']>;
   PGP_PUBLIC_KEY?: Maybe<Scalars['String']>;
+  REQUIRE_LOGIN?: Maybe<Scalars['Boolean']>;
+  SITE_APPEARANCE?: Maybe<Scalars['String']>;
   WALLETS_DIR?: Maybe<Scalars['String']>;
   WALLET_PASSWORD?: Maybe<Scalars['String']>;
   WALLET_PATH?: Maybe<Scalars['String']>;
@@ -1503,6 +1506,7 @@ export type SiteSettingsInput = {
   BTC_WITHDRAW_MIN?: InputMaybe<Scalars['Float']>;
   CHECKOUT_FEE_PERC?: InputMaybe<Scalars['Float']>;
   ENABLE_BTC?: InputMaybe<Scalars['Boolean']>;
+  ENABLE_ENDGAME?: InputMaybe<Scalars['Boolean']>;
   ENABLE_PGP?: InputMaybe<Scalars['Boolean']>;
   ENABLE_XMPP?: InputMaybe<Scalars['Boolean']>;
   ENABLE_XMR?: InputMaybe<Scalars['Boolean']>;
@@ -1510,6 +1514,8 @@ export type SiteSettingsInput = {
   MONEROX_URL?: InputMaybe<Scalars['String']>;
   MONEROX_WALLET?: InputMaybe<Scalars['String']>;
   PGP_PUBLIC_KEY?: InputMaybe<Scalars['String']>;
+  REQUIRE_LOGIN?: InputMaybe<Scalars['Boolean']>;
+  SITE_APPEARANCE?: InputMaybe<Scalars['String']>;
   WALLETS_DIR?: InputMaybe<Scalars['String']>;
   WALLET_PASSWORD?: InputMaybe<Scalars['String']>;
   WALLET_PATH?: InputMaybe<Scalars['String']>;

@@ -4,6 +4,7 @@ import React from 'react';
 
 import { PageNotFound } from '@/components/404s/NotFound';
 import { AuthWall } from '@/components/AuthWall/authwall';
+import { getConfig } from '@/lib/config';
 import {
   encryptCaptchaCode,
   getCaptchaFromLocalhost,
@@ -62,6 +63,7 @@ export default async function RootPage() {
 
   return (
     <AuthWall
+      enableEndgame={!!getConfig().ENABLE_ENDGAME}
       message={message}
       success={success}
       iv={iv}

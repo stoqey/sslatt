@@ -5,6 +5,8 @@
 import {
   AccentRegion,
   Background,
+  Color,
+  CoreText,
   FormGroup,
   Input,
   InputSize,
@@ -33,6 +35,7 @@ const SnakeBg = styled(Layout)`
 `;
 
 export interface AuthWallProps {
+  enableEndgame?: boolean;
   captcha?: string;
   iv?: string;
   encrypted?: string;
@@ -41,7 +44,14 @@ export interface AuthWallProps {
 }
 
 export const AuthWall = (props: AuthWallProps) => {
-  const { captcha = '', iv, encrypted, message = '', success = false } = props;
+  const {
+    captcha = '',
+    iv,
+    encrypted,
+    message = '',
+    success = false,
+    enableEndgame = true,
+  } = props;
 
   const [hasJs, setHasJs] = React.useState(false);
 
@@ -49,8 +59,20 @@ export const AuthWall = (props: AuthWallProps) => {
     setHasJs(true);
   }, []);
 
+  const searchParams = new URLSearchParams();
+  searchParams.append('js', hasJs.toString());
+  searchParams.append('endgamex', encrypted);
+  searchParams.append('endgamei', iv);
+
   return (
     <AccentRegion inputColorIsDark>
+      {!enableEndgame && (
+        <meta
+          httpEquiv="refresh"
+          content={`5; url=/api/captcha?${searchParams.toString()}`}
+        />
+      )}
+
       <Layout
         className="relative"
         background={Background.AccentAlt2}
@@ -85,50 +107,54 @@ export const AuthWall = (props: AuthWallProps) => {
           >
             <SslattIcon scale={2} />
             <Layout>
-              {/* <Layout>
-                <CoreText as="h5" color={Color.Overlay}>
-                  Redirecting in ...
-                </CoreText>
-              </Layout> */}
-
-              {/* <Layout>
-                <TimerCountDown />
-              </Layout> */}
-
-              <Layout
-                background={Background.Overlay}
-                padding={5}
-                textAlign="center"
-              >
-                <MessageSuccessHtml message={message} success={success} />
-
-                {captcha && (
-                  <Layout
-                    margin={{ top: 1 }}
-                    style={{
-                      background: 'white',
-                    }}
-                  >
-                    {iv && <img src={`/xcaptcha?key=${iv}`} alt="captcha" />}
+              {!enableEndgame ? (
+                <Layout>
+                  <Layout>
+                    <CoreText as="h5" color={Color.Overlay}>
+                      Redirecting in ...
+                    </CoreText>
                   </Layout>
-                )}
 
-                <form action="/api/captcha" method="POST">
-                  <input type="hidden" name="js" value={hasJs} />
-                  <input type="hidden" name="encryptedi" value={iv} />
-                  <input type="hidden" name="encryptedx" value={encrypted} />
-                  {/* image render */}
-                  <FormGroup label="Confirm code">
-                    <Input
-                      style={{ fontSize: '1.5rem' }}
-                      size={InputSize.Large}
-                      name="confirmCode"
-                      type={InputType.Text}
-                      icon={SVGAsset.Lock}
-                    />
-                  </FormGroup>
-                </form>
-              </Layout>
+                  {/* <Layout>
+                    <TimerCountDown />
+                  </Layout> */}
+                </Layout>
+              ) : (
+                <Layout
+                  background={Background.Overlay}
+                  padding={5}
+                  textAlign="center"
+                >
+                  <MessageSuccessHtml message={message} success={success} />
+
+                  {captcha && (
+                    <Layout
+                      margin={{ top: 1 }}
+                      style={{
+                        background: 'white',
+                      }}
+                    >
+                      {iv && <img src={`/xcaptcha?key=${iv}`} alt="captcha" />}
+                    </Layout>
+                  )}
+
+                  <form action="/api/captcha" method="POST">
+                    <input type="hidden" name="js" value={hasJs} />
+                    <input type="hidden" name="encryptedi" value={iv} />
+                    <input type="hidden" name="encryptedx" value={encrypted} />
+                    {/* image render */}
+                    <FormGroup label="Confirm code">
+                      <Input
+                        style={{ fontSize: '1.5rem' }}
+                        size={InputSize.Large}
+                        name="confirmCode"
+                        type={InputType.Text}
+                        icon={SVGAsset.Lock}
+                      />
+                    </FormGroup>
+                  </form>
+                </Layout>
+              )}
             </Layout>
           </Layout>
         </SnakeBg>
