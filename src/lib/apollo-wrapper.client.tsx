@@ -40,12 +40,13 @@ if (process.env.NODE_ENV === 'development') {
 let apolloClient: ApolloClient;
 
 function createApolloClient() {
+  const apiUrl = getConfig()?.API_URL || apiUrlEnv;
   const events = AppEvents.Instance;
-  const isTor = isTorNetwork();
+  const isTor = isTorNetwork(apiUrl);
   const isBrowser = typeof window !== 'undefined';
 
-  const apiUrl = getConfig()?.API_URL || apiUrlEnv;
   const useHttps = !(isTor || isLocalNetwork(apiUrl));
+
   const devBaseUrl = `://${apiUrl}/graphql`;
   const backendUrl = `http${useHttps ? 's' : ''}${devBaseUrl}`;
   const wsUrl = `ws${useHttps ? 's' : ''}${devBaseUrl}`;

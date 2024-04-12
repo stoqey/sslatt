@@ -7,7 +7,7 @@ import { isLocalNetwork, isTorNetwork } from './url.util';
  */
 export const getBackendHost = (): string => {
   const apiUrl = getConfig().API_URL || '';
-  const useHttps = !(isLocalNetwork(apiUrl) || isTorNetwork());
+  const useHttps = !(isLocalNetwork(apiUrl) || isTorNetwork(apiUrl));
   const devBaseUrl = `://${apiUrl}`;
   const backendUrl = `http${useHttps ? 's' : ''}${devBaseUrl}`;
   return backendUrl;
@@ -23,7 +23,7 @@ export const getMarketIcon = (symbol: string, icon = 'icon') => {
  */
 export const getCdnHost = (): string => {
   const cdnUrl = getConfig().API_URL || '';
-  const useHttps = !(isLocalNetwork(cdnUrl) || isTorNetwork());
+  const useHttps = !(isLocalNetwork(cdnUrl) || isTorNetwork(cdnUrl));
   const devBaseUrl = `://${cdnUrl}`;
   const backendUrl = `http${useHttps ? 's' : ''}${devBaseUrl}`;
   return backendUrl;

@@ -16,15 +16,8 @@ export function isLocalNetwork(
   );
 }
 
-export const isTorNetwork = () => {
-  // if (env == "development") {
-  //   return true;
-  // }
-  // else if (env == "production") {
-  //   // do something
-  //   const hostname = API_URL;
-  //   return hostname.endsWith('.onion')
-  // }
-
-  return true;
+export const isTorNetwork = (
+  hostname = typeof window !== 'undefined' ? window.location.hostname : '',
+) => {
+  return hostname.endsWith('.onion');
 };

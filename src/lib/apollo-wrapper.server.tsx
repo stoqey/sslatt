@@ -24,7 +24,7 @@ export const apiUrl = process.env.API_URL;
 function createApolloClient() {
   const cookieStore = cookies();
   const events = AppEvents.Instance;
-  const isTor = isTorNetwork();
+  const isTor = isTorNetwork(apiUrl);
   const isBrowser = typeof window !== 'undefined';
 
   const useHttps = !(isTor || isLocalNetwork(apiUrl));
