@@ -54,6 +54,7 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
         <AccentRegion
         // FIXME: Change theme color
         // e.g {...generateAccentRegionProps("#fffb00")}
+        // getConfig().themeColor
         >
           {/* <LayoutSEO serviceProvider={serviceProvider} /> */}
           <Layout
