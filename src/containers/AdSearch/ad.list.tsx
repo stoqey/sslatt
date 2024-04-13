@@ -119,47 +119,66 @@ export default function AdSearchList(props: AdSearchListProps) {
         </Layout>
       )}
 
-      <Tower
-        childWidth={TowerChildWidth.Medium}
-        gutterSize={TowerGutter.ExtraSmall}
-        placeholderItems={20}
-      >
-        {!isEmpty(adsItems) &&
-          adsItems?.map((item) => (
-            <AdsSearchItem
-              key={item?.id}
-              {...item}
-              linkTo={onLinkTo(item)}
-              {...props.itemProps}
-              viewMode={viewMode}
-            />
-          ))}
-
-        {!isPublic && (
-          <MediaCard
-            image={
-              <MediaCardImage
-                linkProps={{ renderLink, linkTo: '/store/ads/new' }}
-                cover={
-                  <Layout
-                    background={Background.AccentAlt}
-                    fullWidth
-                    fullHeight
-                    display={Display.Flex}
-                    flexDirection={FlexDirection.Column}
-                    justifyContent={JustifyContent.Center}
-                    alignItems={AlignItems.Center}
-                  >
-                    <CoreText>Create a new ad for your products</CoreText>
-                    <br />
-                    <Button icon={SVGAsset.New}>New Ad</Button>
-                  </Layout>
-                }
+      {viewMode === 'list' ? (
+        <Layout
+          fullWidth
+          display={Display.Flex}
+          flexDirection={FlexDirection.Column}
+        >
+          {!isEmpty(adsItems) &&
+            adsItems?.map((item) => (
+              <AdsSearchItem
+                key={item?.id}
+                {...item}
+                linkTo={onLinkTo(item)}
+                {...props.itemProps}
+                viewMode={viewMode}
               />
-            }
-          />
-        )}
-      </Tower>
+            ))}
+        </Layout>
+      ) : (
+        <Tower
+          childWidth={TowerChildWidth.Medium}
+          gutterSize={TowerGutter.ExtraSmall}
+          placeholderItems={20}
+        >
+          {!isEmpty(adsItems) &&
+            adsItems?.map((item) => (
+              <AdsSearchItem
+                key={item?.id}
+                {...item}
+                linkTo={onLinkTo(item)}
+                {...props.itemProps}
+                viewMode={viewMode}
+              />
+            ))}
+
+          {!isPublic && (
+            <MediaCard
+              image={
+                <MediaCardImage
+                  linkProps={{ renderLink, linkTo: '/store/ads/new' }}
+                  cover={
+                    <Layout
+                      background={Background.AccentAlt}
+                      fullWidth
+                      fullHeight
+                      display={Display.Flex}
+                      flexDirection={FlexDirection.Column}
+                      justifyContent={JustifyContent.Center}
+                      alignItems={AlignItems.Center}
+                    >
+                      <CoreText>Create a new ad for your products</CoreText>
+                      <br />
+                      <Button icon={SVGAsset.New}>New Ad</Button>
+                    </Layout>
+                  }
+                />
+              }
+            />
+          )}
+        </Tower>
+      )}
     </Layout>
   );
 }

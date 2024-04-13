@@ -54,8 +54,8 @@ export function AdsSearchPage(props: AdsSearchPageProps) {
               </Layout>
             </Column>
             <Column cols={{ default: 7 }}>
-              <Layout padding={2}>
-                <Layout padding={2}>
+              <Layout padding={{ bottom: 2, top: 1 }}>
+                <Layout display="flex" justifyContent="flex-end">
                   <SegmentedButton>
                     <SegmentedButtonOption
                       name="view-mode"
