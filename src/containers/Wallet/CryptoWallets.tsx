@@ -21,7 +21,7 @@ import {
 import { BorderRadius } from '@uuixjs/uuixweb-lib';
 import React, { useEffect } from 'react';
 
-import { walletscurrencies } from './MyWallets';
+import { walletscurrenciesSSr } from '@/lib/const';
 
 // TODO proper styling, proper config
 
@@ -45,9 +45,8 @@ interface Props {
 // TODO styling
 const CryptoWallets = ({ setCurrency }: Props) => {
   const { data, refetch, loading } = useQuery(MY_WALLET_QUERY, {
-    variables: { currency: walletscurrencies, createNew: true },
+    variables: { currency: walletscurrenciesSSr(), createNew: true },
   });
-
   // const { data: dataTransactions } = useQuery(TRANSACTIONS_QUERY, {
   //   variables: { filters: 'currency=BTC' },
   // });
@@ -130,9 +129,11 @@ const CryptoWallets = ({ setCurrency }: Props) => {
               </Layout>
             )}
 
-            {/* <Layout padding={{ left: 2 }}>
-              <Button onClick={() => setCurrency(wallet.currency)}>Transactions</Button>
-            </Layout> */}
+            <Layout padding={{ left: 2 }}>
+              <Button onClick={() => setCurrency(wallet.currency)}>
+                Transactions
+              </Button>
+            </Layout>
           </Layout>
         ))}
       </Layout>

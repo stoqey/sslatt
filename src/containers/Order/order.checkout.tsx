@@ -30,12 +30,13 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Container } from '@/components/container';
+import { walletscurrenciesSSr } from '@/lib/const';
 import type { AdsListingType, FeePrices } from '@/lib/gql';
 import { CHECKOUT_ORDER, GET_AD_LISTING, GET_FEE_PRICES } from '@/lib/gql';
 import { niceDec } from '@/lib/utils/number';
 
 import { parseAdItem } from '../../components/AdLists/ads.item';
-import { useWalletTotalUsd, walletscurrencies } from '../Wallet/MyWallets';
+import { useWalletTotalUsd } from '../Wallet/MyWallets';
 
 interface State {
   walletId: string;
@@ -289,7 +290,7 @@ const OrderCheckout = () => {
                         </Layout>
 
                         {rates &&
-                          walletscurrencies.map((currency) => (
+                          walletscurrenciesSSr().map((currency) => (
                             <Layout
                               key={currency}
                               // padding={{ top: 1 }}

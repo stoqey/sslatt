@@ -6,9 +6,7 @@ import { isEmpty } from 'lodash';
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 
-import { setConfig } from '@/lib/config';
 import { fetchConfig } from '@/lib/config/server';
-import { getSiteSettings } from '@/lib/hooksServer/settings';
 import StyledComponentsRegistry from '@/lib/styled-registry';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -50,10 +48,7 @@ export default async function RootLayout(props: {
   const cookieStore = cookies();
   const theme = cookieStore.get('theme');
 
-  const siteSettings = await getSiteSettings();
-  if (siteSettings) {
-    setConfig(siteSettings);
-  }
+  const siteSettings = await fetchConfig();
 
   return (
     <html

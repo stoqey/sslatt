@@ -13,22 +13,13 @@ import isEmpty from 'lodash/isEmpty';
 import startsWith from 'lodash/startsWith';
 import React, { useEffect } from 'react';
 
-import { getConfig } from '@/lib/config';
+import { walletscurrenciesSSr } from '@/lib/const';
 import { useMeApi } from '@/lib/hooks/useUserCache';
 import { useWallets } from '@/lib/hooks/useWallet';
 import { niceDec } from '@/lib/utils/number';
 
-const allCurrencies = [
-  { currency: 'BTC', enabled: getConfig().ENABLE_BTC },
-  { currency: 'XMR', enabled: getConfig().ENABLE_XMR },
-];
-
-export const walletscurrencies = allCurrencies
-  .filter((c) => c.enabled)
-  .map((c) => c.currency);
-
 export const useWalletTotalUsd = () => {
-  const wallets = useWallets(walletscurrencies, false);
+  const wallets = useWallets(walletscurrenciesSSr(), false);
 
   const [fetchRatesApi, { data: ratesData }] = useLazyQuery<{
     data: BtcpayserverRate[];

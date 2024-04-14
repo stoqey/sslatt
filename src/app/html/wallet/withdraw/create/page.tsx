@@ -1,6 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
 import { cookies } from 'next/headers';
 
+import { walletscurrenciesSSr } from '@/lib/const';
 import { getMe } from '@/lib/hooksServer/user';
 import { getVendor } from '@/lib/hooksServer/vendor';
 import { getFeePrices, getMyWallets, getRates } from '@/lib/hooksServer/wallet';
@@ -24,7 +25,7 @@ const WithdrawPage = async () => {
   vendor = await getVendor();
   user = await getMe();
   feePrices = await getFeePrices();
-  wallets = await getMyWallets(walletscurrencies());
+  wallets = await getMyWallets(walletscurrenciesSSr());
 
   message = cookieStore.get('message')?.value;
   success = cookieStore.get('success')?.value === 'true';
