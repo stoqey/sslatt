@@ -18,7 +18,7 @@ import { ToastContainer } from 'react-toastify';
 
 import { AllAppModels } from '@/containers/modals';
 import { getConfig } from '@/lib/config';
-import { useMeApi } from '@/lib/hooks/useUserCache';
+import { useMeApiWithLoading } from '@/lib/hooks/useUserCache';
 import { useInitialLayoutState } from '@/lib/layouts/context/context';
 import { useLayoutTheme } from '@/lib/layouts/context/layout.hooks';
 import { LayoutProvider } from '@/lib/layouts/context/layout.provider';
@@ -30,6 +30,7 @@ interface LayoutPageProps extends LayoutProps {
   apps?: string[];
   nav?: boolean;
   auth?: boolean;
+  user?: UserType;
   admin?: boolean;
   fallback?: any;
   children: any;
@@ -47,9 +48,14 @@ const publicRoutes = [
 ];
 
 function LayoutPage({ children, ...props }: LayoutPageProps) {
-  const { admin, auth, fallback = null, nav = true, ...otherProps } = props;
-
-  const userAuth = useMeApi();
+  const {
+    admin,
+    auth,
+    fallback = null,
+    nav = true,
+    user: userAuth,
+    ...otherProps
+  } = props;
 
   const pathname = usePathname();
 
@@ -65,11 +71,13 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
 
   const { theme } = useLayoutTheme();
 
+  console.log('LayoutPage', { pathname, userAuth, isAdminUser, isLoggedIn });
+
   return (
     <Wrapper id="rootx">
       {!userAuth &&
-        pathname !== '/' &&
         auth &&
+        pathname !== '/' &&
         !publicRoutes.some((route) => (pathname || '').startsWith(route)) && (
           <meta httpEquiv="refresh" content="0; url=/login" />
         )}
@@ -155,11 +163,18 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
 function WithLayoutProvider(props: LayoutPageProps) {
   const initState = useInitialLayoutState();
 
+  const isAuth = props?.auth || false;
+  const { user: userAuth, loading } = useMeApiWithLoading();
+
   if (!initState) return null;
+
+  if (isAuth && !userAuth && loading) {
+    return null;
+  }
 
   return (
     <LayoutProvider initState={initState}>
-      <LayoutPage {...props} />
+      <LayoutPage user={userAuth} {...props} />
     </LayoutProvider>
   );
 }

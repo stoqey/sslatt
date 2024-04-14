@@ -1,4 +1,9 @@
-import { useApolloClient, useMutation, useQuery } from '@apollo/client';
+import {
+  useApolloClient,
+  useLazyQuery,
+  useMutation,
+  useQuery,
+} from '@apollo/client';
 import type { UserType } from '@roadmanjs/auth-client';
 import { GET_ME } from '@roadmanjs/auth-client';
 import { awaitTo } from '@stoqey/client-graphql';
@@ -78,6 +83,41 @@ export const useMeApi = (): UserType => {
   }, []);
 
   return user as UserType;
+};
+
+export const useMeApiWithLoading = (): { user: UserType; loading: boolean } => {
+  const client = useApolloClient();
+  const appEvents = AppEvents.Instance;
+
+  const logout = async () => {
+    appEvents.emit(APPEVENTS.LOGOUT, APPEVENTS.LOGOUT);
+  };
+
+  const [getMeAPI, { loading, data }] = useLazyQuery<{ me: UserType }>(GET_ME, {
+    fetchPolicy: 'network-only',
+    onCompleted: async (res) => {
+      const userme: UserType = res.me;
+      await userCacheManager.set(userme);
+    },
+    onError: (error) => {
+      const message = error.toString();
+      if (includes(message, 'not authenticated')) {
+        logout();
+      }
+    },
+  });
+
+  React.useEffect(() => {
+    if ((data && data.me) || loading) {
+      return;
+    }
+
+    getMeAPI();
+  }, []);
+
+  const user = data?.me;
+
+  return { user, loading };
 };
 
 export const useVendor = () => {
