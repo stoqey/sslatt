@@ -7,6 +7,7 @@ import {
   Display,
   FlexDirection,
   FlexWrap,
+  generateAccentRegionProps,
   Layout,
   Overflow,
   SVGAsset,
@@ -16,6 +17,7 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 
 import { PageNotFound } from '@/components/404s/NotFound';
+import { Footer } from '@/components/Footer';
 import Nav from '@/components/navHTML/Nav';
 import VerticalSideBar from '@/components/sidebarHTML/SideBar';
 
@@ -24,7 +26,7 @@ import { BodyContent } from '../coreui';
 const isJsOnly = !isEmpty(process.env.NEXT_PUBLIC_JS_ONLY);
 const isProduction = process.env.NODE_ENV === 'production';
 
-export const HtmlPageWrapper = ({ children, ...otherProps }: any) => {
+export const HtmlPageWrapper = ({ children, config, ...otherProps }: any) => {
   const { user } = otherProps;
   const pathname = usePathname();
   const [hasJs, setHasJs] = React.useState(false);
@@ -33,6 +35,7 @@ export const HtmlPageWrapper = ({ children, ...otherProps }: any) => {
     setHasJs(true);
   }, []);
 
+  const themeColorConfig = config?.theme;
   //
   console.log('HtmlPageWrapper', { pathname, hasJs });
 
@@ -40,13 +43,16 @@ export const HtmlPageWrapper = ({ children, ...otherProps }: any) => {
     <CoreUIRoot cssVars theme={otherProps.theme}>
       {/* @ts-ignore */}
       <AccentRegion
-      // {...generateAccentRegionProps("#28ff00")}
+        {...((themeColorConfig &&
+          generateAccentRegionProps(themeColorConfig)) ||
+          {})}
       >
         <Layout
           id="layout-main"
           background={Background.Base}
           display={Display.Flex}
           overflow={Overflow.Hidden}
+          flexDirection="column"
           fullWidth
           fullHeight
         >
@@ -83,6 +89,8 @@ export const HtmlPageWrapper = ({ children, ...otherProps }: any) => {
               </BodyContent>
             </Layout>
           )}
+
+          <Footer />
         </Layout>
       </AccentRegion>
     </CoreUIRoot>

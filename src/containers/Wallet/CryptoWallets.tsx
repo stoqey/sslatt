@@ -2,7 +2,6 @@ import { useMutation, useQuery } from '@apollo/client';
 import {
   GENERATE_WALLET_ADDRESS_MUTATION,
   MY_WALLET_QUERY,
-  TRANSACTIONS_QUERY,
 } from '@roadmanjs/wallet-client';
 import {
   AlignItems,
@@ -22,7 +21,7 @@ import {
 import { BorderRadius } from '@uuixjs/uuixweb-lib';
 import React, { useEffect } from 'react';
 
-import { currencies } from './MyWallets';
+import { walletscurrencies } from './MyWallets';
 
 // TODO proper styling, proper config
 
@@ -45,20 +44,15 @@ interface Props {
 
 // TODO styling
 const CryptoWallets = ({ setCurrency }: Props) => {
-  const walletscurrencies = currencies.slice(1, currencies.length); // BTC, XMR
-
-  // const wallets = useWallets(currencies.slice(1, currencies.length), true);
-  // const { amount, isOpen, setAmount, onClose } = props;
-
   const { data, refetch, loading } = useQuery(MY_WALLET_QUERY, {
     variables: { currency: walletscurrencies, createNew: true },
   });
 
-  const { data: dataTransactions } = useQuery(TRANSACTIONS_QUERY, {
-    variables: { filters: 'currency=BTC' },
-  });
+  // const { data: dataTransactions } = useQuery(TRANSACTIONS_QUERY, {
+  //   variables: { filters: 'currency=BTC' },
+  // });
 
-  console.log('dataTransactions', dataTransactions);
+  // console.log('dataTransactions', dataTransactions);
 
   const [generateAddress, { data: generateAddressData }] = useMutation(
     GENERATE_WALLET_ADDRESS_MUTATION,

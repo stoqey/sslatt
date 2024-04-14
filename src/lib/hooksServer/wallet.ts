@@ -3,6 +3,7 @@ import {
   MY_WALLET_QUERY,
   TRANSACTIONS_QUERY,
 } from '@roadmanjs/wallet-client';
+import { isEmpty } from 'lodash';
 
 import type {
   FeePrices,
@@ -58,6 +59,7 @@ export const getMyWallets = async (
 
 export const getRates = async (pairs: string): Promise<PairRate[]> => {
   try {
+    if (isEmpty(pairs)) return [];
     const data = await getClient().query<{
       data: PairRate[];
     }>({

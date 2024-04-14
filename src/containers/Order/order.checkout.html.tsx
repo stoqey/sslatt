@@ -30,14 +30,12 @@ import type {
   UserType,
   WalletOutput,
 } from '@/components/types.generated';
+import { walletscurrenciesSSr } from '@/lib/const';
 import { niceDec } from '@/lib/utils/number';
 
 import { parseAdItem } from '../../components/AdLists/ads.item';
 import { MessageSuccessHtml } from '../actions.html';
-import { currencies } from '../Wallet/MyWallets';
 import { useWalletTotalUsdHtml } from '../Wallet/MyWallets.html';
-
-const walletscurrencies = currencies.slice(1, currencies.length); // BTC, XMR
 
 export interface OrderCheckoutHtmlProps {
   quantity?: number;
@@ -237,7 +235,7 @@ const OrderCheckoutHtml = (props: OrderCheckoutHtmlProps) => {
                           </Layout>
 
                           {rates &&
-                            walletscurrencies.map((currency) => (
+                            walletscurrenciesSSr().map((currency) => (
                               <Layout
                                 key={currency}
                                 // padding={{ top: 1 }}

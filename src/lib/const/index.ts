@@ -1,3 +1,5 @@
+import { getConfig } from '@/lib/config';
+
 /**
  * Enum screens
  */
@@ -36,6 +38,11 @@ export enum SCREENS {
 
 export default SCREENS;
 
-export const currencies = ['USD', 'BTC', 'XMR'];
+export const walletscurrenciesSSr = () => {
+  const allCurrencies = [
+    { currency: 'BTC', enabled: getConfig().ENABLE_BTC },
+    { currency: 'XMR', enabled: getConfig().ENABLE_XMR },
+  ];
 
-export const walletscurrencies = currencies.slice(1, currencies.length); // BTC, XMR
+  return allCurrencies.filter((c) => c.enabled).map((c) => c.currency);
+};

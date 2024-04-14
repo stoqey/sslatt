@@ -35,9 +35,7 @@ import { CHECKOUT_ORDER, GET_AD_LISTING, GET_FEE_PRICES } from '@/lib/gql';
 import { niceDec } from '@/lib/utils/number';
 
 import { parseAdItem } from '../../components/AdLists/ads.item';
-import { currencies, useWalletTotalUsd } from '../Wallet/MyWallets';
-
-const walletscurrencies = currencies.slice(1, currencies.length); // BTC, XMR
+import { useWalletTotalUsd, walletscurrencies } from '../Wallet/MyWallets';
 
 interface State {
   walletId: string;

@@ -2,8 +2,7 @@ import { awaitTo } from '@stoqey/client-graphql';
 import { cookies, headers } from 'next/headers';
 import React from 'react';
 
-import { getConfig } from '@/lib/config';
-import { walletscurrencies } from '@/lib/const';
+import { fetchConfig } from '@/lib/config/server';
 import { fetchBadges } from '@/lib/hooksServer/notifications';
 import { getMe } from '@/lib/hooksServer/user';
 import { getVendor } from '@/lib/hooksServer/vendor';
@@ -11,7 +10,40 @@ import { getMyWallets, getRates } from '@/lib/hooksServer/wallet';
 
 import { HtmlPageWrapper } from './html.wrapper';
 
+export async function generateMetadata(): Promise<Metadata> {
+  const config = await fetchConfig();
+  const siteName = config?.name || '';
+  const slogan = config?.slogan || '';
+
+  return {
+    title: `${siteName} - ${slogan}`,
+    icons: [
+      {
+        rel: 'apple-touch-icon',
+        url: '/apple-touch-icon.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        url: '/favicon-32x32.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '16x16',
+        url: '/favicon-16x16.png',
+      },
+      {
+        rel: 'icon',
+        url: '/favicon.ico',
+      },
+    ],
+  };
+}
+
 const publicRoutes = ['/html/login', '/html/signup', '/html/forgot-password'];
+
 export default async function HtmlLayout({
   children,
 }: {
@@ -30,13 +62,23 @@ export default async function HtmlLayout({
 
   const [, currentUrl] = await awaitTo(Promise.resolve(new URL(fullUrl)));
 
+  const config = await fetchConfig();
+
+  const allCurrencies = [
+    { currency: 'BTC', enabled: config.ENABLE_BTC },
+    { currency: 'XMR', enabled: config.ENABLE_XMR },
+  ];
+  const currencies = allCurrencies
+    .filter((c) => c.enabled)
+    .map((c) => c.currency);
+
   theme = cookieStore.get('theme')?.value;
   openSideBar = cookieStore.get('openSidebar')?.value === 'true';
   rates = await getRates(
-    walletscurrencies.map((w) => `${w.toUpperCase()}_USD`).join(','),
+    currencies.map((w) => `${w.toUpperCase()}_USD`).join(','),
   );
 
-  if (!getConfig().REQUIRE_LOGIN) {
+  if (!config.REQUIRE_LOGIN) {
     publicRoutes.push('/html/ad/', '/html/store/');
   }
 
@@ -44,12 +86,13 @@ export default async function HtmlLayout({
   if (user) {
     badges = await fetchBadges({ models: ['Notification', 'Chat'] });
     vendor = await getVendor();
-    wallets = await getMyWallets(walletscurrencies);
+    wallets = await getMyWallets(currencies);
   } else if (
-    currentUrl?.pathname !== '/html' &&
-    !publicRoutes.some((route) =>
-      (currentUrl?.pathname || '').startsWith(route),
-    )
+    (currentUrl?.pathname === '/html' && config?.REQUIRE_LOGIN) ||
+    (currentUrl?.pathname !== '/html' &&
+      !publicRoutes.some((route) =>
+        (currentUrl?.pathname || '').startsWith(route),
+      ))
   ) {
     return <meta httpEquiv="refresh" content="0; url=/html/login" />;
   }
@@ -63,6 +106,7 @@ export default async function HtmlLayout({
       openSideBar={openSideBar}
       theme={theme}
       badges={badges}
+      config={config}
     >
       {children}
     </HtmlPageWrapper>

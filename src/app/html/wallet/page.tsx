@@ -2,7 +2,6 @@ import { isEmpty } from 'lodash';
 import { cookies } from 'next/headers';
 import React from 'react';
 
-import { walletscurrencies } from '@/lib/const';
 import { getMe } from '@/lib/hooksServer/user';
 import { getVendor } from '@/lib/hooksServer/vendor';
 import {
@@ -34,7 +33,7 @@ const WalletPage = async () => {
   //   rates: PairRate[];
 
   user = await getMe();
-  wallets = await getMyWallets(walletscurrencies, true);
+  wallets = await getMyWallets(walletscurrencies(), true);
 
   if (!isEmpty(wallets)) {
     pairs = wallets

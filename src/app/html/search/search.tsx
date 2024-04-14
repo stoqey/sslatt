@@ -138,17 +138,6 @@ const Footer = (props: FooterProps) => {
           icon={SVGAsset.Document}
         >{`${adCount} listings`}</MediaCardStat>
       </Layout>
-
-      <Layout
-        margin={{ top: 1 }}
-        display={Display.Flex}
-        justifyContent={JustifyContent.Center}
-      >
-        <CoreText
-          fontWeight={FontWeight.Bold}
-          color={Color.Alt2}
-        >{`${new Date().getFullYear()} © SSLATT`}</CoreText>
-      </Layout>
     </Layout>
   );
 };

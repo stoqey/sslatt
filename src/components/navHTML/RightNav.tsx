@@ -185,7 +185,11 @@ export const RightNav = (props: NavProps) => {
   return (
     <Layout display={Display.Flex}>
       {/* Login Buttons */}
-      <Layout display={Display.Flex}>
+      <Layout
+        display={Display.Flex}
+        justifyContent={JustifyContent.Center}
+        alignItems={AlignItems.Center}
+      >
         <Layout padding={{ right: 2 }}>
           {!isEmpty(rates) &&
             rates &&

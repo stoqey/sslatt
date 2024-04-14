@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { cookies } from 'next/headers';
 
-import { walletscurrencies } from '@/lib/const';
+import { walletscurrenciesSSr } from '@/lib/const';
 import { getAdById } from '@/lib/hooksServer/ads';
 import { getMe } from '@/lib/hooksServer/user';
 import { getFeePrices, getMyWallets, getRates } from '@/lib/hooksServer/wallet';
@@ -29,7 +29,7 @@ const OrderCheckoutPage = async ({
   if (user) {
     feePrices = await getFeePrices();
 
-    wallets = await getMyWallets(walletscurrencies);
+    wallets = await getMyWallets(walletscurrenciesSSr());
 
     if (!isEmpty(wallets)) {
       pairs = wallets

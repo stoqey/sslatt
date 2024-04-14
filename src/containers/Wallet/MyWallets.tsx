@@ -13,17 +13,19 @@ import isEmpty from 'lodash/isEmpty';
 import startsWith from 'lodash/startsWith';
 import React, { useEffect } from 'react';
 
+import { getConfig } from '@/lib/config';
 import { useMeApi } from '@/lib/hooks/useUserCache';
 import { useWallets } from '@/lib/hooks/useWallet';
 import { niceDec } from '@/lib/utils/number';
 
-export const currencies = [
-  'USD',
-  'BTC',
-  // "XMR"
+const allCurrencies = [
+  { currency: 'BTC', enabled: getConfig().ENABLE_BTC },
+  { currency: 'XMR', enabled: getConfig().ENABLE_XMR },
 ];
 
-export const walletscurrencies = currencies.slice(1, currencies.length); // BTC, XMR
+export const walletscurrencies = allCurrencies
+  .filter((c) => c.enabled)
+  .map((c) => c.currency);
 
 export const useWalletTotalUsd = () => {
   const wallets = useWallets(walletscurrencies, false);
