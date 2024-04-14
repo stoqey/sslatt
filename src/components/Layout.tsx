@@ -24,6 +24,7 @@ import { useLayoutTheme } from '@/lib/layouts/context/layout.hooks';
 import { LayoutProvider } from '@/lib/layouts/context/layout.provider';
 
 import BodyContent from './body';
+import Footer from './Footer';
 import Nav from './nav/Nav';
 
 interface LayoutPageProps extends LayoutProps {
@@ -96,6 +97,8 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
             overflow={Overflow.Hidden}
             fullWidth
             fullHeight
+            minHeight="100vh"
+            flexDirection="column"
           >
             <Layout
               display={Display.Flex}
@@ -153,6 +156,8 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
               <AllAppModels />
               <ToastContainer />
             </Layout>
+
+            <Footer />
           </Layout>
         </AccentRegion>
       </CoreUIRoot>
