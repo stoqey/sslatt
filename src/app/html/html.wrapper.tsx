@@ -41,7 +41,6 @@ export const HtmlPageWrapper = ({ children, config, ...otherProps }: any) => {
 
   return (
     <CoreUIRoot cssVars theme={otherProps.theme}>
-      {/* @ts-ignore */}
       <AccentRegion
         {...((themeColorConfig &&
           generateAccentRegionProps(themeColorConfig)) ||
