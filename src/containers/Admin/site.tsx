@@ -248,13 +248,21 @@ export const AdminSiteSettings = () => {
                 <Layout fullWidth>
                   <FormGroup label="Theme">
                     {/* color picker */}
-                    <Input
-                      value={theme}
-                      onChange={handle('theme')}
-                      type={InputType.Text}
-                    />
-                    <CoreButton> See all colors </CoreButton>
+                    <Layout display="flex">
+                      <input
+                        type="color"
+                        value={theme}
+                        onChange={handle('theme')}
+                      />
+                      <Layout margin={{ left: 1 }}>
+                        <CoreButton> See all themes </CoreButton>
+                      </Layout>
+                    </Layout>
                   </FormGroup>
+                </Layout>
+
+                <Layout fullWidth>
+                  <FormGroup label="Appearance">{/* color picker */}</FormGroup>
                 </Layout>
               </Tower>
             </Layout>

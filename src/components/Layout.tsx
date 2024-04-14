@@ -7,6 +7,7 @@ import {
   Display,
   FlexDirection,
   FlexWrap,
+  generateAccentRegionProps,
   Layout,
   Overflow,
 } from '@uuixjs/uuixweb';
@@ -70,9 +71,11 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
 
   const FallbackComponent = () => <BodyContent>{fallback}</BodyContent>;
 
-  const { theme } = useLayoutTheme();
+  const { theme: themeDarkLight } = useLayoutTheme();
 
-  console.log('LayoutPage', { pathname, userAuth, isAdminUser, isLoggedIn });
+  const themeColorConfig = getConfig().theme;
+
+  // console.log('LayoutPage', { pathname, userAuth, isAdminUser, isLoggedIn });
 
   return (
     <Wrapper id="rootx">
@@ -83,13 +86,12 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
           <meta httpEquiv="refresh" content="0; url=/login" />
         )}
 
-      <CoreUIRoot appRootElementId="__next" theme={theme} cssVars>
+      <CoreUIRoot appRootElementId="__next" theme={themeDarkLight} cssVars>
         <AccentRegion
-        // FIXME: Change theme color
-        // e.g {...generateAccentRegionProps("#fffb00")}
-        // getConfig().theme
+          {...((themeColorConfig &&
+            generateAccentRegionProps(themeColorConfig)) ||
+            {})}
         >
-          {/* <LayoutSEO serviceProvider={serviceProvider} /> */}
           <Layout
             id="layout-main"
             background={Background.Base}
