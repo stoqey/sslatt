@@ -12,8 +12,7 @@ import {
 } from '@/lib/hooksServer/captcha';
 import { validateEndgameSession } from '@/middlewares/endgame.utils';
 
-import JsLayout from './js.layout';
-import SearchPage from './search/page';
+import JsMainPage from './js.page';
 
 // PUBLIC PAGE
 export default async function RootPage() {
@@ -32,7 +31,7 @@ export default async function RootPage() {
   );
 
   if (hasJs && validEndgame) {
-    return JsLayout({ children: <SearchPage nav={false} /> });
+    return <JsMainPage />;
   }
   if (validEndgame) {
     return <meta httpEquiv="refresh" content="0; url=/html" />;

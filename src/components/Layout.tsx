@@ -11,13 +11,17 @@ import {
   Overflow,
 } from '@uuixjs/uuixweb';
 import { styled } from '@uuixjs/uuixweb-lib';
+import { usePathname } from 'next/navigation';
 import React from 'react';
 // import Nav from "./nav";
 import { ToastContainer } from 'react-toastify';
 
 import { AllAppModels } from '@/containers/modals';
+import { getConfig } from '@/lib/config';
 import { useMeApi } from '@/lib/hooks/useUserCache';
+import { useInitialLayoutState } from '@/lib/layouts/context/context';
 import { useLayoutTheme } from '@/lib/layouts/context/layout.hooks';
+import { LayoutProvider } from '@/lib/layouts/context/layout.provider';
 
 import BodyContent from './body';
 import Nav from './nav/Nav';
@@ -35,10 +39,23 @@ const Wrapper = styled.div`
   height: -webkit-fill-available;
 `;
 
+const publicRoutes = [
+  '/login',
+  '/register',
+  '/forgot-password',
+  '/reset-password',
+];
+
 function LayoutPage({ children, ...props }: LayoutPageProps) {
   const { admin, auth, fallback = null, nav = true, ...otherProps } = props;
 
   const userAuth = useMeApi();
+
+  const pathname = usePathname();
+
+  if (!getConfig().REQUIRE_LOGIN) {
+    publicRoutes.push('/ad/', '/store/');
+  }
 
   // isVendor
   const isAdminUser = (userAuth && userAuth.admin) || false;
@@ -50,11 +67,18 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
 
   return (
     <Wrapper id="rootx">
+      {!userAuth &&
+        pathname !== '/' &&
+        auth &&
+        !publicRoutes.some((route) => (pathname || '').startsWith(route)) && (
+          <meta httpEquiv="refresh" content="0; url=/login" />
+        )}
+
       <CoreUIRoot appRootElementId="__next" theme={theme} cssVars>
         <AccentRegion
         // FIXME: Change theme color
         // e.g {...generateAccentRegionProps("#fffb00")}
-        // getConfig().themeColor
+        // getConfig().theme
         >
           {/* <LayoutSEO serviceProvider={serviceProvider} /> */}
           <Layout
@@ -92,7 +116,6 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
                       <FallbackComponent />
                     )
                   ) : (
-                    // non-authenticated
                     <BodyContent>{children}</BodyContent>
                   )}
                 </>
@@ -129,4 +152,16 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
   );
 }
 
-export default LayoutPage;
+function WithLayoutProvider(props: LayoutPageProps) {
+  const initState = useInitialLayoutState();
+
+  if (!initState) return null;
+
+  return (
+    <LayoutProvider initState={initState}>
+      <LayoutPage {...props} />
+    </LayoutProvider>
+  );
+}
+
+export default WithLayoutProvider;

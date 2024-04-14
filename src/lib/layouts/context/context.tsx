@@ -15,7 +15,7 @@ export function createCtxWithReducer<StateType, ActionType>(
   function useStateCtx<K extends keyof StateType>(property: K[]) {
     const state = React.useContext(stateCtx);
     if (state === undefined) {
-      throw new Error('useCountState must be used within a CountProvider');
+      throw new Error('useLayoutTheme must be used within a LayoutProvider');
     }
     return property.map((pro) => state[pro]); // multiple state
   }
@@ -23,7 +23,7 @@ export function createCtxWithReducer<StateType, ActionType>(
   function useDispatchCtx() {
     const context = React.useContext(dispatchCtx);
     if (context === undefined) {
-      throw new Error('useCountDispatch must be used within a CountProvider');
+      throw new Error('useLayoutTheme must be used within a LayoutProvider');
     }
     return context;
   }
