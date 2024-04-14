@@ -15,6 +15,7 @@ import {
   DropDownMenuItem,
   DropDownMenuSeparator,
   DropDownMenuWrapper,
+  FlexDirection,
   InjectLayout,
   JustifyContent,
   Layout,
@@ -29,6 +30,7 @@ import React, { useEffect } from 'react';
 import { ApolloWrapper, useLogoutSession } from '@/lib/apollo-wrapper.client';
 import { APPEVENTS } from '@/lib/AppEvent';
 import { useEvent } from '@/lib/hooks/useEvent';
+import useRates from '@/lib/hooks/useRates';
 import { useLayoutTheme } from '@/lib/layouts/context/layout.hooks';
 import { cdnPath } from '@/lib/utils/api.utils';
 import { niceDec } from '@/lib/utils/number';
@@ -36,6 +38,31 @@ import { niceDec } from '@/lib/utils/number';
 import { WithLoginWrapper } from '../../containers/SignIn/LoginWrapper';
 import { useWalletTotalUsd } from '../../containers/Wallet/MyWallets';
 import type { NavProps } from './Nav';
+
+const NavRates = () => {
+  const { rates } = useRates();
+  return (
+    <Layout padding={{ right: 2 }}>
+      {!isEmpty(rates) &&
+        rates &&
+        rates.map((rate) => (
+          <Layout
+            key={rate.pair}
+            display={Display.Flex}
+            flexDirection={FlexDirection.Row}
+            justifyContent={JustifyContent.Between}
+          >
+            <CoreText bold style={{ marginRight: '10px' }}>
+              {rate.pair?.replace('_USD', '')}
+            </CoreText>
+            <CoreText style={{ marginRight: '10px' }}>
+              {niceDec(rate.rate || 0, false)}
+            </CoreText>
+          </Layout>
+        ))}
+    </Layout>
+  );
+};
 
 const AuthRightNav = (props: NavProps) => {
   const { user: currentUser } = props;
@@ -54,6 +81,8 @@ const AuthRightNav = (props: NavProps) => {
       alignItems={AlignItems.Center}
     >
       {/* Avatar / Account login / Dropdown */}
+
+      <NavRates />
 
       {/* USD balance */}
       <Layout>
@@ -133,6 +162,7 @@ const AuthRightNav = (props: NavProps) => {
 export const RightNav = (props: NavProps) => {
   const [signup, setSignup] = React.useState(false);
   // return undefined;
+
   return (
     <ApolloWrapper>
       <WithLoginWrapper
@@ -154,6 +184,8 @@ export const RightNav = (props: NavProps) => {
             <Layout display={Display.Flex}>
               {/* Login Buttons */}
               <Layout display={Display.Flex}>
+                <NavRates />
+
                 <Layout padding={{ right: 1 }}>
                   <Button
                     size={ButtonSize.Default}
