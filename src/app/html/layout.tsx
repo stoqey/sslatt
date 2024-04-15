@@ -82,7 +82,7 @@ export default async function HtmlLayout({
   const isIndex = pathname === '/html';
 
   if (!loginRequired) {
-    publicRoutes.push('/html/ad/', '/html/store/');
+    publicRoutes.push('/html/ad/', '/html/store/', '/html/u/');
   }
 
   user = await getMe();

@@ -17,7 +17,6 @@ import {
   SSRMultipartLink,
 } from '@apollo/experimental-nextjs-app-support/ssr';
 import includes from 'lodash/includes';
-import { useRouter } from 'next/navigation';
 import omitDeep from 'omit-deep';
 import { useEffect, useMemo } from 'react';
 import { setVerbosity } from 'ts-invariant';
@@ -215,11 +214,9 @@ export function useApollo(initialState?: ApolloClient<any>) {
  * @returns
  */
 export function useLogoutSession(): [() => Promise<void>] {
-  const { push } = useRouter();
-
   const logoutUser = async () => {
     await accessTokenManager.delete();
-    return push('/login');
+    return window.location.replace('/login');
   };
 
   return [logoutUser];

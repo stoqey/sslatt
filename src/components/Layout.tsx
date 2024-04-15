@@ -43,6 +43,7 @@ const Wrapper = styled.div`
 `;
 
 const publicRoutes = [
+  '/home',
   '/login',
   '/signup',
   '/forgot-password',
@@ -61,12 +62,12 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
 
   const pathname = usePathname();
 
-  const loginRequired = getConfig().REQUIRE_LOGIN || auth;
+  const loginRequired = !!getConfig().REQUIRE_LOGIN || auth;
 
   const isIndex = pathname === '/';
 
   if (!loginRequired) {
-    publicRoutes.push('/ad/', '/store/');
+    publicRoutes.push('/ad/', '/store/', '/u/');
   }
 
   // isVendor
@@ -201,7 +202,7 @@ function WithLayoutProvider(props: LayoutPageProps) {
 
   if (!initState) return null;
 
-  if (!userAuth && loading) {
+  if (loading) {
     return null;
   }
 

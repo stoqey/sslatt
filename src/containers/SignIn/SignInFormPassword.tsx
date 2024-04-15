@@ -43,6 +43,7 @@ import {
   accessTokenManager,
   userCacheManager,
 } from '@/lib/storage/deviceStorage';
+import { loginCheck } from '@/lib/utils/auth.utils';
 
 import type { SignInFormProps } from './signin.interface';
 
@@ -202,7 +203,7 @@ export function SignInFormPassword(props: SignInFormProps) {
     }
 
     if (afterLoginRefresh) {
-      return reload();
+      return push('/home');
     }
 
     return push(afterLogin, {});
@@ -346,14 +347,14 @@ export function SignInFormPassword(props: SignInFormProps) {
   };
 
   // TODO re-ADD Initial check if user is not loggedIn
-  // React.useEffect(() => {
-  //   (async () => {
-  //     const isLoggedIn = await loginCheck();
-  //     if (isLoggedIn) {
-  //       return await push(SCREENS.Home);
-  //     }
-  //   })();
-  // }, []);
+  React.useEffect(() => {
+    (async () => {
+      const isLoggedIn = await loginCheck();
+      if (isLoggedIn) {
+        return push('/home');
+      }
+    })();
+  }, []);
 
   const MnemonicKey = () => {
     return (

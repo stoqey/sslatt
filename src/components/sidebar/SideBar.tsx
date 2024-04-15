@@ -17,6 +17,8 @@ import isEmpty from 'lodash/isEmpty';
 import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
 
+import { APPEVENTS } from '@/lib/AppEvent';
+import useEvent from '@/lib/hooks/useEvent';
 import { useMeApi, useVendor } from '@/lib/hooks/useUserCache';
 
 import { adminMenus, adsStoreMenus, clientMenus } from './menus';
@@ -58,8 +60,9 @@ export const VerticalSideBar = ({
     // menus: client ? clientMenus : adminMenus,
   });
 
-  // TODO auth
-  const user = useMeApi();
+  const userApi = useMeApi();
+  const userAccessToken = useEvent(APPEVENTS.AUTH);
+  const user = userApi || userAccessToken?.user;
   const isAdmin = user?.admin || false;
   const { vendor } = useVendor();
   const { open } = state;

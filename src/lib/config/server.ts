@@ -5,7 +5,8 @@ import { getSiteSettings } from '@/lib/hooksServer/settings';
 
 export const fetchConfig = async () => {
   const config = getConfig();
-  if (!isEmpty(config)) {
+  const isNodeJs = process.env.NEXT_RUNTIME === 'nodejs';
+  if (!isEmpty(config) && !isNodeJs) {
     return config;
   }
   const siteSettings = await getSiteSettings();
