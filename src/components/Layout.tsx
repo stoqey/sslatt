@@ -44,7 +44,7 @@ const Wrapper = styled.div`
 
 const publicRoutes = [
   '/login',
-  '/register',
+  '/signup',
   '/forgot-password',
   '/reset-password',
 ];
@@ -55,19 +55,23 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
     auth,
     fallback = null,
     nav = true,
-    user: userAuth,
+    user,
     ...otherProps
   } = props;
 
   const pathname = usePathname();
 
-  if (!getConfig().REQUIRE_LOGIN) {
+  const loginRequired = getConfig().REQUIRE_LOGIN || auth;
+
+  const isIndex = pathname === '/';
+
+  if (!loginRequired) {
     publicRoutes.push('/ad/', '/store/');
   }
 
   // isVendor
-  const isAdminUser = (userAuth && userAuth.admin) || false;
-  const isLoggedIn = userAuth && userAuth.id;
+  const isAdminUser = (user && user.admin) || false;
+  const isLoggedIn = user && user.id;
 
   const FallbackComponent = () => <BodyContent>{fallback}</BodyContent>;
 
@@ -75,16 +79,38 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
 
   const themeColorConfig = getConfig().theme;
 
-  // console.log('LayoutPage', { pathname, userAuth, isAdminUser, isLoggedIn });
+  console.log('LayoutPage', {
+    pathname,
+    userAuth: user,
+    isAdminUser,
+    isLoggedIn,
+    loginRequired,
+    isIndex,
+  });
 
+  const Redirect = () => {
+    if (loginRequired) {
+      if (
+        (isIndex && !user) ||
+        (!user &&
+          !publicRoutes.some((route) => (pathname || '').startsWith(route)))
+      ) {
+        return <meta httpEquiv="refresh" content="0; url=/login" />;
+      }
+    } else {
+      if (isIndex) {
+        return null;
+      }
+
+      if (!publicRoutes.some((route) => (pathname || '').startsWith(route))) {
+        return <meta httpEquiv="refresh" content="0; url=/login" />;
+      }
+    }
+    return null;
+  };
   return (
     <Wrapper id="rootx">
-      {!userAuth &&
-        auth &&
-        pathname !== '/' &&
-        !publicRoutes.some((route) => (pathname || '').startsWith(route)) && (
-          <meta httpEquiv="refresh" content="0; url=/login" />
-        )}
+      <Redirect />
 
       <CoreUIRoot appRootElementId="__next" theme={themeDarkLight} cssVars>
         <AccentRegion
@@ -113,7 +139,7 @@ function LayoutPage({ children, ...props }: LayoutPageProps) {
             >
               {nav ? (
                 <>
-                  <Nav user={userAuth} />
+                  <Nav user={user} />
                   {auth ? (
                     // isAdmin
                     admin ? (
@@ -175,7 +201,7 @@ function WithLayoutProvider(props: LayoutPageProps) {
 
   if (!initState) return null;
 
-  if (isAuth && !userAuth && loading) {
+  if (!userAuth && loading) {
     return null;
   }
 

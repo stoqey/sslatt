@@ -337,8 +337,6 @@ export function SignInFormPassword(props: SignInFormProps) {
       }
     }
 
-    console.log('newErrors', newErrors);
-
     if (!isEmpty(newErrors)) {
       return setErrors({ ...errors, ...newErrors });
     }

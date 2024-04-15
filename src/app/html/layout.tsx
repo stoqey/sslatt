@@ -61,7 +61,7 @@ export default async function HtmlLayout({
   let badges;
 
   const [, currentUrl] = await awaitTo(Promise.resolve(new URL(fullUrl)));
-
+  const pathname = currentUrl?.pathname || '';
   const config = await fetchConfig();
 
   const allCurrencies = [
@@ -78,7 +78,10 @@ export default async function HtmlLayout({
     currencies.map((w) => `${w.toUpperCase()}_USD`).join(','),
   );
 
-  if (!config.REQUIRE_LOGIN) {
+  const loginRequired = config.REQUIRE_LOGIN;
+  const isIndex = pathname === '/html';
+
+  if (!loginRequired) {
     publicRoutes.push('/html/ad/', '/html/store/');
   }
 
@@ -87,12 +90,20 @@ export default async function HtmlLayout({
     badges = await fetchBadges({ models: ['Notification', 'Chat'] });
     vendor = await getVendor();
     wallets = await getMyWallets(currencies);
+  }
+
+  if (loginRequired) {
+    if (
+      (isIndex && !user) ||
+      (!user &&
+        !publicRoutes.some((route) => (pathname || '').startsWith(route)))
+    ) {
+      return <meta httpEquiv="refresh" content="0; url=/html/login" />;
+    }
   } else if (
-    (currentUrl?.pathname === '/html' && config?.REQUIRE_LOGIN) ||
-    (currentUrl?.pathname !== '/html' &&
-      !publicRoutes.some((route) =>
-        (currentUrl?.pathname || '').startsWith(route),
-      ))
+    !user &&
+    !isIndex &&
+    !publicRoutes.some((route) => (pathname || '').startsWith(route))
   ) {
     return <meta httpEquiv="refresh" content="0; url=/html/login" />;
   }
